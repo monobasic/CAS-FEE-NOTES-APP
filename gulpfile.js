@@ -1,17 +1,12 @@
 'use strict';
 
-/*
-  Grab Gulp packages
-*/
-const gulp  = require('gulp'),
-  util = require('gulp-util'),
+const gulp = require('gulp'),
   plumber = require('gulp-plumber'),
   notify = require('gulp-notify'),
   babel = require('gulp-babel'),
   sass = require('gulp-sass'),
   watch = require('gulp-watch'),
   browserSync = require('browser-sync').create(),
-  rsync = require('gulp-rsync'),
   rename = require('gulp-rename'),
   sourcemaps = require('gulp-sourcemaps'),
   concat = require('gulp-concat'),
@@ -20,26 +15,8 @@ const gulp  = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
   runSequence = require('run-sequence'),
   clean = require('gulp-clean'),
-  prompt = require('gulp-prompt'),
   mustache = require("gulp-mustache"),
-  mockServer = require('gulp-mock-server'),
-  ftp = require('vinyl-ftp');
-
-
-const env = {
-  dev: {
-    user: 'andreabt',
-    host: 's005.cyon.net',
-    // this path MUST end with a trailing slash
-    path: '/home/andreabt/public_html/notes-ap/',
-  },
-  // prod: {
-  //   user: 'andreabt',
-  //   host: 's005.cyon.net',
-  //   path: '/home/andreabt/public_html/myprojectname/',
-  //   prompt: true,
-  // },
-};
+  mockServer = require('gulp-mock-server');
 
 
 /*
@@ -61,9 +38,6 @@ const config = {
   'jsDistPath': 'dist/js/',
   'jsDistFileName': 'all.js',
   'jsDistFileNameMin': 'all.min.js',
-
-  // Export
-  'exportPath': '/Users/monobasic/Sites/CanBeAnotherFolderOutsideProject/',
 
   // SASS/SCSS
   'scssSrcFiles': 'src/scss/styles.scss',
@@ -98,50 +72,7 @@ const config = {
   // Clean
   'cleanStuff': [
     'dist'
-  ],
-
-  'deployment': {
-    paths: {
-      webroot: 'dist/',
-    },
-    plainRsyncOptions: {
-      'r': true, // recursive
-      'd': true, // transfer directories without recursing
-      't': true, // preserve modification times
-      'z': true, // compression
-      delete: false,
-      progress: true,
-      exclude: [
-        '.DS_Store',
-        '.git',
-        '.gitignore',
-        '.gitmodules',
-        '*.idea'
-      ]
-    },
-    gulpRsyncOptions: {
-      progress: true,
-      recursive: true,
-      clean: true,
-      emptyDirectories: true,
-      times: true,
-      compress: true,
-      exclude: [
-        '.DS_Store',
-        '.git',
-        '.gitignore',
-        '.gitmodules',
-        '*.idea'
-      ]
-    },
-  },
-
-  'deploymentFtp': {
-    'host': 'ftp.example.ch',
-    'user': 'ftp@example.ch',
-    'password': 'showme',
-    'parallel': 10,
-  }
+  ]
 }
 
 
@@ -157,65 +88,10 @@ function logError(error) {
   this.emit('end'); // emit the end event, to properly end the task
 }
 
-/**
- * Executes an rsync job with the given configuration and calls the
- * callback function when done.
- */
-function rsyncJob(jobConfig, callback) {
-  // using gulp-rsync internals here to avoid even more dependencies
-  var log = require('gulp-rsync/log'),
-    rsync = require('gulp-rsync/rsync'),
-    handler = function(data) {
-      data.toString().split('\r').forEach(function(chunk) {
-        chunk.split('\n').forEach(function(line, j, lines) {
-          log('rsync:', line, (j < lines.length - 1 ? '\n' : ''));
-        });
-      });
-    };
-
-  // default options for rsync
-  var job = rsync({
-    options: Object.assign({}, config.deployment.plainRsyncOptions, {
-      delete: jobConfig.clean,
-    }),
-    source: jobConfig.source,
-    destination: jobConfig.destination,
-    stdoutHandler: handler,
-    stderrHandler: handler,
-  });
-
-  job.execute(callback);
-}
-
-/**
- * Helper function to create tasks within JS loops. It binds the given data
- * to the task function closure.
- */
-function loopTask(name, data, task) {
-  gulp.task(name, (callback) => task(data, callback));
-}
-
-gulp.task('deploy-ftp', function () {
-  var conn = ftp.create({
-    host: config.deploymentFtp.host,
-    user: config.deploymentFtp.user,
-    password: config.deploymentFtp.password,
-    parallel: config.deploymentFtp.parallel,
-    log: util.log
-  });
-
-  // using base = '.' will transfer everything to /public_html correctly
-  // turn off buffering in gulp.src for best performance
-  return gulp.src( config.distPath + '/**', { base: './dist', buffer: false })
-  //.pipe( conn.newer( '/public_html' ) ) // only upload newer files
-    .pipe( conn.dest('./'));
-});
-
 
 /*
   Gulp Tasks
 */
-
 gulp.task('browser-sync', function() {
   return browserSync.init({
     logLevel: 'info',
@@ -234,16 +110,6 @@ gulp.task('mock', function() {
       mockDir: './dist/data',
       allowCrossOrigin: true
     }));
-});
-
-gulp.task("export", ['build'], function () {
-  return gulp.src([
-    config.distPath + '**/*',
-    // Add exludes like this:
-    //'!' + config.distPath + '/foldername{,/**}',
-  ])
-    .pipe(plumber({errorHandler: logError}))
-    .pipe(gulp.dest(config.exportPath))
 });
 
 gulp.task('sass', function() {
@@ -354,24 +220,3 @@ gulp.task('build', function(callback) {
   runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', 'mock', callback);
 });
 
-
-/**
- * Dynamically defines deployment tasks for each environment found in the 'env' variable.
- */
-for (var target in env) {
-
-  loopTask(['deploy', target].join(':'), env[target], (target, callback) => {
-    var opts = Object.assign({}, config.deployment.gulpRsyncOptions, {
-      root: (config.deployment.paths.webroot),
-      hostname: target.host,
-      username: target.user,
-      destination: target.path,
-    });
-
-  return gulp.src(config.distPath + '.')
-    .pipe(target.prompt ? prompt.confirm('You are about to deploy to the PRODUCTION server. Are you sure?') : util.noop())
-    .pipe(plumber({errorHandler: logError}))
-    .pipe(rsync(opts));
-});
-
-}

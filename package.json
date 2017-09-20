@@ -19,17 +19,13 @@
     "gulp-mustache": "*",
     "gulp-notify": "^3.0.0",
     "gulp-plumber": "*",
-    "gulp-prompt": "*",
     "gulp-rename": "*",
-    "gulp-rsync": "0.0.8",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
-    "gulp-util": "*",
     "gulp-watch": "*",
     "jquery": "^3.2.1",
     "moment": "*",
-    "run-sequence": "^2.2.0",
-    "vinyl-ftp": "*"
+    "run-sequence": "^2.2.0"
   }
 }
