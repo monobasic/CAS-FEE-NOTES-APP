@@ -1,30 +1,39 @@
 {
-  "name": "CAS FEE 2017-2 Notes App",
+  "name": "frontendboilerplate",
   "repository": {
     "type": "git",
-    "url": "git@github.com:monobasic/CAS-FEE-NOTES-APP.git"
+    "url": "git@bitbucket.org:monobasic/frontendboilerplate.git"
   },
-  "version": "1.0.0",
+  "version": "0.1.0",
   "devDependencies": {
+    "anzeixer": "^2.0.1",
+    "bootstrap": "4.0.0-beta",
     "browser-sync": "~2.9.8",
     "gulp": "~3.9.0",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-babel": "^5.3.0",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",
+    "gulp-connect-php": "0.0.5",
     "gulp-html-replace": "^1.5.4",
-    "gulp-sass": "~3.0.0",
     "gulp-minify-css": "^1.2.1",
+    "gulp-mock-server": "^1.1.4",
+    "gulp-mustache": "^3.0.0",
     "gulp-notify": "~2.2.0",
     "gulp-plumber": "^1.0.1",
     "gulp-prompt": "^0.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "~0.5.4",
     "gulp-rsync": "0.0.5",
+    "gulp-sass": "~3.0.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.4.2",
     "gulp-util": "~3.0.6",
     "gulp-watch": "~4.3.5",
-    "run-sequence": "^1.1.5"
+    "jquery": "3.1.1",
+    "moment": "^2.18.1",
+    "popper.js": "^1.11.0",
+    "run-sequence": "^1.1.5",
+    "vinyl-ftp": "^0.6.0",
+    "wolfy87-eventemitter": "^5.2.2"
   }
 }
