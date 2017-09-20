@@ -5,12 +5,7 @@
   },
   "globals": {
     "$": true,
-    "jQuery": true,
-    "SVGInjector": true,
-    "moment": true,
-    "_": true,
-    "EventEmitter": true,
-    "ee": true
+    "jQuery": true
   },
   "parserOptions": {
     "ecmaFeatures": {
