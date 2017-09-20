@@ -82,13 +82,14 @@ const config = {
 /*
 * Custom Error Logging
 */
-let logError = (error) => {
+function logError(error) {
   notify.onError({
     title:    "Gulp Error",
     message:  "<%= error.message %>"
   })(error);
+
   this.emit('end'); // emit the end event, to properly end the task
-};
+}
 
 
 /*
