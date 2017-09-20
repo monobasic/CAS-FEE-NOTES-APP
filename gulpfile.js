@@ -4,15 +4,16 @@
 var gulp  = require('gulp'),
   util = require('gulp-util'),
   plumber = require('gulp-plumber'),
-  notify = require("gulp-notify"),
+  notify = require('gulp-notify'),
+  babel = require('gulp-babel');
   sass = require('gulp-sass'),
   watch = require('gulp-watch'),
   browserSync = require('browser-sync').create(),
   rsync = require('gulp-rsync'),
   replace = require('gulp-replace'),
   rename = require('gulp-rename'),
-  sourcemaps = require("gulp-sourcemaps"),
-  concat = require("gulp-concat"),
+  sourcemaps = require('gulp-sourcemaps'),
+  concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   minifyCss = require('gulp-minify-css'),
   htmlreplace = require('gulp-html-replace'),
@@ -293,6 +294,9 @@ gulp.task("js", function () {
   return gulp.src(config.jsFiles)
     .pipe(plumber({errorHandler: logError}))
     .pipe(concat(config.jsDistFileName))
+    .pipe(babel({
+      presets: ['env']
+    }))
     .pipe(gulp.dest(config.jsDistPath))
     .pipe(sourcemaps.init())
     .pipe(uglify({
