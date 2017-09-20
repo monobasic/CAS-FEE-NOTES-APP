@@ -15,7 +15,6 @@
     "gulp-clean": "*",
     "gulp-concat": "*",
     "gulp-minify-css": "*",
-    "gulp-mock-server": "*",
     "gulp-mustache": "*",
     "gulp-notify": "^3.0.0",
     "gulp-plumber": "*",
@@ -25,7 +24,6 @@
     "gulp-uglify": "^3.0.0",
     "gulp-watch": "*",
     "jquery": "^3.2.1",
-    "moment": "*",
     "run-sequence": "^2.2.0"
   }
 }

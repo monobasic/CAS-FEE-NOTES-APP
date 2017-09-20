@@ -19,7 +19,6 @@ import autoprefixer from 'gulp-autoprefixer';
 import runSequence from 'run-sequence';
 import clean from 'gulp-clean';
 import mustache from 'gulp-mustache';
-import mockServer from 'gulp-mock-server';
 
 
 /*
@@ -104,15 +103,6 @@ gulp.task('browser-sync', () => {
       baseDir: config.serverPath
     }
   });
-});
-
-gulp.task('mock', () => {
-  gulp.src('.')
-    .pipe(mockServer({
-      port: 8090,
-      mockDir: './dist/data',
-      allowCrossOrigin: true
-    }));
 });
 
 gulp.task('sass', () => {
@@ -220,5 +210,5 @@ gulp.task('watch', ['browser-sync'], () => {
 * Build Tasks
 */
 gulp.task('default', (callback) => runSequence('build', 'watch', callback));
-gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', 'mock', callback));
+gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', callback));
 
