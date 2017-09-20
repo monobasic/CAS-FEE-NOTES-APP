@@ -1,11 +1,13 @@
+'use strict';
+
 /*
   Grab Gulp packages
 */
-var gulp  = require('gulp'),
+const gulp  = require('gulp'),
   util = require('gulp-util'),
   plumber = require('gulp-plumber'),
   notify = require('gulp-notify'),
-  babel = require('gulp-babel');
+  babel = require('gulp-babel'),
   sass = require('gulp-sass'),
   watch = require('gulp-watch'),
   browserSync = require('browser-sync').create(),
@@ -30,7 +32,7 @@ var gulp  = require('gulp'),
   ftp = require('vinyl-ftp');
 
 
-var env = {
+const env = {
   dev: {
     user: 'andreabt',
     host: 's005.cyon.net',
@@ -49,7 +51,7 @@ var env = {
 /*
   Configuration Options
 */
-var config = {
+const config = {
   // General
   'projectTitle': 'CAS-FEE-NOTES-APP',
   'basePath': './',     // Base path (relative from gulpfile.js)
