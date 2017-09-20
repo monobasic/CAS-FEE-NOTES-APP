@@ -1,34 +1,37 @@
 'use strict';
 
-const gulp = require('gulp'),
-  plumber = require('gulp-plumber'),
-  notify = require('gulp-notify'),
-  babel = require('gulp-babel'),
-  sass = require('gulp-sass'),
-  watch = require('gulp-watch'),
-  browserSync = require('browser-sync').create(),
-  rename = require('gulp-rename'),
-  sourcemaps = require('gulp-sourcemaps'),
-  concat = require('gulp-concat'),
-  uglify = require('gulp-uglify'),
-  minifyCss = require('gulp-minify-css'),
-  autoprefixer = require('gulp-autoprefixer'),
-  runSequence = require('run-sequence'),
-  clean = require('gulp-clean'),
-  mustache = require("gulp-mustache"),
-  mockServer = require('gulp-mock-server');
+/*
+* Dependencies
+*/
+import gulp from 'gulp';
+import plumber from 'gulp-plumber';
+import notify from 'gulp-notify';
+import babel from 'gulp-babel';
+import sass from 'gulp-sass';
+import watch from 'gulp-watch';
+import browserSync from 'browser-sync';
+import rename from 'gulp-rename';
+import sourcemaps from 'gulp-sourcemaps';
+import concat from 'gulp-concat';
+import uglify from 'gulp-uglify';
+import minifyCss from 'gulp-minify-css';
+import autoprefixer from 'gulp-autoprefixer';
+import runSequence from 'run-sequence';
+import clean from 'gulp-clean';
+import mustache from 'gulp-mustache';
+import mockServer from 'gulp-mock-server';
 
 
 /*
-  Configuration Options
+* Configuration Options
 */
 const config = {
   // General
   'projectTitle': 'CAS-FEE-NOTES-APP',
-  'basePath': './',     // Base path (relative from gulpfile.js)
-  'srcPath': './src/',    // Src path (relative from gulpfile.js)
-  'distPath': './dist/',     // Dist path (relative from gulpfile.js)
-  'serverPath': './dist/', // Server path for local on-demand server (relative from gulpfile.js)
+  'basePath': './',     // Base path (relative from gulpfile.babel.js)
+  'srcPath': './src/',    // Src path (relative from gulpfile.babel.js)
+  'distPath': './dist/',     // Dist path (relative from gulpfile.babel.js)
+  'serverPath': './dist/', // Server path for local on-demand server (relative from gulpfile.babel.js)
 
   // JS
   'jsFiles': [
@@ -73,11 +76,11 @@ const config = {
   'cleanStuff': [
     'dist'
   ]
-}
+};
 
 
 /*
-  Custom Error Logging
+* Custom Error Logging
 */
 function logError(error) {
   notify.onError({
@@ -90,7 +93,7 @@ function logError(error) {
 
 
 /*
-  Gulp Tasks
+* Gulp Tasks
 */
 gulp.task('browser-sync', function() {
   return browserSync.init({
@@ -212,6 +215,10 @@ gulp.task('watch', ['browser-sync'], function () {
   });;
 });
 
+
+/*
+* Build Tasks
+*/
 gulp.task('default', function(callback) {
   runSequence('build', 'watch', callback);
 });
