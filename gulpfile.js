@@ -5,16 +5,13 @@ var gulp  = require('gulp'),
   util = require('gulp-util'),
   plumber = require('gulp-plumber'),
   notify = require("gulp-notify"),
-  less = require('gulp-less'),
   sass = require('gulp-sass'),
   watch = require('gulp-watch'),
   browserSync = require('browser-sync').create(),
-  php = require('gulp-connect-php'),
   rsync = require('gulp-rsync'),
   replace = require('gulp-replace'),
   rename = require('gulp-rename'),
   sourcemaps = require("gulp-sourcemaps"),
-  babel = require("gulp-babel"),
   concat = require("gulp-concat"),
   uglify = require('gulp-uglify'),
   minifyCss = require('gulp-minify-css'),
@@ -26,7 +23,10 @@ var gulp  = require('gulp'),
   clean = require('gulp-clean'),
   fs = require('fs'),
   path = require('path'),
-  prompt = require('gulp-prompt');
+  prompt = require('gulp-prompt'),
+  mustache = require("gulp-mustache"),
+  mockServer = require('gulp-mock-server'),
+  ftp = require('vinyl-ftp');
 
 
 var env = {
@@ -34,7 +34,7 @@ var env = {
     user: 'andreabt',
     host: 's005.cyon.net',
     // this path MUST end with a trailing slash
-    path: '/home/andreabt/public_html/test/',
+    path: '/home/andreabt/public_html/notes-ap/',
   },
   // prod: {
   //   user: 'andreabt',
@@ -50,62 +50,26 @@ var env = {
 */
 var config = {
   // General
+  'projectTitle': 'CAS-FEE-NOTES-APP',
   'basePath': './',     // Base path (relative from gulpfile.js)
   'srcPath': './src/',    // Src path (relative from gulpfile.js)
   'distPath': './dist/',     // Dist path (relative from gulpfile.js)
-  'serverPath': './dist/', // Server path for local PHP on-demand server (relative from gulpfile.js)
-
-  // HTML (notice: name of the PHP/HTML file without suffix)
-  'htmlFiles': [
-    'index',
-    'demo',
-    'ui_basic_page',
-    'ui_components',
-    'ui_design_pattern',
-    'ui_landing_page'
-  ],
+  'serverPath': './dist/', // Server path for local on-demand server (relative from gulpfile.js)
 
   // JS
   'jsFiles': [
-    'bower_components/eventEmitter/EventEmitter.js',
-    'bower_components/jquery/dist/jquery.js',
-    'bower_components/jquery.easing/jquery.easing.js',
-    'bower_components/bootstrap/dist/js/bootstrap.js',
-    'bower_components/Anzeixer/dist/anzeixer.js',
-    'bower_components/svg-injector/svg-injector.js',
-    'bower_components/selectize/dist/js/standalone/selectize.js',
-    'bower_components/slick-carousel/slick/slick.js',
-    'bower_components/equalizer/js/jquery.equalizer.js',
+    'node_modules/jquery/dist/jquery.js',
     'src/js/app.js',
-    'src/js/anzeixer_module.js',
-    'src/js/bootstrap_init.js',
-    'src/js/equalizer.js',
-    'src/js/fullscreen_jumbo.js',
-    'src/js/live_search.js',
-    'src/js/responsive_images.js',
-    'src/js/responsive_tables.js',
-    'src/js/selectize.js',
-    //'src/js/sidebar_scrollspy.js',
-    'src/js/slick_carousel.js',
-    'src/js/smooth_scroll_anchors.js',
-    'src/js/section_images.js',
-    'src/js/svg_injector.js'
   ],
   'jsDistPath': 'dist/js/',
-  'jsDistPathKirby': 'kirby/assets/js/',
   'jsDistFileName': 'all.js',
   'jsDistFileNameMin': 'all.min.js',
 
   // Export
   'exportPath': '/Users/monobasic/Sites/CanBeAnotherFolderOutsideProject/',
 
-  // LESS
-  'lessSrcFiles': 'src/less/styles.less',
-
   // SASS/SCSS
-  'scssSrcFilesBootstrap4': 'src/scss/bootstrap4/styles.scss',
-  'scssSrcFilesFoundation': 'src/scss/foundation/styles.scss',
-  'scssSrcFilesVanilla': 'src/scss/vanilla/styles.scss',
+  'scssSrcFiles': 'src/scss/styles.scss',
 
   // CSS (notice: order is important here)
   'cssPath': 'src/css/',
@@ -113,23 +77,26 @@ var config = {
     'src/css/styles.css'
   ],
   'cssDistPath': 'dist/css/',
-  'cssDistPathKirby': 'kirby/assets/css/',
   'cssDistFileName': 'styles.css',
   'cssDistFileNameMin': 'styles.min.css',
 
-    // Files
-  'filesSrcPath': 'src/scss/bootstrap4/**/*',
-  'filesDistPath': 'dist/scss/',
+  // Templates
+  'templatesSrcPath': 'src/**/*.mustache',
+  'templatesImagePath': 'images/',
+  'templatesPages': [
+    {
+      pageTitle: 'Home',
+      pageUrl: 'index.html'
+    },
+  ],
 
-  // Fonts
-  'fontsSrcPath': 'src/fonts/**/*',
-  'fontsDistPath': 'dist/fonts/',
-  'fontsDistPathKirby': 'kirby/assets/fonts/',
+  // Files
+  'filesSrcPath': ['src/.htpasswd', 'src/.htaccess', 'src/data/**'],
+  'filesDistPath': 'dist/',
 
   // Images
   'imagesSrcPath' : 'src/images/**/*',
   'imagesDistPath': 'dist/images/',
-  'imagesDistPathKirby': 'kirby/assets/images/',
 
   // Clean
   'cleanStuff': [
@@ -139,9 +106,6 @@ var config = {
   'deployment': {
     paths: {
       webroot: 'dist/',
-      webrootKirby: 'kirby/',
-      content: 'kirby/content/',
-      accounts: 'kirby/site/accounts/',
     },
     plainRsyncOptions: {
       'r': true, // recursive
@@ -155,6 +119,7 @@ var config = {
         '.git',
         '.gitignore',
         '.gitmodules',
+        '*.idea'
       ]
     },
     gulpRsyncOptions: {
@@ -169,13 +134,17 @@ var config = {
         '.git',
         '.gitignore',
         '.gitmodules',
-        'content/',
-        'site/accounts/',
-        'site/cache/',
-        'thumbs'
+        '*.idea'
       ]
     },
   },
+
+  'deploymentFtp': {
+    'host': 'ftp.example.ch',
+    'user': 'ftp@example.ch',
+    'password': 'showme',
+    'parallel': 10,
+  }
 }
 
 
@@ -184,9 +153,9 @@ var config = {
 */
 function logError(error) {
   notify.onError({
-        title:    "Gulp Error",
-        message:  "<%= error.message %>"
-    })(error);
+    title:    "Gulp Error",
+    message:  "<%= error.message %>"
+  })(error);
 
   this.emit('end'); // emit the end event, to properly end the task
 }
@@ -198,14 +167,14 @@ function logError(error) {
 function rsyncJob(jobConfig, callback) {
   // using gulp-rsync internals here to avoid even more dependencies
   var log = require('gulp-rsync/log'),
-      rsync = require('gulp-rsync/rsync'),
-      handler = function(data) {
-        data.toString().split('\r').forEach(function(chunk) {
-          chunk.split('\n').forEach(function(line, j, lines) {
-            log('rsync:', line, (j < lines.length - 1 ? '\n' : ''));
-          });
+    rsync = require('gulp-rsync/rsync'),
+    handler = function(data) {
+      data.toString().split('\r').forEach(function(chunk) {
+        chunk.split('\n').forEach(function(line, j, lines) {
+          log('rsync:', line, (j < lines.length - 1 ? '\n' : ''));
         });
-      };
+      });
+    };
 
   // default options for rsync
   var job = rsync({
@@ -229,49 +198,59 @@ function loopTask(name, data, task) {
   gulp.task(name, (callback) => task(data, callback));
 }
 
-/**
- * Helper function to make paths relative to the declared deployment webroot
- */
-function pathFromWebroot(origPath) {
-  return path.relative((config.deployment.paths.webroot), origPath) + '/';
-}
+gulp.task('deploy-ftp', function () {
+  var conn = ftp.create({
+    host: config.deploymentFtp.host,
+    user: config.deploymentFtp.user,
+    password: config.deploymentFtp.password,
+    parallel: config.deploymentFtp.parallel,
+    log: util.log
+  });
+
+  // using base = '.' will transfer everything to /public_html correctly
+  // turn off buffering in gulp.src for best performance
+  return gulp.src( config.distPath + '/**', { base: './dist', buffer: false })
+  //.pipe( conn.newer( '/public_html' ) ) // only upload newer files
+    .pipe( conn.dest('./'));
+});
 
 
 /*
   Gulp Tasks
 */
 
-// Local Server Stuff
-gulp.task('php', function() {
-    return php.server({
-      base: config.serverPath,
-      port: 8010,
-      keepalive: true
-    });
+gulp.task('browser-sync', function() {
+  return browserSync.init({
+    logLevel: 'info',
+    open: true,
+    notify: true, // browser popover notifications
+    server: {
+      baseDir: config.serverPath
+    }
+  });
 });
 
-gulp.task('browser-sync',['php'], function() {
-    return browserSync.init({
-    logLevel: 'info',
-        proxy: '127.0.0.1:8010',
-        port: 3000,
-        open: true,
-        notify: true // browser popover notifications
-    });
+gulp.task('mock', function() {
+  gulp.src('.')
+    .pipe(mockServer({
+      port: 8090,
+      mockDir: './dist/data',
+      allowCrossOrigin: true
+    }));
 });
 
 gulp.task("export", ['build'], function () {
   return gulp.src([
-      config.distPath + '**/*',
-      //'!' + config.distPath + '/wcs.dksh.com{,/**}',
-      //'!' + config.distPath + '/www.dksh.com{,/**}'
-    ])
+    config.distPath + '**/*',
+    // Add exludes like this:
+    //'!' + config.distPath + '/foldername{,/**}',
+  ])
     .pipe(plumber({errorHandler: logError}))
-      .pipe(gulp.dest(config.exportPath))
+    .pipe(gulp.dest(config.exportPath))
 });
 
 gulp.task('sass', function() {
-  gulp.src(config.scssSrcFilesVanilla)
+  gulp.src(config.scssSrcFiles)
     .pipe(plumber({errorHandler: logError}))
     .pipe(sass())
     .pipe(gulp.dest(config.cssPath))
@@ -281,137 +260,98 @@ gulp.task("images", function() {
   return gulp.src(config.imagesSrcPath)
     .pipe(plumber({errorHandler: logError}))
     .pipe(gulp.dest(config.imagesDistPath))
-    .pipe(gulp.dest(config.imagesDistPathKirby))
-});
-
-gulp.task('html', function() {
-  if (!fs.existsSync(config.distPath)){
-      fs.mkdirSync(config.distPath);
-  }
-
-  for (var i=0; i<config.htmlFiles.length; i++) {
-    execSync('php ' + config.srcPath + config.htmlFiles[i] +'.php > dist/' + config.htmlFiles[i] + '.html');
-  }
-
-  // Files need some time to be written, this is a workaround...
-  browserSync.reload()
 });
 
 gulp.task('clean', function() {
   return gulp.src(config.cleanStuff, {read: false})
-  .pipe(plumber({errorHandler: logError}))
-  .pipe(clean({
-    force: true
-  }));
-});
-
-gulp.task('kirby', function() {
-  // Files need some time to be written, this is a workaround...
-  setTimeout(function() {
-    browserSync.reload()
-  }, 500);
+    .pipe(plumber({errorHandler: logError}))
+    .pipe(clean({
+      force: true
+    }));
 });
 
 gulp.task("files", function() {
-  gulp.src(config.filesSrcPath)
+  gulp.src(config.filesSrcPath, { base: './src/' })
     .pipe(plumber({errorHandler: logError}))
     .pipe(gulp.dest(config.filesDistPath))
 });
 
-gulp.task("fonts", function() {
-  return gulp.src([
-      config.fontsSrcPath,
-      'bower_components/bootstrap/fonts/*.*',
-      'bower_components/font-awesome/fonts/*.*',
-    ])
+gulp.task("templates", function() {
+  gulp.src(config.templatesSrcPath)
     .pipe(plumber({errorHandler: logError}))
-    .pipe(gulp.dest(config.fontsDistPath))
-    .pipe(gulp.dest(config.fontsDistPathKirby))
+    .pipe(mustache({
+      imagePath: config.templatesImagePath,
+      projectTitle: config.projectTitle,
+      pages: config.templatesPages
+    }, {
+      extension: '.html'
+    }))
+    .pipe(gulp.dest("./dist"));
 });
 
 gulp.task("js", function () {
   return gulp.src(config.jsFiles)
     .pipe(plumber({errorHandler: logError}))
-      //.pipe(babel())
-      .pipe(concat(config.jsDistFileName))
-      .pipe(gulp.dest(config.jsDistPath))
-      .pipe(gulp.dest(config.jsDistPathKirby))
-      .pipe(sourcemaps.init())
-      .pipe(uglify({
-        compress: {
-          drop_console: false
-        }
-      }))
-      .pipe(rename(config.jsDistFileNameMin))
-      .pipe(sourcemaps.write("."))
-      .pipe(gulp.dest(config.jsDistPath))
-      .pipe(gulp.dest(config.jsDistPathKirby))
-      .pipe(browserSync.stream({match: '**/*.js'}))
+    .pipe(concat(config.jsDistFileName))
+    .pipe(gulp.dest(config.jsDistPath))
+    .pipe(sourcemaps.init())
+    .pipe(uglify({
+      compress: {
+        drop_console: false
+      }
+    }))
+    .pipe(rename(config.jsDistFileNameMin))
+    .pipe(sourcemaps.write("."))
+    .pipe(gulp.dest(config.jsDistPath))
+    .pipe(browserSync.stream({match: '**/*.js'}))
 });
 
 gulp.task("css", function () {
   return gulp.src(config.cssFiles)
     .pipe(plumber({errorHandler: logError}))
-      .pipe(concat(config.cssDistFileName))
-      .pipe(autoprefixer({
-       browsers: ['last 3 versions'],
-      }))
-      .pipe(gulp.dest(config.cssDistPath))
-      .pipe(sourcemaps.init())
-      .pipe(minifyCss())
-      .pipe(rename(config.cssDistFileNameMin))
-      .pipe(sourcemaps.write("."))
-      .pipe(gulp.dest(config.cssDistPath))
-      .pipe(gulp.dest(config.cssDistPathKirby))
-      .pipe(browserSync.stream({match: '**/*.css'}))
+    .pipe(concat(config.cssDistFileName))
+    .pipe(autoprefixer({
+      browsers: ['last 3 versions'],
+    }))
+    .pipe(gulp.dest(config.cssDistPath))
+    .pipe(sourcemaps.init())
+    .pipe(minifyCss())
+    .pipe(rename(config.cssDistFileNameMin))
+    .pipe(sourcemaps.write("."))
+    .pipe(gulp.dest(config.cssDistPath))
+    .pipe(browserSync.stream({match: '**/*.css'}))
 });
 
 gulp.task('watch', ['browser-sync'], function () {
-    gulp.watch([
-      config.srcPath + 'less/*.less'
-    ], ['less']);
+  gulp.watch([
+    config.srcPath + 'scss/**/*.scss',
+  ], ['sass']);
 
-    gulp.watch([
-      config.srcPath + 'scss/bootstrap4/**/*.scss',
-    ], ['sass-bootstrap4']);
+  gulp.watch([
+    config.srcPath + 'css/*.css'
+  ], ['css']);
 
-    gulp.watch([
-      config.srcPath + 'scss/foundation/**/*.scss'
-    ], ['sass-foundation']);
+  gulp.watch([
+    config.srcPath + 'js/*.js'
+  ], ['js']);
 
+  gulp.watch([
+    config.srcPath + 'images/**/*'
+  ], ['images']);
 
-    gulp.watch([
-      config.srcPath + 'scss/vanilla/**/*.scss'
-    ], ['sass-vanilla']);
-
-    gulp.watch([
-      config.srcPath + 'css/*.css'
-    ], ['css']);
-
-    gulp.watch([
-      config.srcPath + 'js/*.js'
-    ], ['js']);
-
-    gulp.watch([
-      config.srcPath + 'images/**/*'
-    ], ['images']);
-
-    gulp.watch([
-      config.srcPath + '*.php',
-      config.srcPath + 'includes/**/*.php'
-    ], ['html']);
-
-    gulp.watch([
-      config.basePath + 'kirby/site/**/*'
-    ], ['kirby']);
+  gulp.watch([
+    config.srcPath + '**/*.mustache'
+  ], ['templates']).on('change', function() {
+    setTimeout(browserSync.reload, 1000);
+  });;
 });
 
 gulp.task('default', function(callback) {
-    runSequence('build', 'watch', callback);
+  runSequence('build', 'watch', callback);
 });
 
 gulp.task('build', function(callback) {
-    runSequence('clean', ['html', 'images', 'thumbs', 'fonts', 'less', 'js'], 'css', callback);
+  runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', 'mock', callback);
 });
 
 
@@ -422,16 +362,16 @@ for (var target in env) {
 
   loopTask(['deploy', target].join(':'), env[target], (target, callback) => {
     var opts = Object.assign({}, config.deployment.gulpRsyncOptions, {
-      root: config.deployment.paths.webroot,
+      root: (config.deployment.paths.webroot),
       hostname: target.host,
       username: target.user,
       destination: target.path,
     });
 
-    return gulp.src(config.distPath + '.')
-      .pipe(target.prompt ? prompt.confirm('You are about to deploy to the PRODUCTION server. Are you sure?') : util.noop())
-      .pipe(plumber({errorHandler: logError}))
-      .pipe(rsync(opts));
-  });
+  return gulp.src(config.distPath + '.')
+    .pipe(target.prompt ? prompt.confirm('You are about to deploy to the PRODUCTION server. Are you sure?') : util.noop())
+    .pipe(plumber({errorHandler: logError}))
+    .pipe(rsync(opts));
+});
 
 }
