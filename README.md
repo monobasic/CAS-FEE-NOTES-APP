@@ -9,7 +9,7 @@ $ git clone --recursive git@github.com:monobasic/CAS-FEE-NOTES-APP.git
 This will clone all sources
 
 
-### Install node modules for gulp and dependencies
+### Install npm package dependencies
 
 ```
 $ npm install
