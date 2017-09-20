@@ -293,6 +293,9 @@ gulp.task("js", function () {
   return gulp.src(config.jsFiles)
     .pipe(plumber({errorHandler: logError}))
     .pipe(concat(config.jsDistFileName))
+    .pipe(babel({
+      presets: ['env']
+    }))
     .pipe(gulp.dest(config.jsDistPath))
     .pipe(sourcemaps.init())
     .pipe(uglify({
