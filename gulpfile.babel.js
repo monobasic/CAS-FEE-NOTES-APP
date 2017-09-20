@@ -95,7 +95,7 @@ function logError(error) {
 /*
 * Gulp Tasks
 */
-gulp.task('browser-sync', function() {
+gulp.task('browser-sync', () => {
   return browserSync.init({
     logLevel: 'info',
     open: true,
@@ -106,7 +106,7 @@ gulp.task('browser-sync', function() {
   });
 });
 
-gulp.task('mock', function() {
+gulp.task('mock', () => {
   gulp.src('.')
     .pipe(mockServer({
       port: 8090,
@@ -115,20 +115,20 @@ gulp.task('mock', function() {
     }));
 });
 
-gulp.task('sass', function() {
+gulp.task('sass', () => {
   gulp.src(config.scssSrcFiles)
     .pipe(plumber({errorHandler: logError}))
     .pipe(sass())
     .pipe(gulp.dest(config.cssPath))
 });
 
-gulp.task("images", function() {
+gulp.task("images", () => {
   return gulp.src(config.imagesSrcPath)
     .pipe(plumber({errorHandler: logError}))
     .pipe(gulp.dest(config.imagesDistPath))
 });
 
-gulp.task('clean', function() {
+gulp.task('clean', () => {
   return gulp.src(config.cleanStuff, {read: false})
     .pipe(plumber({errorHandler: logError}))
     .pipe(clean({
@@ -136,13 +136,13 @@ gulp.task('clean', function() {
     }));
 });
 
-gulp.task("files", function() {
+gulp.task("files", () => {
   gulp.src(config.filesSrcPath, { base: './src/' })
     .pipe(plumber({errorHandler: logError}))
     .pipe(gulp.dest(config.filesDistPath))
 });
 
-gulp.task("templates", function() {
+gulp.task("templates", () => {
   gulp.src(config.templatesSrcPath)
     .pipe(plumber({errorHandler: logError}))
     .pipe(mustache({
@@ -155,7 +155,7 @@ gulp.task("templates", function() {
     .pipe(gulp.dest("./dist"));
 });
 
-gulp.task("js", function () {
+gulp.task("js", () => {
   return gulp.src(config.jsFiles)
     .pipe(plumber({errorHandler: logError}))
     .pipe(concat(config.jsDistFileName))
@@ -175,7 +175,7 @@ gulp.task("js", function () {
     .pipe(browserSync.stream({match: '**/*.js'}))
 });
 
-gulp.task("css", function () {
+gulp.task("css", () => {
   return gulp.src(config.cssFiles)
     .pipe(plumber({errorHandler: logError}))
     .pipe(concat(config.cssDistFileName))
@@ -191,7 +191,7 @@ gulp.task("css", function () {
     .pipe(browserSync.stream({match: '**/*.css'}))
 });
 
-gulp.task('watch', ['browser-sync'], function () {
+gulp.task('watch', ['browser-sync'], () => {
   gulp.watch([
     config.srcPath + 'scss/**/*.scss',
   ], ['sass']);
@@ -210,20 +210,20 @@ gulp.task('watch', ['browser-sync'], function () {
 
   gulp.watch([
     config.srcPath + '**/*.mustache'
-  ], ['templates']).on('change', function() {
+  ], ['templates']).on('change', () => {
     setTimeout(browserSync.reload, 1000);
-  });;
+  });
 });
 
 
 /*
 * Build Tasks
 */
-gulp.task('default', function(callback) {
+gulp.task('default', (callback) => {
   runSequence('build', 'watch', callback);
 });
 
-gulp.task('build', function(callback) {
+gulp.task('build', (callback) => {
   runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', 'mock', callback);
 });
 
