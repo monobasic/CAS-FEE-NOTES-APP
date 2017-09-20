@@ -219,11 +219,6 @@ gulp.task('watch', ['browser-sync'], () => {
 /*
 * Build Tasks
 */
-gulp.task('default', (callback) => {
-  runSequence('build', 'watch', callback);
-});
-
-gulp.task('build', (callback) => {
-  runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', 'mock', callback);
-});
+gulp.task('default', (callback) => runSequence('build', 'watch', callback));
+gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', 'mock', callback));
 
