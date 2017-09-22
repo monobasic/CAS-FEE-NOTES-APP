@@ -40,14 +40,13 @@ const config = {
   'jsDistFileName': 'all.js',
   'jsDistFileNameMin': 'all.min.js',
 
-  // SASS/SCSS
-  'scssSrcFiles': 'src/scss/styles.scss',
-
-  // CSS (notice: order is important here)
-  'cssPath': 'src/css/',
-  'cssFiles': [
-    'src/css/styles.css'
+  // SASS/SCSS/CSS
+  'themes': [
+    'default',
+    'dark'
   ],
+  'themesFolder': 'src/scss/themes/',
+  'scssSrcFiles': 'styles.scss',
   'cssDistPath': 'dist/css/',
   'cssDistFileName': 'styles.css',
   'cssDistFileNameMin': 'styles.min.css',
@@ -100,10 +99,23 @@ gulp.task('browser-sync', () => {
 });
 
 gulp.task('sass', () => {
-  gulp.src(config.scssSrcFiles)
-    .pipe(plumber({errorHandler: logError}))
-    .pipe(sass())
-    .pipe(gulp.dest(config.cssPath))
+  config.themes.map((theme) => {
+    let themeDistPath = config.cssDistPath + '/' + theme;
+
+    gulp.src(config.themesFolder + theme + '/' + config.scssSrcFiles)
+      .pipe(plumber({errorHandler: logError}))
+      .pipe(sass())
+      .pipe(autoprefixer({
+        browsers: ['last 3 versions'],
+      }))
+      .pipe(gulp.dest(themeDistPath)) // Write out un-minified version of the CSS
+      .pipe(sourcemaps.init())
+      .pipe(minifyCss())
+      .pipe(rename(config.cssDistFileNameMin))
+      .pipe(sourcemaps.write("."))
+      .pipe(gulp.dest(themeDistPath)) // Write out minified version of the CSS
+      .pipe(browserSync.stream({match: '**/*.css'}))
+  });
 });
 
 gulp.task("images", () => {
@@ -165,30 +177,10 @@ gulp.task("js", () => {
     .pipe(browserSync.stream({match: '**/*.js'}))
 });
 
-gulp.task("css", () => {
-  return gulp.src(config.cssFiles)
-    .pipe(plumber({errorHandler: logError}))
-    .pipe(concat(config.cssDistFileName))
-    .pipe(autoprefixer({
-      browsers: ['last 3 versions'],
-    }))
-    .pipe(gulp.dest(config.cssDistPath))
-    .pipe(sourcemaps.init())
-    .pipe(minifyCss())
-    .pipe(rename(config.cssDistFileNameMin))
-    .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest(config.cssDistPath))
-    .pipe(browserSync.stream({match: '**/*.css'}))
-});
-
 gulp.task('watch', ['browser-sync'], () => {
   gulp.watch([
     config.srcPath + 'scss/**/*.scss',
   ], ['sass']);
-
-  gulp.watch([
-    config.srcPath + 'css/*.css'
-  ], ['css']);
 
   gulp.watch([
     config.srcPath + 'js/*.js'
@@ -210,5 +202,5 @@ gulp.task('watch', ['browser-sync'], () => {
 * Build Tasks
 */
 gulp.task('default', (callback) => runSequence('build', 'watch', callback));
-gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], 'css', callback));
+gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], callback));
 
