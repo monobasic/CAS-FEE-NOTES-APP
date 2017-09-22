@@ -1,3 +1,15 @@
-body {
-  background: hotpink;
-}
+// Import normalize.css | https://github.com/necolas/normalize.css
+@import '../../node_modules/normalize.css/normalize';
+
+// Import webfonts
+@import 'webfonts';
+
+// Import variables and mixins
+@import 'variables';
+@import 'mixins';
+
+// Import component level styles
+@import 'components/typography';
+
+
+
