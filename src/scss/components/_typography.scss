@@ -1,4 +1,9 @@
 body {
-  font-size: 16px;
+  @include font-smoothing();
   font-family: $webfont;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $color-primary;
+  font-weight: 500;
 }
