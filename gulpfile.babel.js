@@ -131,7 +131,7 @@ gulp.task("templates", function() {
     .pipe(plumber({errorHandler: logError}))
     .pipe(hb({
       partials: config.templatesPartialsPath,
-      data: congig.templatesDataPath,
+      data: config.templatesDataPath,
       helpers: {
         ifvalue: function (conditional, options) {
           if (conditional == options.hash.equals) {
