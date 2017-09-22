@@ -68,9 +68,6 @@ const config = {
   ]
 };
 
-console.log(config.themes);
-
-
 /*
 * Custom Error Logging
 */
