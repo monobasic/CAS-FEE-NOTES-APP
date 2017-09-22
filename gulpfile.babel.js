@@ -18,8 +18,7 @@ import minifyCss from 'gulp-minify-css';
 import autoprefixer from 'gulp-autoprefixer';
 import runSequence from 'run-sequence';
 import clean from 'gulp-clean';
-import mustache from 'gulp-mustache';
-
+import hb from 'gulp-hb';
 
 /*
 * Configuration Options
@@ -54,14 +53,9 @@ const config = {
   'cssDistFileNameMin': 'styles.min.css',
 
   // Templates
-  'templatesSrcPath': 'src/**/*.mustache',
-  'templatesImagePath': 'images/',
-  'templatesPages': [
-    {
-      pageTitle: 'Home',
-      pageUrl: 'index.html'
-    },
-  ],
+  'templatesSrcPath': 'src/*.html',
+  'templatesPartialsPath': './src/partials/**/*.hbs',
+  'templatesDataPath': './src/data/**/*.{js,json}',
 
   // Files
   'filesSrcPath': ['src/.htpasswd', 'src/.htaccess', 'src/data/**'],
@@ -132,15 +126,21 @@ gulp.task("files", () => {
     .pipe(gulp.dest(config.filesDistPath))
 });
 
-gulp.task("templates", () => {
+gulp.task("templates", function() {
   gulp.src(config.templatesSrcPath)
     .pipe(plumber({errorHandler: logError}))
-    .pipe(mustache({
-      imagePath: config.templatesImagePath,
-      projectTitle: config.projectTitle,
-      pages: config.templatesPages
-    }, {
-      extension: '.html'
+    .pipe(hb({
+      partials: config.templatesPartialsPath,
+      data: congig.templatesDataPath,
+      helpers: {
+        ifvalue: function (conditional, options) {
+          if (conditional == options.hash.equals) {
+            return options.fn(this);
+          } else {
+            return options.inverse(this);
+          }
+        }
+      }
     }))
     .pipe(gulp.dest("./dist"));
 });
