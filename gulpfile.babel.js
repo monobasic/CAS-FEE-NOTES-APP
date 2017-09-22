@@ -45,23 +45,23 @@ const config = {
     'default',
     'dark'
   ],
-  'themesFolder': 'src/scss/themes/',
-  'scssSrcFiles': 'styles.scss',
+  "themesPath": 'src/scss/themes/',
+  "scssSrc": 'styles.scss',
   'cssDistPath': 'dist/css/',
   'cssDistFileName': 'styles.css',
   'cssDistFileNameMin': 'styles.min.css',
 
   // Templates
-  'templatesSrcPath': 'src/*.html',
-  'templatesPartialsPath': './src/partials/**/*.hbs',
-  'templatesDataPath': './src/data/**/*.{js,json}',
+  "templatesSrc": 'src/*.html',
+  "templatesPartials": './src/partials/**/*.hbs',
+  "templatesData": './src/data/**/*.{js,json}',
 
   // Files
-  'filesSrcPath': ['src/.htpasswd', 'src/.htaccess', 'src/data/**'],
+  "filesSrc": ['src/.htpasswd', 'src/.htaccess', 'src/data/**'],
   'filesDistPath': 'dist/',
 
   // Images
-  'imagesSrcPath' : 'src/images/**/*',
+  "imagesSrc" : 'src/images/**/*',
   'imagesDistPath': 'dist/images/',
 
   // Clean
@@ -102,7 +102,7 @@ gulp.task('sass', () => {
   config.themes.map((theme) => {
     let themeDistPath = config.cssDistPath + '/' + theme;
 
-    gulp.src(config.themesFolder + theme + '/' + config.scssSrcFiles)
+    gulp.src(config.themesPath + theme + '/' + config.scssSrc)
       .pipe(plumber({errorHandler: logError}))
       .pipe(sass())
       .pipe(autoprefixer({
@@ -119,7 +119,7 @@ gulp.task('sass', () => {
 });
 
 gulp.task("images", () => {
-  return gulp.src(config.imagesSrcPath)
+  return gulp.src(config.imagesSrc)
     .pipe(plumber({errorHandler: logError}))
     .pipe(gulp.dest(config.imagesDistPath))
 });
@@ -133,17 +133,17 @@ gulp.task('clean', () => {
 });
 
 gulp.task("files", () => {
-  gulp.src(config.filesSrcPath, { base: './src/' })
+  gulp.src(config.filesSrc, { base: './src/' })
     .pipe(plumber({errorHandler: logError}))
     .pipe(gulp.dest(config.filesDistPath))
 });
 
 gulp.task("templates", function() {
-  gulp.src(config.templatesSrcPath)
+  gulp.src(config.templatesSrc)
     .pipe(plumber({errorHandler: logError}))
     .pipe(hb({
-      partials: config.templatesPartialsPath,
-      data: config.templatesDataPath,
+      partials: config.templatesPartials,
+      data: config.templatesData,
       helpers: {
         ifvalue: function (conditional, options) {
           if (conditional == options.hash.equals) {
