@@ -7,9 +7,17 @@
   &:hover {
     opacity: 0.75;
   }
+
+  & + .btn-block {
+    margin-top: 20px;
+  }
 }
 .btn-block {
   display: block;
+
+  & + .btn-block {
+    margin-top: 20px;
+  }
 }
 
 .btn-primary {
