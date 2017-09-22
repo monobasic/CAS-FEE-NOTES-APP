@@ -1,0 +1,25 @@
+.btn {
+  display: inline-block;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+.btn-block {
+  display: block;
+}
+
+.btn-primary {
+  background-color: $color-primary;
+  color: $color-white;
+  border: 1px solid $color-primary;
+}
+
+.btn-secondary {
+  background-color: $color-white;
+  color: $color-primary;
+  border: 1px solid $color-primary;
+}
