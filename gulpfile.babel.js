@@ -3,6 +3,7 @@
 /*
 * Dependencies
 */
+import fs from 'fs';
 import gulp from 'gulp';
 import plumber from 'gulp-plumber';
 import notify from 'gulp-notify';
@@ -41,10 +42,7 @@ const config = {
   'jsDistFileNameMin': 'all.min.js',
 
   // SASS/SCSS/CSS
-  'themes': [
-    'default',
-    'dark'
-  ],
+  'themes': fs.readdirSync('src/scss/themes'),
   "themesPath": 'src/scss/themes/',
   "scssSrc": 'styles.scss',
   'cssDistPath': 'dist/css/',
@@ -69,6 +67,8 @@ const config = {
     'dist'
   ]
 };
+
+console.log(config.themes);
 
 
 /*
