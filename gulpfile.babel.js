@@ -112,7 +112,7 @@ gulp.task('sass', () => {
       .pipe(sourcemaps.init())
       .pipe(minifyCss())
       .pipe(rename(config.cssDistFileNameMin))
-      .pipe(sourcemaps.write("."))
+      .pipe(sourcemaps.write(".")) // Write out sourcemap files for browser debugging
       .pipe(gulp.dest(themeDistPath)) // Write out minified version of the CSS
       .pipe(browserSync.stream({match: '**/*.css'}))
   });
