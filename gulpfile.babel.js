@@ -199,7 +199,7 @@ gulp.task('watch', ['browser-sync'], () => {
   ], ['images']);
 
   gulp.watch([
-    config.srcPath + '**/*.mustache'
+    config.srcPath + '**/*.{html,hbs}'
   ], ['templates']).on('change', () => {
     setTimeout(browserSync.reload, 1000);
   });
