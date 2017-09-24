@@ -4,23 +4,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+// Responsive Breakpoints Mixin
 @mixin breakpoint($size) {
   @if $size == xs {
     @media (max-width: $breakpoint-sm -1) { @content; }
   }
-
   @else if $size == sm {
     @media (min-width: $breakpoint-sm) { @content; }
   }
-
   @else if $size == md {
     @media (min-width: $breakpoint-md) { @content; }
   }
-
   @else if $size == lg {
     @media (min-width: $breakpoint-lg) { @content; }
   }
-
   @else {
     @warn "Breakpoint mixin supports: xs, sm, md, lg";
   }
