@@ -25,6 +25,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-watch": "*",
     "jquery": "^3.2.1",
+    "moment": "^2.18.1",
     "normalize.css": "^7.0.0",
     "run-sequence": "^2.2.0"
   }
