@@ -35,7 +35,7 @@ const config = {
   // JS
   'jsFiles': [
     'node_modules/jquery/dist/jquery.js',
-    'node_modules/moment/moment.js',
+    //'node_modules/moment/moment.js',
     'src/js/app.js',
     'src/js/style-switch.js'
   ],
