@@ -1,11 +1,10 @@
-// app.js
-console.log('hello world from app.js');
-
 import $ from 'jquery';
 import moment from 'moment';
 
+console.log('hello world from app.js');
+
 $(function() {
-  $('body').css('background', 'hotpink');
+  console.log('jQuery Version: ' + $.fn.jquery);
 });
 
-console.log(moment().format());
+console.log('moment.js: ' + moment.version);
