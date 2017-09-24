@@ -36,6 +36,7 @@ const config = {
   'jsFiles': [
     'node_modules/jquery/dist/jquery.js',
     'src/js/app.js',
+    'src/js/style-switch.js'
   ],
   'jsDistPath': 'dist/js/',
   'jsDistFileName': 'all.js',
