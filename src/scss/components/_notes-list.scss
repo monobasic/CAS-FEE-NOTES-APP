@@ -1,5 +1,43 @@
-.notes-list {}
-.notes-list-item {}
+.notes-list {
+  margin-top: 30px;
+
+  h2 {
+    display: block;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+.notes-list-item {
+  padding-bottom: 10px;
+
+  @include breakpoint(sm) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.notes-list-item-col {
+  margin-bottom: 10px;
+
+  @include breakpoint(sm) {
+    flex: 7;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 0;
+
+    &:first-child {
+      padding-left: 0;
+      flex: 2;
+    }
+
+    &:last-child {
+      padding-right: 0;
+      flex: 1;
+    }
+  }
+
+}
 .notes-list-item-title {}
 .notes-list-item-due {}
 .notes-list-item-description {}
