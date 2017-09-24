@@ -18,6 +18,10 @@
   @include breakpoint(sm) {
     flex-grow: 1;
 
+    a.btn {
+      width: auto;
+    }
+
     &:last-child {
       text-align: right;
     }
