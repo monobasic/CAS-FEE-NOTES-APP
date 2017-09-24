@@ -20,6 +20,7 @@ import autoprefixer from 'gulp-autoprefixer';
 import runSequence from 'run-sequence';
 import clean from 'gulp-clean';
 import hb from 'gulp-hb';
+import webpack from 'webpack-stream';
 
 /*
 * Configuration Options
@@ -34,10 +35,7 @@ const config = {
 
   // JS
   'jsFiles': [
-    'node_modules/jquery/dist/jquery.js',
-    //'node_modules/moment/moment.js',
     'src/js/app.js',
-    'src/js/style-switch.js'
   ],
   'jsDistPath': 'dist/js/',
   'jsDistFileName': 'all.js',
@@ -171,6 +169,9 @@ gulp.task("templates", function() {
 gulp.task("js", () => {
   return gulp.src(config.jsFiles)
     .pipe(plumber({errorHandler: logError}))
+    .pipe(webpack({
+      // Any configuration options...
+    }))
     .pipe(babel({
       presets: ['env']
     }))
