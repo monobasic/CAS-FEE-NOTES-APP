@@ -1,0 +1,12 @@
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.meta-item {
+  flex-grow: 1;
+
+  &:last-child {
+    text-align: right;
+  }
+}
