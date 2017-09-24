@@ -171,10 +171,10 @@ gulp.task("templates", function() {
 gulp.task("js", () => {
   return gulp.src(config.jsFiles)
     .pipe(plumber({errorHandler: logError}))
-    .pipe(concat(config.jsDistFileName))
     .pipe(babel({
       presets: ['env']
     }))
+    .pipe(concat(config.jsDistFileName))
     .pipe(gulp.dest(config.jsDistPath))
     .pipe(sourcemaps.init())
     .pipe(uglify({
