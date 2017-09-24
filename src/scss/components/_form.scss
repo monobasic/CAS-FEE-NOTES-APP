@@ -1,5 +1,9 @@
 form {
+  margin-bottom: 30px;
+}
 
+label {
+  display: block;
 }
 
 input,
@@ -10,11 +14,15 @@ textarea {
 }
 
 .form-row {
-  display: flex;
-  justify-content: flex-start;
   margin-bottom: 10px;
 
-  > * {
-    flex-basis: 50%;
+  @include breakpoint(sm) {
+    display: flex;
+    justify-content: flex-start;
+
+    > * {
+      flex-basis: 50%;
+    }
   }
+
 }
