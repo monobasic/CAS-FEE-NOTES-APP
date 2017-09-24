@@ -59,6 +59,12 @@ const config = {
   "filesSrc": ['src/.htpasswd', 'src/.htaccess', 'src/data/**'],
   'filesDistPath': 'dist/',
 
+  // Fonts
+  'fontsSrcPath': [
+    './node_modules/font-awesome/fonts/*.*'
+  ],
+  'fontsDistPath': 'dist/fonts/',
+
   // Images
   "imagesSrc" : 'src/images/**/*',
   'imagesDistPath': 'dist/images/',
@@ -136,6 +142,12 @@ gulp.task("files", () => {
     .pipe(gulp.dest(config.filesDistPath))
 });
 
+gulp.task("fonts", function() {
+  return gulp.src(config.fontsSrcPath)
+    .pipe(plumber({errorHandler: logError}))
+    .pipe(gulp.dest(config.fontsDistPath))
+});
+
 gulp.task("templates", function() {
   gulp.src(config.templatesSrc)
     .pipe(plumber({errorHandler: logError}))
@@ -200,5 +212,5 @@ gulp.task('watch', ['browser-sync'], () => {
 * Build Tasks
 */
 gulp.task('default', (callback) => runSequence('build', 'watch', callback));
-gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'images', 'sass', 'js'], callback));
+gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'fonts', 'images', 'sass', 'js'], callback));
 
