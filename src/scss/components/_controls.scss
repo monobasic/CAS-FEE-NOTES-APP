@@ -1,0 +1,14 @@
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.controls-item {
+  flex-grow: 1;
+
+  &:last-child {
+    text-align: right;
+  }
+}
