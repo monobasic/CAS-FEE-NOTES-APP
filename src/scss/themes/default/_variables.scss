@@ -1,11 +1,18 @@
-// Colors
+/*
+  Colors
+ */
 $color-white: #ffffff;
 $color-primary: #2D2D64;
 
-// Fonts
+/*
+  Fonts
+ */
 $webfont: 'Lato', sans-serif;
+$fa-font-path: '../../fonts'; // Relative Icon font path for Font-Awesome
 
-// Layout
+/*
+  Layout
+ */
 $breakpoint-sm: 768px;
 $breakpoint-md: 992px;
 $breakpoint-lg: 1200px;
@@ -13,5 +20,7 @@ $wrapper-max-width-sm: $breakpoint-sm;
 $wrapper-max-width-md: $breakpoint-md;
 $wrapper-max-width-lg: $breakpoint-lg;
 
-// Rounded corners general config
+/*
+  Rounded Corners general
+ */
 $border-radius: 5px;
