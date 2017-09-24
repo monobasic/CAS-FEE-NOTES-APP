@@ -1,0 +1,21 @@
+// Development viewport indicator
+body.dev:after {
+  position: fixed;
+  bottom: 0;
+  content: 'xs';
+  background: #ffff00;
+  padding-left: 3px;
+  padding-right: 3px;
+
+  @include breakpoint(sm) {
+    content: 'sm';
+  }
+
+  @include breakpoint(md) {
+    content: 'md';
+  }
+
+  @include breakpoint(lg) {
+    content: 'lg';
+  }
+}
