@@ -1,14 +1,25 @@
 .controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-top: 30px;
+
+  @include breakpoint(sm) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 }
 
 .controls-item {
-  flex-grow: 1;
 
-  &:last-child {
-    text-align: right;
+  a.btn {
+    width: 100%;
+  }
+
+  @include breakpoint(sm) {
+    flex-grow: 1;
+
+    &:last-child {
+      text-align: right;
+    }
   }
 }
