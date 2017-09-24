@@ -9,6 +9,7 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "browser-sync": "^2.18.13",
+    "font-awesome": "^4.7.0",
     "gulp": "*",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-babel": "*",
