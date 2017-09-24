@@ -12,8 +12,9 @@ textarea {
 .form-row {
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 10px;
 
   > * {
-    flex: 1;
+    flex-basis: 50%;
   }
 }
