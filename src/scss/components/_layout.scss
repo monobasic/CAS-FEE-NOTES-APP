@@ -1,5 +1,17 @@
 .wrapper {
-  max-width: $xl-max;
   margin: 0 auto;
-  padding: 30px 0;
+  padding: 30px 15px;
+  border: 1px solid hotpink;
+
+  @include breakpoint(sm) {
+    max-width: $wrapper-max-width-sm;
+  }
+
+  @include breakpoint(md) {
+    max-width: $wrapper-max-width-md;
+  }
+
+  @include breakpoint(lg) {
+    max-width: $wrapper-max-width-lg;
+  }
 }
