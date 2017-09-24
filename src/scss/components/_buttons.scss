@@ -3,9 +3,16 @@
   padding: 10px;
   text-decoration: none;
   border-radius: $border-radius;
+  text-align: center;
 
   &:hover {
     opacity: 0.75;
+  }
+
+  &.active {
+    background-color: $color-primary;
+    color: $color-white;
+    border: 1px solid $color-primary;
   }
 
   & + .btn-block {
@@ -31,4 +38,24 @@
   background-color: $color-white;
   color: $color-primary;
   border: 1px solid $color-primary;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: flex-start;
+
+  .btn {
+    flex-grow: 1;
+    border-radius: 0;
+    border-right: none;
+  }
+  .btn:first-child {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+  .btn:last-child {
+    border-right: 1px solid;
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
 }
