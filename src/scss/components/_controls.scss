@@ -15,11 +15,19 @@
     width: 100%;
   }
 
+  &.btn-group {
+    margin-bottom: 10px;
+  }
+
   @include breakpoint(sm) {
     flex-grow: 1;
 
     a.btn {
       width: auto;
+    }
+
+    &.btn-group {
+      margin-bottom: 0;
     }
 
     &:last-child {
