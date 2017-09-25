@@ -17,6 +17,7 @@
     "gulp-clean-css": "*",
     "gulp-concat": "*",
     "gulp-hb": "^6.0.2",
+    "gulp-jasmine": "^2.4.2",
     "gulp-notify": "^3.0.0",
     "gulp-plumber": "*",
     "gulp-rename": "*",

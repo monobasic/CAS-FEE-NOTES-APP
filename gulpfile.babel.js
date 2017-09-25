@@ -21,6 +21,7 @@ import runSequence from 'run-sequence';
 import clean from 'gulp-clean';
 import hb from 'gulp-hb';
 import webpack from 'webpack-stream';
+import jasmine from 'gulp-jasmine';
 
 /*
 * Configuration Options
@@ -71,7 +72,10 @@ const config = {
   // Clean
   'cleanStuff': [
     'dist'
-  ]
+  ],
+
+  // Jasmine Testing
+  'specs': 'spec/**/*.js'
 };
 
 /*
@@ -188,6 +192,14 @@ gulp.task("js", () => {
     .pipe(gulp.dest(config.jsDistPath))
     .pipe(browserSync.stream({match: '**/*.js'}))
 });
+
+gulp.task('test', () =>
+  gulp.src(config.specs)
+    .pipe(plumber({errorHandler: logError}))
+    .pipe(jasmine({
+      verbose: true
+    }))
+);
 
 gulp.task('watch', ['browser-sync'], () => {
   gulp.watch([
