@@ -75,7 +75,7 @@ const config = {
   ],
 
   // Jasmine Testing
-  'specs': 'spec/**/*.js'
+  'specs': 'spec/**/*[sS]pec.js'
 };
 
 /*
