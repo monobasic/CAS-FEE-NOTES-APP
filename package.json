@@ -16,7 +16,7 @@
     "gulp-clean": "*",
     "gulp-concat": "*",
     "gulp-hb": "^6.0.2",
-    "gulp-minify-css": "*",
+    "gulp-clean-css": "*",
     "gulp-notify": "^3.0.0",
     "gulp-plumber": "*",
     "gulp-rename": "*",

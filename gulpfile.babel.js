@@ -15,7 +15,7 @@ import rename from 'gulp-rename';
 import sourcemaps from 'gulp-sourcemaps';
 import concat from 'gulp-concat';
 import uglify from 'gulp-uglify';
-import minifyCss from 'gulp-minify-css';
+import cleanCSS from 'gulp-clean-css';
 import autoprefixer from 'gulp-autoprefixer';
 import runSequence from 'run-sequence';
 import clean from 'gulp-clean';
@@ -113,7 +113,7 @@ gulp.task('sass', () => {
       }))
       .pipe(gulp.dest(themeDistPath)) // Write out un-minified version of the CSS
       .pipe(sourcemaps.init())
-      .pipe(minifyCss())
+      .pipe(cleanCSS())
       .pipe(rename(config.cssDistFileNameMin))
       .pipe(sourcemaps.write(".")) // Write out sourcemap files for browser debugging
       .pipe(gulp.dest(themeDistPath)) // Write out minified version of the CSS
