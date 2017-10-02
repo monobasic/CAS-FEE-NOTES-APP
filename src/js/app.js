@@ -73,6 +73,7 @@ class NoteView {
             element.classList.remove('active');
           }
         });
+        document.getElementById('priority').value = this.getElIndex(target.parentNode) + 1;
         e.preventDefault();
       });
     });
@@ -95,7 +96,6 @@ class NoteController {
   }
 
   attachListeners() {
-    // Add new note Listener
     document.querySelectorAll('.js-note-add').forEach((element) => {
       element.addEventListener('click', this.onAddNote.bind(this));
     });
