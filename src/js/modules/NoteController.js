@@ -60,15 +60,10 @@ export default class NoteController {
 
   handleNotesList() {
     this.noteModel.loadTemplate('note-list-item').then((response) => {
-      let notesListHtml = '';
       let noteTemplate = Handlebars.compile(response);
       let notesData = this.noteModel.getNotes();
 
-      notesData.forEach((note) => {
-        notesListHtml += noteTemplate(note);
-      });
-
-      this.noteView.renderNotesList(notesListHtml);
+      this.noteView.renderNotesList(noteTemplate, notesData);
     }, (error) => {
       console.error("Failed!", error);
     });
