@@ -1,0 +1,6 @@
+class NoteView {
+
+  constructor() {
+
+  }
+}
