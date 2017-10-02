@@ -103,33 +103,28 @@ class NoteController {
 
   onAddNote(e) {
     let note = {};
+
+    note.title = document.getElementById('title').value;
+    note.description = document.getElementById('description').value;
+    note.priority = document.getElementById('priority').value;
+    note.due = document.getElementById('due').value;
+
     this.noteModel.addNote(note);
+
     e.preventDefault();
     e.stopPropagation();
   }
-
-
 }
 
 
 
 
+// Bootstrap Application
 document.addEventListener("DOMContentLoaded", ()=>{
 
-  // Bootstrap Application
   let noteModel = new NoteModel();
   let noteView = new NoteView();
   let noteController = new NoteController(noteView, noteModel);
-
-  // let form = document.querySelector("form");
-  // form.onsubmit = (event) => {
-  //   let noteData = {};
-  //   noteData.title = document.getElementById("title").value;
-  //   noteData.description = document.getElementById("description").value;
-  //   noteData.due = document.getElementById("due").value;
-  //   localStorage.setItem("note", JSON.stringify(noteData));
-  //   event.preventDefault();
-  // };
 });
 
 
