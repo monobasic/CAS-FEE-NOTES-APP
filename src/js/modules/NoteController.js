@@ -4,7 +4,13 @@ export default class NoteController {
     this.noteView = noteView;
     this.noteModel = noteModel;
     this.attachListeners();
-    this.handleNotesList();
+    this.handlePriorityList();
+  }
+
+  getElIndex(element) {
+    let i;
+    for (i = 0; element = element.previousElementSibling; i++);
+    return i;
   }
 
   attachListeners() {
@@ -25,6 +31,28 @@ export default class NoteController {
 
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  handlePriorityList() {
+    let priorityList = document.getElementById('list-priority');
+    if (!priorityList) {
+      return false;
+    }
+    let priorityLinks = priorityList.querySelectorAll('a');
+    priorityLinks.forEach((element) => {
+      element.addEventListener('click', (e) => {
+        let target = e.currentTarget;
+        priorityLinks.forEach((element, index) => {
+          if (index <= this.getElIndex(target.parentNode)) {
+            element.classList.add('active');
+          } else {
+            element.classList.remove('active');
+          }
+        });
+        document.getElementById('priority').value = this.getElIndex(target.parentNode) + 1;
+        e.preventDefault();
+      });
+    });
   }
 
   handleNotesList() {
