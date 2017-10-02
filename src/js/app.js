@@ -33,20 +33,23 @@ class NoteModel {
   }
 
   getNote(index) {
-
+    return this.notes[index];
   }
 
   addNote(note) {
-    console.log('Model: add note');
     this.notes.push(note);
+    this.updateLocalStorage(this.notes);
   }
 
   deleteNote(index) {
     this.notes.splice(index, 1);
+    this.updateLocalStorage(this.notes);
   }
 
   updateLocalStorage(notes) {
-    localStorage.setItem("notes", JSON.stringify(notes));
+    localStorage.setItem('notes', JSON.stringify(notes));
+    console.log('Updated localStorage!');
+    console.log(JSON.parse(localStorage.getItem('notes')));
   }
 
 }
@@ -67,14 +70,12 @@ class NoteController {
   attachListeners() {
     // Add new note Listener
     document.querySelectorAll('.js-note-add').forEach((element) => {
-      element.addEventListener('click', this.onAddNote);
+      element.addEventListener('click', this.onAddNote.bind(this));
     });
   }
 
   onAddNote(e) {
     let note = {};
-    console.log('Add event!');
-    console.log(e);
     this.noteModel.addNote(note);
     e.preventDefault();
     e.stopPropagation();
@@ -83,39 +84,28 @@ class NoteController {
 
 }
 
-// Bootstrap Application
-let noteModel = new NoteModel();
-let noteView = new NoteView();
-let noteController = new NoteController(noteView, noteModel);
-
-
-console.log(noteModel.notes);
-
-// localStorage.setItem("key", "value");
-// localStorage.getItem("key");
 
 
 
+document.addEventListener("DOMContentLoaded", ()=>{
+
+  // Bootstrap Application
+  let noteModel = new NoteModel();
+  let noteView = new NoteView();
+  let noteController = new NoteController(noteView, noteModel);
+
+  // let form = document.querySelector("form");
+  // form.onsubmit = (event) => {
+  //   let noteData = {};
+  //   noteData.title = document.getElementById("title").value;
+  //   noteData.description = document.getElementById("description").value;
+  //   noteData.due = document.getElementById("due").value;
+  //   localStorage.setItem("note", JSON.stringify(noteData));
+  //   event.preventDefault();
+  // };
+});
 
 
-//
-// document.addEventListener("DOMContentLoaded", ()=>{
-//   // Load fixtures
-//   localStorage.setItem("notes", JSON.stringify(fixtures));
-//
-//
-//   // let form = document.querySelector("form");
-//   // form.onsubmit = (event) => {
-//   //   let noteData = {};
-//   //   noteData.title = document.getElementById("title").value;
-//   //   noteData.description = document.getElementById("description").value;
-//   //   noteData.due = document.getElementById("due").value;
-//   //   localStorage.setItem("note", JSON.stringify(noteData));
-//   //   event.preventDefault();
-//   // };
-// });
-//
-//
 
 
 
