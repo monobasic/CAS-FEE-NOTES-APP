@@ -4,6 +4,7 @@ export default class NoteController {
     this.noteView = noteView;
     this.noteModel = noteModel;
     this.attachListeners();
+    this.handleNotesList();
   }
 
   attachListeners() {
@@ -24,6 +25,11 @@ export default class NoteController {
 
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  handleNotesList() {
+    // get notes from model and pass to views render function
+    this.noteView.renderNotesList(this.noteModel.getNotes());
   }
 }
 
