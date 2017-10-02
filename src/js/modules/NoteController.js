@@ -5,9 +5,16 @@ export default class NoteController {
   constructor(noteView, noteModel) {
     this.noteView = noteView;
     this.noteModel = noteModel;
-    this.attachListeners();
-    this.handlePriorityList();
-    this.handleNotesList();
+
+    // This needs to be refatored either with a router or multiple controllers
+    this.currentPage = location.href.split("/").slice(-1).join('');
+    if (this.currentPage === 'index.html') {
+      this.handleNotesList();
+    }
+    if (this.currentPage === 'add.html') {
+      this.attachListeners();
+      this.handlePriorityList();
+    }
   }
 
   getElIndex(element) {
@@ -38,9 +45,6 @@ export default class NoteController {
 
   handlePriorityList() {
     let priorityList = document.getElementById('list-priority');
-    if (!priorityList) {
-      return false;
-    }
     let priorityLinks = priorityList.querySelectorAll('a');
     priorityLinks.forEach((element) => {
       element.addEventListener('click', (e) => {

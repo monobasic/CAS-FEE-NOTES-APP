@@ -6,21 +6,21 @@ export default class NoteModel {
       this.notes = this.notes = [
         {
           "title": "CAS FEE Selbststudium / Projekt Aufgabe erledigen",
-          "due": "",
+          "due": "22.01.2018",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
           "priority": 2,
           "finished": false
         },
         {
           "title": "Einkaufen",
-          "due": "",
+          "due": "01.12.2018",
           "description": "Consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
           "priority": 2,
           "finished": false
         },
         {
           "title": "Mom anrufen",
-          "due": "",
+          "due": "22.11.2019",
           "description": "Tel. 041 111 22 33",
           "priority": 2,
           "finished": false
@@ -59,34 +59,21 @@ export default class NoteModel {
   }
 
   loadTemplate(template, callback) {
-    return new Promise(function(resolve, reject) {
-      // Do the usual XHR stuff
+    return new Promise(function (resolve, reject) {
       let request = new XMLHttpRequest();
       request.open('GET', `./templates/${template}.hbs`, true);
-
       request.onload = function() {
-        // This is called even on 404 etc
-        // so check the status
         if (request.status == 200) {
-          // Resolve the promise with the response text
           resolve(request.response);
-        }
-        else {
-          // Otherwise reject with the status text
-          // which will hopefully be a meaningful error
+        } else {
           reject(Error(request.statusText));
         }
       };
-
-      // Handle network errors
       request.onerror = function() {
         reject(Error("Network Error"));
       };
-
-      // Make the request
       request.send();
     });
   }
 
 }
-
