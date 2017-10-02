@@ -1,6 +1,6 @@
-<section class="notes-list">
+<ul id="list-notes" class="notes-list">
   {{#each notes}}
-    <div class="notes-list-item">
+    <li class="notes-list-item">
 
       <div class="notes-list-item-col">
         <div class="notes-list-item-due">{{ due }}</div>
@@ -19,6 +19,6 @@
       <div class="notes-list-item-col notes-list-item-edit">
         <a href="edit.html" class="btn btn-primary">Edit</a>
       </div>
-    </div>
+    </li>
   {{/each}}
-</section>
+</ul>
