@@ -58,5 +58,35 @@ export default class NoteModel {
     console.log(JSON.parse(localStorage.getItem('notes')));
   }
 
+  loadTemplate(template, callback) {
+    return new Promise(function(resolve, reject) {
+      // Do the usual XHR stuff
+      let request = new XMLHttpRequest();
+      request.open('GET', `./templates/${template}.hbs`, true);
+
+      request.onload = function() {
+        // This is called even on 404 etc
+        // so check the status
+        if (request.status == 200) {
+          // Resolve the promise with the response text
+          resolve(request.response);
+        }
+        else {
+          // Otherwise reject with the status text
+          // which will hopefully be a meaningful error
+          reject(Error(request.statusText));
+        }
+      };
+
+      // Handle network errors
+      request.onerror = function() {
+        reject(Error("Network Error"));
+      };
+
+      // Make the request
+      request.send();
+    });
+  }
+
 }
 
