@@ -50,13 +50,12 @@ const config = {
   'cssDistFileName': 'styles.css',
   'cssDistFileNameMin': 'styles.min.css',
 
-  // Templates
-  "templatesSrc": 'src/*.html',
-  "templatesPartials": './src/partials/**/*.hbs',
-  "templatesData": './src/data/**/*.{js,json}',
+  // Partials
+  "partialsSrc": 'src/*.html',
+  "partials": './src/partials/**/*.hbs',
 
   // Files
-  "filesSrc": ['src/.htpasswd', 'src/.htaccess', 'src/data/**'],
+  "filesSrc": ['src/.htpasswd', 'src/.htaccess', 'src/templates/**'],
   'filesDistPath': 'dist/',
 
   // Fonts
@@ -151,12 +150,12 @@ gulp.task("fonts", function() {
     .pipe(gulp.dest(config.fontsDistPath))
 });
 
-gulp.task("templates", function() {
-  gulp.src(config.templatesSrc)
+gulp.task("partials", function() {
+  gulp.src(config.partialsSrc)
     .pipe(plumber({errorHandler: logError}))
     .pipe(hb({
-      partials: config.templatesPartials,
-      data: config.templatesData,
+      partials: config.partials,
+      data: config.partialsData,
       helpers: {
         ifvalue: function (conditional, options) {
           if (conditional == options.hash.equals) {
@@ -216,7 +215,7 @@ gulp.task('watch', ['browser-sync'], () => {
 
   gulp.watch([
     config.srcPath + '**/*.{html,hbs}'
-  ], ['templates']).on('change', () => {
+  ], ['partials']).on('change', () => {
     setTimeout(browserSync.reload, 1000);
   });
 });
@@ -226,5 +225,5 @@ gulp.task('watch', ['browser-sync'], () => {
 * Build Tasks
 */
 gulp.task('default', (callback) => runSequence('build', 'watch', callback));
-gulp.task('build', (callback) => runSequence('clean', ['templates', 'files', 'fonts', 'images', 'sass', 'js'], callback));
+gulp.task('build', (callback) => runSequence('clean', ['partials', 'files', 'fonts', 'images', 'sass', 'js'], callback));
 

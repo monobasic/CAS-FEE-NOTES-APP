@@ -9,8 +9,6 @@ export default class NoteView {
     });
   }
 
-
-
   renderNotesList(notes) {
     console.log('Render Notes List...');
   }
