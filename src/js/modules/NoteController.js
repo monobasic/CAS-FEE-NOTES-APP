@@ -1,3 +1,5 @@
+import Handlebars from '../../../node_modules/handlebars/dist/handlebars';
+
 export default class NoteController {
 
   constructor(noteView, noteModel) {
@@ -5,6 +7,7 @@ export default class NoteController {
     this.noteModel = noteModel;
     this.attachListeners();
     this.handlePriorityList();
+    this.handleNotesList();
   }
 
   getElIndex(element) {
@@ -56,8 +59,12 @@ export default class NoteController {
   }
 
   handleNotesList() {
-    // get notes from model and pass to views render function
-    this.noteView.renderNotesList(this.noteModel.getNotes());
+    this.noteModel.loadTemplate('note-list-item').then((response) => {
+      // Render fetched template with notes data from model
+      this.noteView.renderNotesList(response, this.noteModel.getNotes());
+    }, (error) => {
+      console.error("Failed!", error);
+    });
   }
 }
 

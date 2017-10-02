@@ -9,7 +9,10 @@ export default class NoteView {
     });
   }
 
-  renderNotesList(notes) {
-    console.log('Render Notes List...');
+  renderNotesList(template, data) {
+    let list = document.getElementById('list-notes');
+    console.log('View render: ');
+    console.log(template);
+    console.log(data);
   }
 }
