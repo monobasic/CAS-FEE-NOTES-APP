@@ -4,7 +4,7 @@ import NoteController from './modules/NoteController';
 
 
 // Bootstrap Application
-document.addEventListener("DOMContentLoaded", (e) => {
+document.addEventListener("DOMContentLoaded", () => {
   let noteModel = new NoteModel();
   let noteView = new NoteView();
   let noteController = new NoteController(noteView, noteModel);
