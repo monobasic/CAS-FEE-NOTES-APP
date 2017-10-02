@@ -53,12 +53,39 @@ class NoteModel {
   }
 
 }
+
+
 class NoteView {
 
   constructor() {
+    this.handlePriorityList();
+  }
 
+  handlePriorityList() {
+    let priorityLinks = document.getElementById('list-priority').querySelectorAll('a');
+    priorityLinks.forEach((element) => {
+      element.addEventListener('click', (e) => {
+        let target = e.currentTarget;
+        priorityLinks.forEach((element, index) => {
+          if (index <= this.getElIndex(target.parentNode)) {
+            element.classList.add('active');
+          } else {
+            element.classList.remove('active');
+          }
+        });
+        e.preventDefault();
+      });
+    });
+  }
+
+  getElIndex(element) {
+    let i;
+    for (i = 0; element = element.previousElementSibling; i++);
+    return i;
   }
 }
+
+
 class NoteController {
 
   constructor(noteView, noteModel) {
