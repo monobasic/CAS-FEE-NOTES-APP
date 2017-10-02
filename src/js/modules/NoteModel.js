@@ -53,6 +53,7 @@ export default class NoteModel {
 
   updateLocalStorage(notes) {
     localStorage.setItem('notes', JSON.stringify(notes));
+    // Debug
     console.log('Updated localStorage!');
     console.log(JSON.parse(localStorage.getItem('notes')));
   }
