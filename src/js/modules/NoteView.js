@@ -26,6 +26,10 @@ export default class NoteView {
     });
   }
 
+  renderNotesList(notes) {
+    console.log('Render Notes List...');
+  }
+
   getElIndex(element) {
     let i;
     for (i = 0; element = element.previousElementSibling; i++);
