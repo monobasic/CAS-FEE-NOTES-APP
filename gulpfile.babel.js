@@ -207,7 +207,7 @@ gulp.task('watch', ['browser-sync'], () => {
   ], ['sass']);
 
   gulp.watch([
-    config.srcPath + 'js/*.js'
+    config.srcPath + 'js/**/*.js'
   ], ['js']);
 
   gulp.watch([
