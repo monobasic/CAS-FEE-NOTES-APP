@@ -9,21 +9,24 @@ export default class NoteModel {
           "due": "22.01.2018",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
           "priority": 2,
-          "finished": false
+          "finished": false,
+          "finishedOn": ""
         },
         {
           "title": "Einkaufen",
           "due": "01.12.2018",
           "description": "Consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
           "priority": 2,
-          "finished": false
+          "finished": true,
+          "finishedOn": "22.2.2018"
         },
         {
           "title": "Mom anrufen",
           "due": "22.11.2019",
           "description": "Tel. 041 111 22 33",
           "priority": 2,
-          "finished": false
+          "finished": false,
+          "finishedOn": ""
         }
       ];
       this.updateLocalStorage(this.notes);
@@ -61,7 +64,7 @@ export default class NoteModel {
   loadTemplate(template, callback) {
     return new Promise(function (resolve, reject) {
       let request = new XMLHttpRequest();
-      request.open('GET', `./templates/${template}.hbs`, true);
+      request.open('GET', `./templates/${template}.hbs?${new Date().getTime()}`, true); // Time appended as parameter prevents caching
       request.onload = function() {
         if (request.status == 200) {
           resolve(request.response);
