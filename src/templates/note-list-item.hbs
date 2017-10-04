@@ -3,7 +3,7 @@
   <div class="notes-list-item-col">
     <div class="notes-list-item-due">{{ due }}</div>
     <div class="notes-list-item-finished">
-      <input type="checkbox" id="item-finished"><label for="item-finished">Finished (date...)</label>
+      <input type="checkbox" id="item-finished"{{#if finished}} checked{{/if}}><label for="item-finished">Finished ({{ finishedOn }})</label>
     </div>
   </div>
 
@@ -15,6 +15,6 @@
   </div>
 
   <div class="notes-list-item-col notes-list-item-edit">
-    <a href="edit.html" class="btn btn-primary">Edit</a>
+    <a href="edit.html?id={{ id }}" class="btn btn-primary">Edit</a>
   </div>
 </li>
