@@ -1,12 +1,9 @@
-import Pikaday from 'pikaday';
+
 
 export default class NoteView {
 
   constructor() {
-    this.datepicker = new Pikaday({
-      field: document.getElementById('due'),
-      format: 'D.MM.YYYY'
-    });
+
   }
 
   renderNotesList(template, data) {
@@ -15,4 +12,5 @@ export default class NoteView {
       list.innerHTML += template(note);
     });
   }
+
 }

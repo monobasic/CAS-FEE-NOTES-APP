@@ -1,4 +1,5 @@
 import Handlebars from '../../../node_modules/handlebars/dist/handlebars';
+import Pikaday from 'pikaday';
 
 export default class NoteController {
 
@@ -14,6 +15,7 @@ export default class NoteController {
     if (this.currentPage === 'add.html') {
       this.attachListeners();
       this.handlePriorityList();
+      this.handleDatePicker();
     }
   }
 
@@ -70,6 +72,13 @@ export default class NoteController {
       this.noteView.renderNotesList(noteTemplate, notesData);
     }, (error) => {
       console.error("Failed!", error);
+    });
+  }
+
+  handleDatePicker() {
+    this.datepicker = new Pikaday({
+      field: document.getElementById('due'),
+      format: 'D.MM.YYYY'
     });
   }
 }
