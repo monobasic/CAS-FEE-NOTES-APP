@@ -4,19 +4,18 @@ export default class DataServiceAbstract {
     if (this.constructor === DataServiceAbstract) {
       throw new TypeError('Abstract class "DataServiceAbstract" cannot be instantiated directly.');
     }
-  }
 
-  // Implementation required:
-  getNotes() {
-    throw new Error('You have to implement the method getNotes()');
-  }
-  getNote() {
-    throw new Error('You have to implement the method getNote()');
-  }
-  addNote() {
-    throw new Error('You have to implement the method addNote()');
-  }
-  deleteNote() {
-    throw new Error('You have to implement the method deleteNote()');
+    if (this.getNotes === undefined) {
+      throw new TypeError('You have to implement the method getNotes()');
+    }
+    if (this.getNote === undefined) {
+      throw new TypeError('You have to implement the method getNote()');
+    }
+    if (this.addNote === undefined) {
+      throw new Error('You have to implement the method addNote()');
+    }
+    if (this.deleteNote === undefined) {
+      throw new Error('You have to implement the method deleteNote()');
+    }
   }
 }
