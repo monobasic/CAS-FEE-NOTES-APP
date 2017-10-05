@@ -14,7 +14,6 @@ export default class NoteController {
 
     // This needs to be refatored either with a router or multiple controllers
     this._currentPage = location.href.split("/").slice(-1).join('');
-
     if (this._currentPage === 'add.html') {
       this.attachListenersAdd();
       this.handlePriorityList();
