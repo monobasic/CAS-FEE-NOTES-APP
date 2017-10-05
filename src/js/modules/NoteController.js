@@ -15,6 +15,7 @@ export default class NoteController {
       this.handleDatePicker();
     } else {
       this.handleNotesList();
+      this.handleStyleSwitcher();
     }
   }
 
@@ -79,6 +80,23 @@ export default class NoteController {
       field: document.getElementById('due'),
       format: 'D.MM.YYYY'
     });
+  }
+
+  handleStyleSwitcher() {
+    let switcher = document.getElementById('style-switch');
+
+    console.log(switcher);
+
+    switcher.addEventListener('change', (e) => {
+      console.log('switch!');
+      console.log(e.currentTarget.value);
+      // let themeName = $(this).val();
+      // if (themeName.length) {
+      //   // Update css include tag
+      //   $('#theme-link').attr('href', 'css/' + themeName + '/styles.min.css');
+      // }
+    });
+
   }
 }
 
