@@ -3,7 +3,7 @@ export default class NoteModel {
   constructor() {
     if (!localStorage.getItem('notes')) {
       // Load fixture data
-      this.notes = [
+      this._notes = [
         {
           "title": "CAS FEE Selbststudium / Projekt Aufgabe erledigen",
           "due": "22.01.2018",
@@ -32,32 +32,32 @@ export default class NoteModel {
           "finishedOn": ""
         }
       ];
-      this.updateLocalStorage(this.notes);
+      this._updateLocalStorage(this._notes);
     } else {
       // Update notes object with data from localStorage
-      this.notes = JSON.parse(localStorage.getItem('notes'));
+      this._notes = JSON.parse(localStorage.getItem('notes'));
     }
   }
 
   getNotes() {
-    return this.notes;
+    return this._notes;
   }
 
   getNote(index) {
-    return this.notes[index];
+    return this._notes[index];
   }
 
   addNote(note) {
-    this.notes.push(note);
-    this.updateLocalStorage(this.notes);
+    this._notes.push(note);
+    this._updateLocalStorage(this._notes);
   }
 
   deleteNote(index) {
-    this.notes.splice(index, 1);
-    this.updateLocalStorage(this.notes);
+    this._notes.splice(index, 1);
+    this._updateLocalStorage(this._notes);
   }
 
-  updateLocalStorage(notes) {
+  _updateLocalStorage(notes) {
     localStorage.setItem('notes', JSON.stringify(notes));
     // Debug
     console.log('Updated localStorage!');
