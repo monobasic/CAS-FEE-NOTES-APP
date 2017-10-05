@@ -1,6 +1,10 @@
-export default class DataServiceLocalStorage {
+import DataServiceAbstract from './DataServiceAbstract';
+
+export default class DataServiceLocalStorage extends DataServiceAbstract {
 
   constructor() {
+    super();
+
     if (!localStorage.getItem('notes')) {
       // Load fixture data
       this._notes = [
