@@ -6,8 +6,8 @@ export default class DataServiceLocalStorage {
       this._notes = [
         {
           "title": "CAS FEE Selbststudium / Projekt Aufgabe erledigen",
-          "due": "22.01.2018",
-          "created": "01.01.2018",
+          "due": "2018-01-22T07:46:36.611Z",
+          "created": "2018-01-01T07:33:36.611Z",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
           "priority": 2,
           "finished": false,
@@ -15,17 +15,17 @@ export default class DataServiceLocalStorage {
         },
         {
           "title": "Einkaufen",
-          "due": "01.12.2017",
-          "created": "1.10.2017",
+          "due": "2017-12-01T16:12:36.611Z",
+          "created": "2017-10-01T14:12:36.611Z",
           "description": "Consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
           "priority": 3,
           "finished": true,
-          "finishedOn": "22.2.2018"
+          "finishedOn": "2018-02-22T07:46:36.611Z"
         },
         {
           "title": "Mom anrufen",
-          "due": "22.11.2019",
-          "created": "05.10.2018",
+          "due": "2019-02-22T12:41:36.611Z",
+          "created": "2018-10-05T07:46:36.611Z",
           "description": "Tel. 041 111 22 33",
           "priority": 4,
           "finished": false,

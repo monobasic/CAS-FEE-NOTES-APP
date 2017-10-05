@@ -1,3 +1,4 @@
+import moment from 'moment';
 import Handlebars from '../../../node_modules/handlebars/dist/handlebars';
 import Pikaday from 'pikaday';
 
@@ -5,6 +6,11 @@ export default class NoteController {
 
   constructor(noteModel) {
     this.noteModel = noteModel;
+
+    // Handlebars Date Format Helper
+    Handlebars.registerHelper('formatDate', function(iso) {
+      return moment(iso).format('DD.MM.YYYY @ H:mm');
+    });
 
     // This needs to be refatored either with a router or multiple controllers
     this.currentPage = location.href.split("/").slice(-1).join('');
