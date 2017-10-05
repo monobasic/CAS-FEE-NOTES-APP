@@ -12,7 +12,7 @@ export default class NoteController {
     if (this.currentPage === 'add.html') {
       this.attachListenersAdd();
       this.handlePriorityList();
-      this.handleDatePicker();
+      this.renderDatePicker();
     } else {
       this.attachListenersIndex();
       this.renderNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
@@ -129,7 +129,7 @@ export default class NoteController {
     });
   }
 
-  handleDatePicker() {
+  renderDatePicker() {
     this.datepicker = new Pikaday({
       field: document.getElementById('due'),
       format: 'D.MM.YYYY'
