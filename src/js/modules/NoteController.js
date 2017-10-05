@@ -43,14 +43,12 @@ export default class NoteController {
 
   onAddNote(e) {
     let note = {};
-
     note.title = document.getElementById('title').value;
     note.description = document.getElementById('description').value;
     note.priority = document.getElementById('priority').value;
     note.due = document.getElementById('due').value;
 
     this.noteModel.addNote(note);
-
     e.preventDefault();
     e.stopPropagation();
   }
@@ -119,7 +117,6 @@ export default class NoteController {
       notes.forEach((note) => {
         list.innerHTML += noteTemplate(note);
       });
-
     }, (error) => {
       console.error("Failed!", error);
     });
