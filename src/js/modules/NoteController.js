@@ -32,6 +32,9 @@ export default class NoteController {
     });
 
     document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
+    document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
+    document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
+    document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
   }
 
   onAddNote(e) {
@@ -49,9 +52,42 @@ export default class NoteController {
   }
 
   onSortByDateDue(e) {
-    console.log('sort by date due');
     let sortedNotes = this.noteModel.sortByDateDue(this.noteModel.notes);
+    let sortOptions = document.getElementById('sort-options');
     this.handleNotesList(sortedNotes);
+    Array.from(sortOptions.children).map((element) => {
+      return element.id === e.currentTarget.id ? element.classList.add('active') : element.classList.remove('active');
+    });
+    e.preventDefault();
+  }
+
+  onSortByDateCreated(e) {
+    let sortedNotes = this.noteModel.sortByDateCreated(this.noteModel.notes);
+    let sortOptions = document.getElementById('sort-options');
+    this.handleNotesList(sortedNotes);
+    Array.from(sortOptions.children).map((element) => {
+      return element.id === e.currentTarget.id ? element.classList.add('active') : element.classList.remove('active');
+    });
+    e.preventDefault();
+  }
+
+  onSortByDateFinished(e) {
+    let sortedNotes = this.noteModel.sortByDateFinished(this.noteModel.notes);
+    let sortOptions = document.getElementById('sort-options');
+    this.handleNotesList(sortedNotes);
+    Array.from(sortOptions.children).map((element) => {
+      return element.id === e.currentTarget.id ? element.classList.add('active') : element.classList.remove('active');
+    });
+    e.preventDefault();
+  }
+
+  onSortByPriority(e) {
+    let sortedNotes = this.noteModel.sortByPriority(this.noteModel.notes);
+    let sortOptions = document.getElementById('sort-options');
+    this.handleNotesList(sortedNotes);
+    Array.from(sortOptions.children).map((element) => {
+      return element.id === e.currentTarget.id ? element.classList.add('active') : element.classList.remove('active');
+    });
     e.preventDefault();
   }
 
