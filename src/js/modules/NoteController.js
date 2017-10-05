@@ -103,11 +103,7 @@ export default class NoteController {
       element.addEventListener('click', (e) => {
         let target = e.currentTarget;
         priorityLinks.forEach((element, index) => {
-          if (index <= this.getElIndex(target.parentNode)) {
-            element.classList.add('active');
-          } else {
-            element.classList.remove('active');
-          }
+          index <= this.getElIndex(target.parentNode) ? element.classList.add('active') : element.classList.remove('active');
         });
         document.getElementById('priority').value = this.getElIndex(target.parentNode) + 1;
         e.preventDefault();
