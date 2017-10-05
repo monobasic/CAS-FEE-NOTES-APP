@@ -14,7 +14,7 @@ export default class NoteModel {
         },
         {
           "title": "Einkaufen",
-          "due": "01.12.2018",
+          "due": "01.12.2017",
           "description": "Consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
           "priority": 2,
           "finished": true,
@@ -67,7 +67,7 @@ export default class NoteModel {
     });
   }
 
-  loadTemplate(template, callback) {
+  loadTemplate(template) {
     return new Promise(function (resolve, reject) {
       let request = new XMLHttpRequest();
       request.open('GET', `./templates/${template}.hbs?${new Date().getTime()}`, true); // Time appended as parameter prevents caching

@@ -9,12 +9,13 @@ export default class NoteController {
 
     // This needs to be refatored either with a router or multiple controllers
     this.currentPage = location.href.split("/").slice(-1).join('');
+    this.attachListeners();
+
     if (this.currentPage === 'add.html') {
-      this.attachListeners();
       this.handlePriorityList();
       this.handleDatePicker();
     } else {
-      this.handleNotesList();
+      this.handleNotesList(this.noteModel.getNotes());
       this.handleStyleSwitcher();
     }
   }
@@ -48,9 +49,9 @@ export default class NoteController {
   }
 
   onSortByDateDue(e) {
-    let sortedNotes = this.noteModel.onSortByDateDue(this.noteModel.notes);
-    // Needs another solution, template should be cached/only fetched once..
-    //this.noteView.renderNotesList(noteTemplate, sortedNotes);
+    console.log('sort by date due');
+    let sortedNotes = this.noteModel.sortByDateDue(this.noteModel.notes);
+    this.handleNotesList(sortedNotes);
     e.preventDefault();
   }
 
@@ -73,12 +74,10 @@ export default class NoteController {
     });
   }
 
-  handleNotesList() {
+  handleNotesList(notes) {
     this.noteModel.loadTemplate('note-list-item').then((response) => {
       let noteTemplate = Handlebars.compile(response);
-      let notesData = this.noteModel.getNotes();
-
-      this.noteView.renderNotesList(noteTemplate, notesData);
+      this.noteView.renderNotesList(noteTemplate, notes);
     }, (error) => {
       console.error("Failed!", error);
     });
