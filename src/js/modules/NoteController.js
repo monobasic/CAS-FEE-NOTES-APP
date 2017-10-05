@@ -15,7 +15,7 @@ export default class NoteController {
       this.handleDatePicker();
     } else {
       this.attachListenersIndex();
-      this.handleNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
+      this.renderNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
       this.handleStyleSwitcher();
     }
   }
@@ -57,35 +57,35 @@ export default class NoteController {
 
   onSortByDateDue(e) {
     let sortedNotes = this.noteModel.sortByDateDue(this.noteModel.getNotes());
-    this.handleNotesList(sortedNotes);
+    this.renderNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByDateCreated(e) {
     let sortedNotes = this.noteModel.sortByDateCreated(this.noteModel.getNotes());
-    this.handleNotesList(sortedNotes);
+    this.renderNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByDateFinished(e) {
     let sortedNotes = this.noteModel.sortByDateFinished(this.noteModel.getNotes());
-    this.handleNotesList(sortedNotes);
+    this.renderNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByPriority(e) {
     let sortedNotes = this.noteModel.sortByPriority(this.noteModel.getNotes());
-    this.handleNotesList(sortedNotes);
+    this.renderNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onShowFinished(e) {
     let notes = this.noteModel.getNotes();
-    this.handleNotesList(notes);
+    this.renderNotesList(notes);
     e.preventDefault();
   }
 
@@ -115,7 +115,7 @@ export default class NoteController {
     });
   }
 
-  handleNotesList(notes) {
+  renderNotesList(notes) {
     this.noteModel.loadTemplate('note-list-item').then((response) => {
       let noteTemplate = Handlebars.compile(response);
       let list = document.getElementById('list-notes');
