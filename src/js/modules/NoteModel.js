@@ -77,7 +77,7 @@ export default class NoteModel {
   }
 
   sortByPriority(notes) {
-    return notes.sort((a, b) => a.priority > b.priority);
+    return notes.sort((a, b) => a.priority < b.priority);
   }
 
   filterFinished(notes) {
