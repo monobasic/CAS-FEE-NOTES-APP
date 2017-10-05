@@ -13,9 +13,9 @@ export default class NoteController {
     });
 
     // This needs to be refatored either with a router or multiple controllers
-    this.currentPage = location.href.split("/").slice(-1).join('');
+    this._currentPage = location.href.split("/").slice(-1).join('');
 
-    if (this.currentPage === 'add.html') {
+    if (this._currentPage === 'add.html') {
       this.attachListenersAdd();
       this.handlePriorityList();
       this.renderDatePicker();
