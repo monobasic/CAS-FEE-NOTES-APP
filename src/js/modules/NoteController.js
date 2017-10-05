@@ -3,8 +3,7 @@ import Pikaday from 'pikaday';
 
 export default class NoteController {
 
-  constructor(noteView, noteModel) {
-    this.noteView = noteView;
+  constructor(noteModel) {
     this.noteModel = noteModel;
 
     // This needs to be refatored either with a router or multiple controllers
@@ -119,7 +118,12 @@ export default class NoteController {
   handleNotesList(notes) {
     this.noteModel.loadTemplate('note-list-item').then((response) => {
       let noteTemplate = Handlebars.compile(response);
-      this.noteView.renderNotesList(noteTemplate, notes);
+      let list = document.getElementById('list-notes');
+      list.innerHTML = '';
+      notes.forEach((note) => {
+        list.innerHTML += template(note);
+      });
+
     }, (error) => {
       console.error("Failed!", error);
     });
