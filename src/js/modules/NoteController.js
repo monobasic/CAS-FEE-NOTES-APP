@@ -9,7 +9,7 @@ export default class NoteController {
 
     // Handlebars Date Format Helper
     Handlebars.registerHelper('formatDate', function(iso) {
-      return moment(iso).format('DD.MM.YYYY @ H:mm');
+      return moment(iso).format('DD.MM.YYYY');
     });
 
     // This needs to be refatored either with a router or multiple controllers
@@ -52,7 +52,7 @@ export default class NoteController {
     note.title = document.getElementById('title').value;
     note.description = document.getElementById('description').value;
     note.priority = document.getElementById('priority').value;
-    note.due = document.getElementById('due').value;
+    note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
 
     this.noteModel.addNote(note);
     e.preventDefault();
@@ -131,7 +131,7 @@ export default class NoteController {
   renderDatePicker() {
     this.datepicker = new Pikaday({
       field: document.getElementById('due'),
-      format: 'D.MM.YYYY'
+      format: 'DD.MM.YYYY'
     });
   }
 
@@ -147,4 +147,3 @@ export default class NoteController {
 
   }
 }
-
