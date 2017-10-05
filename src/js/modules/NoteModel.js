@@ -9,7 +9,7 @@ export default class NoteModel {
           "due": "22.01.2018",
           "created": "01.01.2018",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
-          "priority": 3,
+          "priority": 2,
           "finished": false,
           "finishedOn": ""
         },
@@ -18,7 +18,7 @@ export default class NoteModel {
           "due": "01.12.2017",
           "created": "1.10.2017",
           "description": "Consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
-          "priority": 4,
+          "priority": 3,
           "finished": true,
           "finishedOn": "22.2.2018"
         },
@@ -27,12 +27,12 @@ export default class NoteModel {
           "due": "22.11.2019",
           "created": "05.10.2018",
           "description": "Tel. 041 111 22 33",
-          "priority": 5,
+          "priority": 4,
           "finished": false,
           "finishedOn": ""
         }
       ];
-      this._updateLocalStorage(this._notes);
+      this._updateLocalStorage();
     } else {
       // Update notes object with data from localStorage
       this._notes = JSON.parse(localStorage.getItem('notes'));
@@ -49,16 +49,16 @@ export default class NoteModel {
 
   addNote(note) {
     this._notes.push(note);
-    this._updateLocalStorage(this._notes);
+    this._updateLocalStorage();
   }
 
   deleteNote(index) {
     this._notes.splice(index, 1);
-    this._updateLocalStorage(this._notes);
+    this._updateLocalStorage();
   }
 
-  _updateLocalStorage(notes) {
-    localStorage.setItem('notes', JSON.stringify(notes));
+  _updateLocalStorage() {
+    localStorage.setItem('notes', JSON.stringify(this._notes));
     // Debug
     console.log('Updated localStorage!');
     console.log(JSON.parse(localStorage.getItem('notes')));
