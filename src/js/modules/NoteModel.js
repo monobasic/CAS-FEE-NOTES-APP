@@ -3,7 +3,7 @@ export default class NoteModel {
   constructor() {
     if (!localStorage.getItem('notes')) {
       // Load fixture data
-      this.notes = this.notes = [
+      this.notes = [
         {
           "title": "CAS FEE Selbststudium / Projekt Aufgabe erledigen",
           "due": "22.01.2018",
