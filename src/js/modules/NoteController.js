@@ -9,13 +9,12 @@ export default class NoteController {
 
     // This needs to be refatored either with a router or multiple controllers
     this.currentPage = location.href.split("/").slice(-1).join('');
-    if (this.currentPage === 'index.html') {
-      this.handleNotesList();
-    }
     if (this.currentPage === 'add.html') {
       this.attachListeners();
       this.handlePriorityList();
       this.handleDatePicker();
+    } else {
+      this.handleNotesList();
     }
   }
 
