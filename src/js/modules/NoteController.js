@@ -9,12 +9,13 @@ export default class NoteController {
 
     // This needs to be refatored either with a router or multiple controllers
     this.currentPage = location.href.split("/").slice(-1).join('');
-    this.attachListeners();
 
     if (this.currentPage === 'add.html') {
+      this.attachListenersAdd();
       this.handlePriorityList();
       this.handleDatePicker();
     } else {
+      this.attachListenersIndex();
       this.handleNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
       this.handleStyleSwitcher();
     }
@@ -26,18 +27,19 @@ export default class NoteController {
     return i;
   }
 
-  attachListeners() {
-    document.querySelectorAll('.js-note-add').forEach((element) => {
-      element.addEventListener('click', this.onAddNote.bind(this));
-    });
-
+  attachListenersIndex() {
     document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
     document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
     document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
     document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
 
     document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+  }
 
+  attachListenersAdd() {
+    document.querySelectorAll('.js-note-add').forEach((element) => {
+      element.addEventListener('click', this.onAddNote.bind(this));
+    });
   }
 
   onAddNote(e) {
@@ -55,28 +57,28 @@ export default class NoteController {
   }
 
   onSortByDateDue(e) {
-    let sortedNotes = this.noteModel.sortByDateDue(this.noteModel.notes);
+    let sortedNotes = this.noteModel.sortByDateDue(this.noteModel.getNotes());
     this.handleNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByDateCreated(e) {
-    let sortedNotes = this.noteModel.sortByDateCreated(this.noteModel.notes);
+    let sortedNotes = this.noteModel.sortByDateCreated(this.noteModel.getNotes());
     this.handleNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByDateFinished(e) {
-    let sortedNotes = this.noteModel.sortByDateFinished(this.noteModel.notes);
+    let sortedNotes = this.noteModel.sortByDateFinished(this.noteModel.getNotes());
     this.handleNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByPriority(e) {
-    let sortedNotes = this.noteModel.sortByPriority(this.noteModel.notes);
+    let sortedNotes = this.noteModel.sortByPriority(this.noteModel.getNotes());
     this.handleNotesList(sortedNotes);
     this.updateSortOptions(e);
     e.preventDefault();
