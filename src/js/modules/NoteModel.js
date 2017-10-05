@@ -3,23 +3,23 @@ import DataServiceLocalStorage from './DataServiceLocalStorage';
 export default class NoteModel {
 
   constructor() {
-    this.dataService = new DataServiceLocalStorage();
+    this._dataService = new DataServiceLocalStorage();
   }
 
   getNotes() {
-    return this.dataService.getNotes();
+    return this._dataService.getNotes();
   }
 
   getNote(index) {
-    return this.dataService.getNote(index);
+    return this._dataService.getNote(index);
   }
 
   addNote(note) {
-    this.dataService.addNote(note);
+    this._dataService.addNote(note);
   }
 
   deleteNote(index) {
-    this.dataService.deleteNote(index);
+    this._dataService.deleteNote(index);
   }
 
 
