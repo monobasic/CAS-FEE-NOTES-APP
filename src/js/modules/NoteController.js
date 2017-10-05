@@ -29,6 +29,8 @@ export default class NoteController {
     document.querySelectorAll('.js-note-add').forEach((element) => {
       element.addEventListener('click', this.onAddNote.bind(this));
     });
+
+    document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
   }
 
   onAddNote(e) {
@@ -43,6 +45,13 @@ export default class NoteController {
 
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  onSortByDateDue(e) {
+    let sortedNotes = this.noteModel.onSortByDateDue(this.noteModel.notes);
+    // Needs another solution, template should be cached/only fetched once..
+    //this.noteView.renderNotesList(noteTemplate, sortedNotes);
+    e.preventDefault();
   }
 
   handlePriorityList() {

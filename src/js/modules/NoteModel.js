@@ -61,6 +61,12 @@ export default class NoteModel {
     console.log(JSON.parse(localStorage.getItem('notes')));
   }
 
+  sortByDateDue(notes) {
+    return notes.sort((a, b) => {
+      return a.due > b.due;
+    });
+  }
+
   loadTemplate(template, callback) {
     return new Promise(function (resolve, reject) {
       let request = new XMLHttpRequest();
