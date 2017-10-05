@@ -9,7 +9,7 @@ export default class NoteModel {
           "due": "22.01.2018",
           "created": "01.01.2018",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
-          "priority": 2,
+          "priority": 3,
           "finished": false,
           "finishedOn": ""
         },
@@ -18,7 +18,7 @@ export default class NoteModel {
           "due": "01.12.2017",
           "created": "1.10.2017",
           "description": "Consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
-          "priority": 2,
+          "priority": 4,
           "finished": true,
           "finishedOn": "22.2.2018"
         },
@@ -27,7 +27,7 @@ export default class NoteModel {
           "due": "22.11.2019",
           "created": "05.10.2018",
           "description": "Tel. 041 111 22 33",
-          "priority": 2,
+          "priority": 5,
           "finished": false,
           "finishedOn": ""
         }
