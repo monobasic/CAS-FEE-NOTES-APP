@@ -15,7 +15,7 @@ export default class NoteController {
       this.handlePriorityList();
       this.handleDatePicker();
     } else {
-      this.handleNotesList(this.noteModel.getNotes());
+      this.handleNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
       this.handleStyleSwitcher();
     }
   }
@@ -35,6 +35,9 @@ export default class NoteController {
     document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
     document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
     document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
+
+    document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+
   }
 
   onAddNote(e) {
@@ -76,6 +79,12 @@ export default class NoteController {
     let sortedNotes = this.noteModel.sortByPriority(this.noteModel.notes);
     this.handleNotesList(sortedNotes);
     this.updateSortOptions(e);
+    e.preventDefault();
+  }
+
+  onShowFinished(e) {
+    let notes = this.noteModel.getNotes();
+    this.handleNotesList(notes);
     e.preventDefault();
   }
 

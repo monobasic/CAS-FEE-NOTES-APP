@@ -80,6 +80,10 @@ export default class NoteModel {
     return notes.sort((a, b) => a.priority > b.priority);
   }
 
+  filterFinished(notes) {
+    return notes.filter(note => !note.finished);
+  }
+
   loadTemplate(template) {
     return new Promise(function (resolve, reject) {
       let request = new XMLHttpRequest();
