@@ -65,27 +65,19 @@ export default class NoteModel {
   }
 
   sortByDateDue(notes) {
-    return notes.sort((a, b) => {
-      return a.due > b.due;
-    });
+    return notes.sort((a, b) => a.due > b.due);
   }
 
   sortByDateCreated(notes) {
-    return notes.sort((a, b) => {
-      return a.created > b.created;
-    });
+    return notes.sort((a, b) => a.created > b.created);
   }
 
   sortByDateFinished(notes) {
-    return notes.sort((a, b) => {
-      return a.finishedOn > b.finishedOn;
-    });
+    return notes.sort((a, b) => a.finishedOn > b.finishedOn);
   }
 
   sortByPriority(notes) {
-    return notes.sort((a, b) => {
-      return a.priority > b.priority;
-    });
+    return notes.sort((a, b) => a.priority > b.priority);
   }
 
   loadTemplate(template) {
