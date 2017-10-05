@@ -121,7 +121,7 @@ export default class NoteController {
       let list = document.getElementById('list-notes');
       list.innerHTML = '';
       notes.forEach((note) => {
-        list.innerHTML += template(note);
+        list.innerHTML += noteTemplate(note);
       });
 
     }, (error) => {
