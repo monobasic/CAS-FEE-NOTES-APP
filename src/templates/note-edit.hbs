@@ -1,0 +1,36 @@
+<form id="form-note-edit" class="" action="">
+  <div class="form-row">
+    <label for="title">Title</label> <input type="text" id="title" name="title" value="{{ title }}">
+  </div>
+  <div class="form-row">
+    <label for="description">Description</label>
+    <textarea name="" id="description" name="description" cols="30" rows="10">{{ description }}</textarea>
+  </div>
+  <div class="form-row">
+    <label for="priority">Priority</label>
+    <ul id="list-priority" class="priority">
+      <li><a href=""><i class="fa fa-bolt fa-3x" aria-hidden="true"></i></a></li>
+      <li><a href=""><i class="fa fa-bolt fa-3x" aria-hidden="true"></i></a></li>
+      <li><a href=""><i class="fa fa-bolt fa-3x" aria-hidden="true"></i></a></li>
+      <li><a href=""><i class="fa fa-bolt fa-3x" aria-hidden="true"></i></a></li>
+      <li><a href=""><i class="fa fa-bolt fa-3x" aria-hidden="true"></i></a></li>
+    </ul>
+    <input type="text" id="priority" value="{{ priority }}" />
+  </div>
+  <div class="form-row">
+    <label for="due">Created on</label><input type="text" id="created" name="created" value="{{formatDate created }}">
+  </div>
+  <div class="form-row">
+    <label for="due">Due by</label><input type="text" id="due" name="due" value="{{formatDate due }}">
+  </div>
+  <div class="form-row">
+    <label for="item-finished">Finished?</label> <input type="checkbox" id="item-finished"{{#if finished }} checked{{/if}}>
+  </div>
+  <div class="form-row">
+    <label for="due">Finished on</label><input type="text" id="due" name="due" value="{{formatDate finishedOn }}">
+  </div>
+  <div class="btn-group">
+    <a href="#home" class="btn btn-secondary">Cancel</a>
+    <input type="submit" class="btn btn-primary js-note-update" value="Save"/>
+  </div>
+</form>
