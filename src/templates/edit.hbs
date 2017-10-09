@@ -20,16 +20,16 @@
     <input type="text" id="priority" value="{{ priority }}" />
   </div>
   <div class="form-row">
-    <label for="created">Created on</label><input type="text" id="created" name="created" value="{{formatDate created }}">
+    <label for="created">Created on</label><input type="text" id="created" class="datepicker" name="created" value="{{formatDate created }}">
   </div>
   <div class="form-row">
-    <label for="due">Due by</label><input type="text" id="due" name="due" value="{{formatDate due }}">
+    <label for="due">Due by</label><input type="text" id="due" class="datepicker" name="due" value="{{formatDate due }}">
   </div>
   <div class="form-row">
     <label for="item-finished">Finished?</label> <input type="checkbox" id="item-finished"{{#if finished }} checked{{/if}}>
   </div>
   <div class="form-row">
-    <label for="finished-on">Finished on</label><input type="text" id="finished-on" name="finished-on" value="{{formatDate finishedOn }}">
+    <label for="finished-on">Finished on</label><input type="text" id="finished-on" class="datepicker" name="finished-on" value="{{formatDate finishedOn }}">
   </div>
   <div class="btn-group">
     <a href="#home" class="btn btn-secondary">Cancel</a>

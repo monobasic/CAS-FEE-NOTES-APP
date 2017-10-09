@@ -22,28 +22,28 @@ export default class NoteController {
 
     // Attach #hash change listener to rendering the current page
     window.addEventListener("hashchange", () => {
-      this._changePage(this.getPageFromUrl());
+      this.changePage(this.getPageFromUrl());
     });
 
     // Initial page render
-    this._changePage(this.getPageFromUrl());
+    this.changePage(this.getPageFromUrl());
   }
 
-  _changePage(page) {
+  changePage(page) {
     // Attach page specific handlers and methods
     switch(page) {
       case 'add':
         this.renderPage(page, null, () => {
           document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
           this.handlePriorityList();
-          this.renderDatePicker();
+          this.renderDatePickers();
         });
         break;
       case 'edit':
         let note = this.noteModel.getNote(this.getIdFromUrl());
         this.renderPage(page, note, () => {
           this.handlePriorityList(note.priority);
-          //this.renderDatePicker();
+          this.renderDatePickers();
           // document.getElementById('note-update').addEventListener('click', (e) => {
           //   this.onUpdateNote(note);
           //   e.preventDefault();
@@ -228,10 +228,12 @@ export default class NoteController {
     });
   }
 
-  renderDatePicker() {
-    this.datepicker = new Pikaday({
-      field: document.getElementById('due'),
-      format: 'DD.MM.YYYY'
+  renderDatePickers() {
+    document.querySelectorAll('.datepicker').forEach(datepicker => {
+      new Pikaday({
+        field: datepicker,
+        format: 'DD.MM.YYYY'
+      });
     });
   }
 
