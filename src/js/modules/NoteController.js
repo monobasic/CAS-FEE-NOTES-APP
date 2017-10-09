@@ -153,19 +153,30 @@ export default class NoteController {
     });
   }
 
-  handlePriorityList() {
+  handlePriorityList(defaultPriority) {
     let priorityList = document.getElementById('list-priority');
     let priorityLinks = priorityList.querySelectorAll('a');
+
     priorityLinks.forEach((element) => {
       element.addEventListener('click', (e) => {
         let target = e.currentTarget;
-        priorityLinks.forEach((element, index) => {
-          index <= this.getElIndex(target.parentNode) ? element.classList.add('active') : element.classList.remove('active');
-        });
-        document.getElementById('priority').value = this.getElIndex(target.parentNode) + 1;
+        this.setPriority(this.getElIndex(target.parentNode) + 1, priorityList);
         e.preventDefault();
       });
     });
+
+    if (defaultPriority) {
+      this.setPriority(defaultPriority, priorityList);
+    }
+  }
+
+  setPriority(priority, priorityList) {
+    let priorityLinks = priorityList.querySelectorAll('a');
+
+    priorityLinks.forEach((element, index) => {
+      index <= priority-1 ? element.classList.add('active') : element.classList.remove('active');
+    });
+    document.getElementById('priority').value = priority;
   }
 
   renderNotesList(notes) {
@@ -187,7 +198,7 @@ export default class NoteController {
       let target = document.getElementById('note-edit');
       target.innerHTML = noteTemplate(note);
 
-      this.handlePriorityList();
+      this.handlePriorityList(note.priority);
       //this.renderDatePicker();
     }, (error) => {
       console.error("Failed!", error);
