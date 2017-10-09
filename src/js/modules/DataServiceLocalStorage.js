@@ -88,7 +88,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
   }
 
   getNote(index) {
-    return this._notes[index];
+    return this._notes.find(element => element.id === index);
   }
 
   addNote(note) {
