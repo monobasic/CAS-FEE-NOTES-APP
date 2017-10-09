@@ -30,10 +30,11 @@ export default class NoteController {
   }
 
   changePage(page) {
+    let pageWrapper = document.getElementById('wrapper');
     // Attach page specific handlers and methods
     switch(page) {
       case 'add':
-        this.renderTemplate(page, null, () => {
+        this.renderTemplate(pageWrapper, null, () => {
           document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
           this.handlePriorityList();
           this.renderDatePickers();
@@ -41,7 +42,7 @@ export default class NoteController {
         break;
       case 'edit':
         let note = this.noteModel.getNote(this.getIdFromUrl());
-        this.renderTemplate(page, note, () => {
+        this.renderTemplate(pageWrapper, page, note, () => {
           this.handlePriorityList(note.priority);
           this.renderDatePickers();
           document.getElementById('note-update').addEventListener('click', (e) => {
@@ -50,13 +51,16 @@ export default class NoteController {
         });
         break;
       default:
-        this.renderTemplate(page, null, () => {
+        this.renderTemplate(pageWrapper, page, null, () => {
           document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
           document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
           document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
           document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
           document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
-          this.renderNotesList();
+          let data = {
+            notes: this.noteModel.getNotes()
+          };
+          this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
           this.handleStyleSwitcher();
         });
         break;
@@ -83,33 +87,19 @@ export default class NoteController {
     return string ? string[1] : null;
   };
 
-  renderTemplate(template, data, callback) {
+  renderTemplate(target, template, data, callback) {
     data = data || {};
 
     this.noteModel.loadTemplate(template).then((response) => {
-      let wrapper = document.getElementById('wrapper');
       let noteTemplate = Handlebars.compile(response);
-      wrapper.innerHTML = noteTemplate(data);
-      callback();
+      target.innerHTML = noteTemplate(data);
+      if (callback !== undefined) {
+        callback();
+      }
     }, (error) => {
       console.error("Failed!", error);
     });
   };
-
-  renderNotesList(notes) {
-    notes = notes || this.noteModel.getNotes();
-
-    this.noteModel.loadTemplate('note-list-item').then((response) => {
-      let noteTemplate = Handlebars.compile(response);
-      let list = document.getElementById('list-notes');
-      list.innerHTML = '';
-      notes.forEach((note) => {
-        list.innerHTML += noteTemplate(note);
-      });
-    }, (error) => {
-      console.error("Failed!", error);
-    });
-  }
 
   // Helper function to find out the index of some siblings element
   getElIndex(element) {
@@ -156,36 +146,44 @@ export default class NoteController {
   }
 
   onSortByDateDue(e) {
-    let sortedNotes = this.noteModel.sortByDateDue(this.noteModel.getNotes());
-    this.renderNotesList(sortedNotes);
+    let data = {
+      notes: this.noteModel.sortByDateDue(this.noteModel.getNotes())
+    };
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByDateCreated(e) {
-    let sortedNotes = this.noteModel.sortByDateCreated(this.noteModel.getNotes());
-    this.renderNotesList(sortedNotes);
+    let data = {
+      notes: this.noteModel.sortByDateCreated(this.noteModel.getNotes())
+    };
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByDateFinished(e) {
-    let sortedNotes = this.noteModel.sortByDateFinished(this.noteModel.getNotes());
-    this.renderNotesList(sortedNotes);
+    let data = {
+      notes: this.noteModel.sortByDateFinished(this.noteModel.getNotes())
+    };
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onSortByPriority(e) {
-    let sortedNotes = this.noteModel.sortByPriority(this.noteModel.getNotes());
-    this.renderNotesList(sortedNotes);
+    let data = {
+      notes: this.noteModel.sortByPriority(this.noteModel.getNotes())
+    };
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
   onShowFinished(e) {
     let notes = this.noteModel.getNotes();
-    this.renderNotesList(notes);
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     e.preventDefault();
   }
 
