@@ -42,11 +42,12 @@ export default class NoteController {
       case 'edit':
         let note = this.noteModel.getNote(this.getIdFromUrl());
         this.renderPage(page, note, () => {
-          this.renderNoteEdit(note);
-          document.getElementById('note-update').addEventListener('click', (e) => {
-            this.onUpdateNote(note);
-            e.preventDefault();
-          });
+          this.handlePriorityList(note.priority);
+          //this.renderDatePicker();
+          // document.getElementById('note-update').addEventListener('click', (e) => {
+          //   this.onUpdateNote(note);
+          //   e.preventDefault();
+          // });
         });
         break;
       default:
@@ -222,19 +223,6 @@ export default class NoteController {
       notes.forEach((note) => {
         list.innerHTML += noteTemplate(note);
       });
-    }, (error) => {
-      console.error("Failed!", error);
-    });
-  }
-
-  renderNoteEdit(note) {
-    this.noteModel.loadTemplate('note-edit').then((response) => {
-      let noteTemplate = Handlebars.compile(response);
-      let target = document.getElementById('note-edit');
-      target.innerHTML = noteTemplate(note);
-
-      this.handlePriorityList(note.priority);
-      //this.renderDatePicker();
     }, (error) => {
       console.error("Failed!", error);
     });
