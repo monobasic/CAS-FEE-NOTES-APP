@@ -45,8 +45,7 @@ export default class NoteController {
           this.handlePriorityList(note.priority);
           this.renderDatePickers();
           document.getElementById('note-update').addEventListener('click', (e) => {
-            this.onUpdateNote(note);
-            e.preventDefault();
+            this.onUpdateNote(e, note);
           });
         });
         break;
@@ -140,19 +139,19 @@ export default class NoteController {
     e.stopPropagation();
   }
 
-  onUpdateNote(note) {
-    // // Fetch data
-    // note.title = document.getElementById('title').value;
-    // note.description = document.getElementById('description').value;
-    // note.priority = document.getElementById('priority').value;
-    // note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
-    // note.finishedOn = moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
-    // note.created = moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
-    //
-    // // Save the note, model!
-    // this.noteModel.updateNote(note);
-    //
-    // // Back to Overview..
+  onUpdateNote(e, note) {
+    // Assign new data
+    note.title = document.getElementById('title').value;
+    note.description = document.getElementById('description').value;
+    note.priority = document.getElementById('priority').value;
+    note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+    note.finishedOn = moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+    note.created = moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+
+    // Save the note, model!
+    this.noteModel.updateNote(note);
+
+    // Back to Overview..
     // this.gotoPage('home');
   }
 
