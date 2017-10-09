@@ -27,6 +27,24 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": "2018-02-22"
         },
         {
+          "title": "Noch eine Note",
+          "due": "2019-12-01",
+          "created": "2017-10-09",
+          "description": "Consectetur adipisicing elit. Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
+          "priority": 5,
+          "finished": false,
+          "finishedOn": ""
+        },
+        {
+          "title": "Eine Note",
+          "due": "2019-10-01",
+          "created": "2017-10-02",
+          "description": "Corporis doloribus earum enim, excepturi ipsa, itaque minima repellat saepe similique sint suscipit tempore totam. Accusantium error eveniet, maxime nemo quod unde.",
+          "priority": 2,
+          "finished": false,
+          "finishedOn": ""
+        },
+        {
           "title": "Mom anrufen",
           "due": "2019-02-22",
           "created": "2018-10-05",
