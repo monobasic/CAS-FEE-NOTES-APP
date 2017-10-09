@@ -34,7 +34,7 @@ export default class NoteController {
     // Attach page specific handlers and methods
     switch(page) {
       case 'add':
-        this.renderTemplate(pageWrapper, null, () => {
+        this.renderTemplate(pageWrapper, page, null, () => {
           document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
           this.handlePriorityList();
           this.renderDatePickers();
