@@ -12,38 +12,73 @@ export default class NoteController {
       return moment(iso).format('DD.MM.YYYY');
     });
 
-    // This needs to be refatored either with a router or multiple controllers
-    this._currentPage = location.href.split("/").slice(-1).join('');
-    if (this._currentPage === 'add.html') {
-      this.attachListenersAdd();
-      this.handlePriorityList();
-      this.renderDatePicker();
-    } else {
-      this.attachListenersIndex();
-      this.renderNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
-      this.handleStyleSwitcher();
-    }
+    // Routing
+    // Mapping of #hash - .hbs template name
+    this.pages = {
+      home: 'home',
+      add: 'add',
+      edit: 'edit'
+    };
+
+    //navigation controller
+    // const navContact = document.getElementById('navContact');
+    // navContact.addEventListener('click',
+    //   function (e) {
+    //     e.preventDefault();
+    //     history.pushState(null, 'Contact', "#contact");
+    //     renderCurrentPartial()
+    //   });
+
+    // Attach #hash change listener to rendering the current page
+    window.addEventListener("hashchange", this.renderCurrentPage.bind(this));
+
+    // Initial page render
+    this.renderCurrentPage();
   }
 
+  getCurrentPage() {
+    const hash = location.hash || "#home";
+    return this.pages[hash.substr(1)];
+  };
+
+  renderCurrentPage() {
+    console.log('render current page:' + this.getCurrentPage());
+
+    this.noteModel.loadTemplate(this.getCurrentPage()).then((response) => {
+      let wrapper = document.getElementById('wrapper');
+      let noteTemplate = Handlebars.compile(response);
+      wrapper.innerHTML = noteTemplate();
+
+      // Attach page specific handlers and methods
+      switch(this.getCurrentPage()) {
+        case 'add':
+            document.querySelectorAll('.js-note-add').forEach((element) => {
+              element.addEventListener('click', this.onAddNote.bind(this));
+            });
+            this.handlePriorityList();
+            this.renderDatePicker();
+          break;
+        default:
+          document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
+          document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
+          document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
+          document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
+          document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+          this.renderNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
+          this.handleStyleSwitcher();
+          break;
+      }
+
+    }, (error) => {
+      console.error("Failed!", error);
+    });
+  };
+
+  // Helper function to find out the index of some siblings element
   getElIndex(element) {
     let i;
     for (i = 0; element = element.previousElementSibling; i++);
     return i;
-  }
-
-  attachListenersIndex() {
-    document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
-    document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
-    document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
-    document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
-
-    document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
-  }
-
-  attachListenersAdd() {
-    document.querySelectorAll('.js-note-add').forEach((element) => {
-      element.addEventListener('click', this.onAddNote.bind(this));
-    });
   }
 
   onAddNote(e) {
