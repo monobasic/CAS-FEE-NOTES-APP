@@ -39,6 +39,17 @@ export default class NoteController {
     return this.pages[hash.substr(1)];
   };
 
+  getIdFromUrl() {
+    return this.getQueryString('id');
+  }
+
+  getQueryString(field, url) {
+    let href = url ? url : window.location.href;
+    let reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    let string = reg.exec(href);
+    return string ? string[1] : null;
+  };
+
   renderPage() {
     console.log('render current page:' + this.getPage());
 
@@ -57,8 +68,8 @@ export default class NoteController {
             this.renderDatePicker();
           break;
         case 'edit':
-          this.handlePriorityList();
-          this.renderDatePicker();
+          let note = this.noteModel.getNote(this.getIdFromUrl());
+          this.renderNoteEdit(note);
           break;
         default:
           document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
@@ -165,6 +176,19 @@ export default class NoteController {
       notes.forEach((note) => {
         list.innerHTML += noteTemplate(note);
       });
+    }, (error) => {
+      console.error("Failed!", error);
+    });
+  }
+
+  renderNoteEdit(note) {
+    this.noteModel.loadTemplate('note-edit').then((response) => {
+      let noteTemplate = Handlebars.compile(response);
+      let target = document.getElementById('note-edit');
+      target.innerHTML = noteTemplate(note);
+
+      this.handlePriorityList();
+      //this.renderDatePicker();
     }, (error) => {
       console.error("Failed!", error);
     });
