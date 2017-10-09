@@ -22,6 +22,10 @@ export default class NoteModel {
     this._dataService.deleteNote(index);
   }
 
+  updateNote(note) {
+    this._dataService.updateNote(note);
+  }
+
 
 
   sortByDateDue(notes) {

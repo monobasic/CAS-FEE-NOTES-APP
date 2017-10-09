@@ -101,4 +101,10 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
     this._notes.splice(index, 1);
     this._updateLocalStorage();
   }
+
+  updateNote(note) {
+    console.log(note);
+    //this._notes.find(element => element.id === note.id) = note;
+    this._updateLocalStorage();
+  }
 }

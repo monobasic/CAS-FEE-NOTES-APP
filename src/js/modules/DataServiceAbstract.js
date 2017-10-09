@@ -17,5 +17,8 @@ export default class DataServiceAbstract {
     if (this.deleteNote === undefined) {
       throw new Error('You have to implement the method deleteNote()');
     }
+    if (this.updateNote === undefined) {
+      throw new Error('You have to implement the method updateNote()');
+    }
   }
 }
