@@ -1,0 +1,27 @@
+<ul id="note-list" class="note-list">
+  {{#each notes}}
+    <li class="note-list-item">
+
+      <div class="note-list-item-col">
+        <div class="note-list-item-priority">prio: {{ priority }}</div>
+        <div class="note-list-item-created">created: {{formatDate created }}</div>
+        <div class="note-list-item-due">due: {{formatDate due }}</div>
+        <div class="note-list-item-finished">
+          <input type="checkbox" id="item-finished"{{#if finished }} checked{{/if}}><label for="item-finished">Finished:
+          ({{formatDate finishedOn }})</label>
+        </div>
+      </div>
+
+      <div class="note-list-item-col">
+        <h2 class="note-list-item-title">{{ title }}</h2>
+        <div class="note-list-item-description">
+          {{ description }}
+        </div>
+      </div>
+
+      <div class="note-list-item-col note-list-item-edit">
+        <a href="#edit?id={{ id }}" class="btn btn-primary">Edit</a>
+      </div>
+    </li>
+  {{/each}}
+</ul>
