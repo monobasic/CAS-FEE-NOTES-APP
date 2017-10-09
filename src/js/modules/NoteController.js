@@ -57,6 +57,10 @@ export default class NoteController {
             this.handlePriorityList();
             this.renderDatePicker();
           break;
+        case 'edit':
+          this.handlePriorityList();
+          this.renderDatePicker();
+          break;
         default:
           document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
           document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
