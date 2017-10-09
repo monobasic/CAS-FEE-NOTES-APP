@@ -37,14 +37,14 @@ export default class NoteController {
         this.renderTemplate(pageWrapper, page, null, () => {
           document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
           this.handlePriorityList();
-          this.renderDatePickers();
+          this.handleDatePickers();
         });
         break;
       case 'edit':
         let note = this.noteModel.getNote(this.getIdFromUrl());
         this.renderTemplate(pageWrapper, page, note, () => {
           this.handlePriorityList(note.priority);
-          this.renderDatePickers();
+          this.handleDatePickers();
           document.getElementById('note-update').addEventListener('click', (e) => {
             this.onUpdateNote(e, note);
           });
@@ -143,6 +143,7 @@ export default class NoteController {
 
     // Back to Overview..
     // this.gotoPage('home');
+    e.preventDefault();
   }
 
   onSortByDateDue(e) {
@@ -225,7 +226,7 @@ export default class NoteController {
     document.getElementById('priority').value = priority;
   }
 
-  renderDatePickers() {
+  handleDatePickers() {
     document.querySelectorAll('.datepicker').forEach(datepicker => {
       new Pikaday({
         field: datepicker,
