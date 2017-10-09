@@ -35,7 +35,8 @@ export default class NoteController {
   }
 
   getCurrentPage() {
-    const hash = location.hash || "#home";
+    const hash = location.hash.split('?')[0] || "#home";
+    console.log(hash);
     return this.pages[hash.substr(1)];
   };
 
