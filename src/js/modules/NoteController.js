@@ -13,7 +13,7 @@ export default class NoteController {
     });
 
     // Routing
-    // Mapping of #hash - .hbs template name
+    // Mapping of #hash: page/template name
     this.pages = {
       home: 'home',
       add: 'add',
@@ -22,19 +22,52 @@ export default class NoteController {
 
     // Attach #hash change listener to rendering the current page
     window.addEventListener("hashchange", () => {
-      this.renderPage();
-      //history.pushState(null, this.getCurrentPage(), location.hash);
+      this._changePage(this.getPageFromUrl());
     });
 
     // Initial page render
-    this.renderPage();
+    this._changePage(this.getPageFromUrl());
+  }
+
+  _changePage(page) {
+    // Attach page specific handlers and methods
+    switch(page) {
+      case 'add':
+        this.renderPage(page, null, () => {
+          document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
+          this.handlePriorityList();
+          this.renderDatePicker();
+        });
+        break;
+      case 'edit':
+        let note = this.noteModel.getNote(this.getIdFromUrl());
+        this.renderPage(page, note, () => {
+          this.renderNoteEdit(note);
+          document.getElementById('note-update').addEventListener('click', (e) => {
+            this.onUpdateNote(note);
+            e.preventDefault();
+          });
+        });
+        break;
+      default:
+        this.renderPage(page, null, () => {
+          document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
+          document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
+          document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
+          document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
+          document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+          this.renderNotesList();
+          this.handleStyleSwitcher();
+        });
+        break;
+    }
   }
 
   gotoPage(page) {
     location.hash = page;
   }
 
-  getPage() {
+  getPageFromUrl() {
     const hash = location.hash.split('?')[0] || "#home";
     return this.pages[hash.substr(1)];
   };
@@ -50,38 +83,14 @@ export default class NoteController {
     return string ? string[1] : null;
   };
 
-  renderPage() {
-    console.log('render current page:' + this.getPage());
+  renderPage(template, data, callbacks) {
+    data = data || {};
 
-    this.noteModel.loadTemplate(this.getPage()).then((response) => {
+    this.noteModel.loadTemplate(template).then((response) => {
       let wrapper = document.getElementById('wrapper');
       let noteTemplate = Handlebars.compile(response);
-      wrapper.innerHTML = noteTemplate();
-
-      // Attach page specific handlers and methods
-      switch(this.getPage()) {
-        case 'add':
-            document.querySelectorAll('.js-note-add').forEach((element) => {
-              element.addEventListener('click', this.onAddNote.bind(this));
-            });
-            this.handlePriorityList();
-            this.renderDatePicker();
-          break;
-        case 'edit':
-          let note = this.noteModel.getNote(this.getIdFromUrl());
-          this.renderNoteEdit(note);
-          break;
-        default:
-          document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
-          document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
-          document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
-          document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
-          document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
-          this.renderNotesList(this.noteModel.filterFinished(this.noteModel.getNotes()));
-          this.handleStyleSwitcher();
-          break;
-      }
-
+      wrapper.innerHTML = noteTemplate(data);
+      callbacks();
     }, (error) => {
       console.error("Failed!", error);
     });
@@ -101,6 +110,9 @@ export default class NoteController {
     note.description = document.getElementById('description').value;
     note.priority = document.getElementById('priority').value;
     note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+    note.created = moment().format('YYYY-MM-DD');
+    note.finishedOn = '';
+    note.finished = false;
 
     // Save the note, model!
     this.noteModel.addNote(note);
@@ -110,6 +122,22 @@ export default class NoteController {
 
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  onUpdateNote(note) {
+    // // Fetch data
+    // note.title = document.getElementById('title').value;
+    // note.description = document.getElementById('description').value;
+    // note.priority = document.getElementById('priority').value;
+    // note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+    // note.finishedOn = moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+    // note.created = moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+    //
+    // // Save the note, model!
+    // this.noteModel.updateNote(note);
+    //
+    // // Back to Overview..
+    // this.gotoPage('home');
   }
 
   onSortByDateDue(e) {
@@ -153,10 +181,11 @@ export default class NoteController {
     });
   }
 
-  handlePriorityList(defaultPriority) {
+  handlePriorityList(priority) {
     let priorityList = document.getElementById('list-priority');
     let priorityLinks = priorityList.querySelectorAll('a');
 
+    // Attach click handlers for each priority list element
     priorityLinks.forEach((element) => {
       element.addEventListener('click', (e) => {
         let target = e.currentTarget;
@@ -165,21 +194,27 @@ export default class NoteController {
       });
     });
 
-    if (defaultPriority) {
-      this.setPriority(defaultPriority, priorityList);
+    // Handle preset priority
+    if (priority) {
+      this.setPriority(priority, priorityList);
     }
   }
 
   setPriority(priority, priorityList) {
     let priorityLinks = priorityList.querySelectorAll('a');
 
+    // Rebuild priority status
     priorityLinks.forEach((element, index) => {
       index <= priority-1 ? element.classList.add('active') : element.classList.remove('active');
     });
+
+    // Set hidden input field priority value
     document.getElementById('priority').value = priority;
   }
 
   renderNotesList(notes) {
+    notes = notes || this.noteModel.getNotes();
+
     this.noteModel.loadTemplate('note-list-item').then((response) => {
       let noteTemplate = Handlebars.compile(response);
       let list = document.getElementById('list-notes');
