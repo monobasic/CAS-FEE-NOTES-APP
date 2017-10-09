@@ -30,6 +30,10 @@ export default class NoteController {
     this.renderCurrentPage();
   }
 
+  gotoPage(page) {
+    location.hash = page;
+  }
+
   getCurrentPage() {
     const hash = location.hash || "#home";
     return this.pages[hash.substr(1)];
@@ -83,6 +87,8 @@ export default class NoteController {
     note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
 
     this.noteModel.addNote(note);
+    this.gotoPage('home');
+    
     e.preventDefault();
     e.stopPropagation();
   }
