@@ -22,34 +22,33 @@ export default class NoteController {
 
     // Attach #hash change listener to rendering the current page
     window.addEventListener("hashchange", () => {
-      this.renderCurrentPage();
+      this.renderPage();
       //history.pushState(null, this.getCurrentPage(), location.hash);
     });
 
     // Initial page render
-    this.renderCurrentPage();
+    this.renderPage();
   }
 
   gotoPage(page) {
     location.hash = page;
   }
 
-  getCurrentPage() {
+  getPage() {
     const hash = location.hash.split('?')[0] || "#home";
-    console.log(hash);
     return this.pages[hash.substr(1)];
   };
 
-  renderCurrentPage() {
-    console.log('render current page:' + this.getCurrentPage());
+  renderPage() {
+    console.log('render current page:' + this.getPage());
 
-    this.noteModel.loadTemplate(this.getCurrentPage()).then((response) => {
+    this.noteModel.loadTemplate(this.getPage()).then((response) => {
       let wrapper = document.getElementById('wrapper');
       let noteTemplate = Handlebars.compile(response);
       wrapper.innerHTML = noteTemplate();
 
       // Attach page specific handlers and methods
-      switch(this.getCurrentPage()) {
+      switch(this.getPage()) {
         case 'add':
             document.querySelectorAll('.js-note-add').forEach((element) => {
               element.addEventListener('click', this.onAddNote.bind(this));
