@@ -33,7 +33,7 @@ export default class NoteController {
     // Attach page specific handlers and methods
     switch(page) {
       case 'add':
-        this.renderPage(page, null, () => {
+        this.renderTemplate(page, null, () => {
           document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
           this.handlePriorityList();
           this.renderDatePickers();
@@ -41,17 +41,17 @@ export default class NoteController {
         break;
       case 'edit':
         let note = this.noteModel.getNote(this.getIdFromUrl());
-        this.renderPage(page, note, () => {
+        this.renderTemplate(page, note, () => {
           this.handlePriorityList(note.priority);
           this.renderDatePickers();
-          // document.getElementById('note-update').addEventListener('click', (e) => {
-          //   this.onUpdateNote(note);
-          //   e.preventDefault();
-          // });
+          document.getElementById('note-update').addEventListener('click', (e) => {
+            this.onUpdateNote(note);
+            e.preventDefault();
+          });
         });
         break;
       default:
-        this.renderPage(page, null, () => {
+        this.renderTemplate(page, null, () => {
           document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
           document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
           document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
@@ -84,18 +84,33 @@ export default class NoteController {
     return string ? string[1] : null;
   };
 
-  renderPage(template, data, callbacks) {
+  renderTemplate(template, data, callback) {
     data = data || {};
 
     this.noteModel.loadTemplate(template).then((response) => {
       let wrapper = document.getElementById('wrapper');
       let noteTemplate = Handlebars.compile(response);
       wrapper.innerHTML = noteTemplate(data);
-      callbacks();
+      callback();
     }, (error) => {
       console.error("Failed!", error);
     });
   };
+
+  renderNotesList(notes) {
+    notes = notes || this.noteModel.getNotes();
+
+    this.noteModel.loadTemplate('note-list-item').then((response) => {
+      let noteTemplate = Handlebars.compile(response);
+      let list = document.getElementById('list-notes');
+      list.innerHTML = '';
+      notes.forEach((note) => {
+        list.innerHTML += noteTemplate(note);
+      });
+    }, (error) => {
+      console.error("Failed!", error);
+    });
+  }
 
   // Helper function to find out the index of some siblings element
   getElIndex(element) {
@@ -211,21 +226,6 @@ export default class NoteController {
 
     // Set hidden input field priority value
     document.getElementById('priority').value = priority;
-  }
-
-  renderNotesList(notes) {
-    notes = notes || this.noteModel.getNotes();
-
-    this.noteModel.loadTemplate('note-list-item').then((response) => {
-      let noteTemplate = Handlebars.compile(response);
-      let list = document.getElementById('list-notes');
-      list.innerHTML = '';
-      notes.forEach((note) => {
-        list.innerHTML += noteTemplate(note);
-      });
-    }, (error) => {
-      console.error("Failed!", error);
-    });
   }
 
   renderDatePickers() {
