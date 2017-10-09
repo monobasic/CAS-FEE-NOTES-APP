@@ -20,17 +20,11 @@ export default class NoteController {
       edit: 'edit'
     };
 
-    //navigation controller
-    // const navContact = document.getElementById('navContact');
-    // navContact.addEventListener('click',
-    //   function (e) {
-    //     e.preventDefault();
-    //     history.pushState(null, 'Contact', "#contact");
-    //     renderCurrentPartial()
-    //   });
-
     // Attach #hash change listener to rendering the current page
-    window.addEventListener("hashchange", this.renderCurrentPage.bind(this));
+    window.addEventListener("hashchange", () => {
+      this.renderCurrentPage();
+      //history.pushState(null, this.getCurrentPage(), location.hash);
+    });
 
     // Initial page render
     this.renderCurrentPage();
