@@ -80,15 +80,19 @@ export default class NoteController {
   }
 
   onAddNote(e) {
+    // Fetch data
     let note = {};
     note.title = document.getElementById('title').value;
     note.description = document.getElementById('description').value;
     note.priority = document.getElementById('priority').value;
     note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
 
+    // Save the note, model!
     this.noteModel.addNote(note);
+
+    // Back to Overview..
     this.gotoPage('home');
-    
+
     e.preventDefault();
     e.stopPropagation();
   }
