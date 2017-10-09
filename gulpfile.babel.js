@@ -54,6 +54,9 @@ const config = {
   "partialsSrc": 'src/*.html',
   "partials": './src/partials/**/*.hbs',
 
+  // Templates
+  "templatesSrc": './src/templates/**/*.hbs',
+
   // Files
   "filesSrc": ['src/.htpasswd', 'src/.htaccess', 'src/templates/**'],
   'filesDistPath': 'dist/',
@@ -214,8 +217,14 @@ gulp.task('watch', ['browser-sync'], () => {
   ], ['images']);
 
   gulp.watch([
-    config.srcPath + '**/*.{html,hbs}'
+    config.partialsSrc + '**/*.{html,hbs}'
   ], ['partials']).on('change', () => {
+    setTimeout(browserSync.reload, 1000);
+  });
+
+  gulp.watch([
+    config.templatesSrc
+  ], ['files']).on('change', () => {
     setTimeout(browserSync.reload, 1000);
   });
 });
