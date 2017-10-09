@@ -9,6 +9,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
       // Load fixture data
       this._notes = [
         {
+          "": this._guid(),
           "title": "CAS FEE Selbststudium / Projekt Aufgabe erledigen",
           "due": "2018-01-22",
           "created": "2018-01-01",
@@ -18,6 +19,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": ""
         },
         {
+          "": this._guid(),
           "title": "Einkaufen",
           "due": "2017-12-01",
           "created": "2017-10-01",
@@ -27,6 +29,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": "2018-02-22"
         },
         {
+          "": this._guid(),
           "title": "Noch eine Note",
           "due": "2019-12-01",
           "created": "2017-10-09",
@@ -36,6 +39,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": ""
         },
         {
+          "": this._guid(),
           "title": "Eine Note",
           "due": "2019-10-01",
           "created": "2017-10-02",
@@ -45,6 +49,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": ""
         },
         {
+          "": this._guid(),
           "title": "Mom anrufen",
           "due": "2019-02-22",
           "created": "2018-10-05",
@@ -59,6 +64,16 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
       // Update notes object with data from localStorage
       this._notes = JSON.parse(localStorage.getItem('notes'));
     }
+  }
+
+  _guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
   }
 
   _updateLocalStorage() {
