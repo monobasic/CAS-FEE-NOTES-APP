@@ -123,14 +123,14 @@ gulp.task('sass', () => {
       .pipe(rename(config.cssDistFileNameMin))
       .pipe(sourcemaps.write(".")) // Write out sourcemap files for browser debugging
       .pipe(gulp.dest(themeDistPath)) // Write out minified version of the CSS
-      .pipe(browserSync.stream({match: '**/*.css'}))
+      .pipe(browserSync.stream({match: '**/*.css'}));
   });
 });
 
 gulp.task("images", () => {
   return gulp.src(config.imagesSrc)
     .pipe(plumber({errorHandler: logError}))
-    .pipe(gulp.dest(config.imagesDistPath))
+    .pipe(gulp.dest(config.imagesDistPath));
 });
 
 gulp.task('clean', () => {
@@ -144,13 +144,13 @@ gulp.task('clean', () => {
 gulp.task("files", () => {
   gulp.src(config.filesSrc, { base: './src/' })
     .pipe(plumber({errorHandler: logError}))
-    .pipe(gulp.dest(config.filesDistPath))
+    .pipe(gulp.dest(config.filesDistPath));
 });
 
 gulp.task("fonts", function() {
   return gulp.src(config.fontsSrcPath)
     .pipe(plumber({errorHandler: logError}))
-    .pipe(gulp.dest(config.fontsDistPath))
+    .pipe(gulp.dest(config.fontsDistPath));
 });
 
 gulp.task("partials", function() {
@@ -192,7 +192,7 @@ gulp.task("js", () => {
     .pipe(rename(config.jsDistFileNameMin))
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest(config.jsDistPath))
-    .pipe(browserSync.stream({match: '**/*.js'}))
+    .pipe(browserSync.stream({match: '**/*.js'}));
 });
 
 gulp.task('test', () =>
