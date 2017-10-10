@@ -187,7 +187,7 @@ export default class NoteController {
 
   onShowFinished(e) {
     let notes = this.noteModel.getNotes();
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', null);
     e.preventDefault();
   }
 
