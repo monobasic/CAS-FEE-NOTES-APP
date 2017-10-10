@@ -58,8 +58,9 @@ export default class NoteController {
         document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
         document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
         document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+        // Initially, get notes sorted by due date
         let data = {
-          notes: this.noteModel.getNotes()
+          notes: this.noteModel.sortByDateDue(this.noteModel.getNotes())
         };
         this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
         this.handleStyleSwitcher();
