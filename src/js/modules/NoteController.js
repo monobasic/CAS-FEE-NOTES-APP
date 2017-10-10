@@ -31,39 +31,42 @@ export default class NoteController {
 
   changePage(page) {
     let pageWrapper = document.getElementById('wrapper');
+    let note;
     // Attach page specific handlers and methods
     switch(page) {
-      case 'add':
-        this.renderTemplate(pageWrapper, page, null, () => {
-          document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
-          this.handlePriorityList();
-          this.handleDatePickers();
+    case 'add':
+      this.renderTemplate(pageWrapper, page, null, () => {
+        document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
+        this.handlePriorityList();
+        this.handleDatePickers();
+      });
+      break;
+
+    case 'edit':
+      note = this.noteModel.getNote(this.getIdFromUrl());
+      this.renderTemplate(pageWrapper, page, note, () => {
+        this.handlePriorityList(note.priority);
+        this.handleDatePickers();
+        document.getElementById('note-update').addEventListener('click', (e) => {
+          this.onUpdateNote(e, note);
         });
-        break;
-      case 'edit':
-        let note = this.noteModel.getNote(this.getIdFromUrl());
-        this.renderTemplate(pageWrapper, page, note, () => {
-          this.handlePriorityList(note.priority);
-          this.handleDatePickers();
-          document.getElementById('note-update').addEventListener('click', (e) => {
-            this.onUpdateNote(e, note);
-          });
-        });
-        break;
-      default:
-        this.renderTemplate(pageWrapper, page, null, () => {
-          document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
-          document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
-          document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
-          document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
-          document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
-          let data = {
-            notes: this.noteModel.getNotes()
-          };
-          this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
-          this.handleStyleSwitcher();
-        });
-        break;
+      });
+      break;
+
+    default:
+      this.renderTemplate(pageWrapper, page, null, () => {
+        document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
+        document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
+        document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
+        document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
+        document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+        let data = {
+          notes: this.noteModel.getNotes()
+        };
+        this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
+        this.handleStyleSwitcher();
+      });
+      break;
     }
   }
 
@@ -74,7 +77,7 @@ export default class NoteController {
   getPageFromUrl() {
     const hash = location.hash.split('?')[0] || "#home";
     return this.pages[hash.substr(1)];
-  };
+  }
 
   getIdFromUrl() {
     return this.getQueryString('id');
@@ -85,7 +88,7 @@ export default class NoteController {
     let reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
     let string = reg.exec(href);
     return string ? string[1] : null;
-  };
+  }
 
   renderTemplate(target, template, data, callback) {
     data = data || {};
@@ -99,7 +102,7 @@ export default class NoteController {
     }, (error) => {
       console.error("Failed!", error);
     });
-  };
+  }
 
   // Helper function to find out the index of some siblings element
   getElIndex(element) {
