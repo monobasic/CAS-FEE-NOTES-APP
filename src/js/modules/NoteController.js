@@ -23,6 +23,9 @@ export default class NoteController {
       this.changePage(this.getPageFromUrl());
     });
 
+    // Set default theme
+    this.theme = 'default';
+
     // Initial page render
     this.changePage(this.getPageFromUrl());
   }
@@ -292,9 +295,13 @@ export default class NoteController {
 
   handleStyleSwitcher() {
     let switcher = document.getElementById('style-switch');
+    // Set switcher to current theme
+    switcher.value = this.theme;
     switcher.addEventListener('change', (e) => {
       let themeName = e.currentTarget.value;
       if (themeName.length) {
+        // Set theme class variable
+        this.theme = themeName;
         // Update css include tag
         document.getElementById('theme-link').setAttribute('href', 'css/' + themeName + '/styles.min.css');
       }
