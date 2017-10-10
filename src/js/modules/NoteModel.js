@@ -10,16 +10,16 @@ export default class NoteModel {
     return this._dataService.getNotes();
   }
 
-  getNote(index) {
-    return this._dataService.getNote(index);
+  getNote(id) {
+    return this._dataService.getNote(id);
   }
 
   addNote(note) {
     this._dataService.addNote(note);
   }
 
-  deleteNote(index) {
-    this._dataService.deleteNote(index);
+  deleteNote(id) {
+    this._dataService.deleteNote(id);
   }
 
   updateNote(id, data) {

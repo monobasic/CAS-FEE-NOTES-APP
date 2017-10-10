@@ -87,8 +87,8 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
     return this._notes;
   }
 
-  getNote(index) {
-    return this._notes.find(element => element.id === index);
+  getNote(id) {
+    return this._notes.find(element => element.id === id);
   }
 
   addNote(note) {
@@ -97,8 +97,8 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
     this._updateLocalStorage();
   }
 
-  deleteNote(index) {
-    this._notes.splice(index, 1);
+  deleteNote(id) {
+    this._notes.splice(this._notes.findIndex(element => element.id === id), 1);
     this._updateLocalStorage();
   }
 
