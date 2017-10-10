@@ -33,52 +33,57 @@ export default class NoteController {
   changePage(page) {
     let pageWrapper = document.getElementById('wrapper');
     let note;
+
     // Attach page specific handlers and methods
     switch(page) {
-    case 'add':
-      this.renderTemplate(pageWrapper, page, null, () => {
-        document.getElementById('form-note-add').addEventListener('submit', this.onAddNote.bind(this));
-        this.handlePriorityList();
-        this.handleDatePickers();
-      });
-      break;
 
-    case 'edit':
-      note = this.noteModel.getNote(this.getIdFromUrl());
-      this.renderTemplate(pageWrapper, page, note, () => {
-        this.handlePriorityList(note.priority);
-        this.handleDatePickers();
-        document.getElementById('form-note-edit').addEventListener('submit', (e) => {
-          this.onUpdateNote(e, note);
+      // Add note view
+      case 'add':
+        this.renderTemplate(pageWrapper, page, null, () => {
+          document.getElementById('form-note-add').addEventListener('submit', this.onAddNote.bind(this));
+          this.handlePriorityList();
+          this.handleDatePickers();
         });
-        document.getElementById('item-finished').addEventListener('click', (e) => {
-          this.onToggleFinishedEdit(e, note);
-        })
-      });
-      break;
+        break;
 
-    default:
-      this.renderTemplate(pageWrapper, page, null, () => {
-        document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
-        document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
-        document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
-        document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
-        //document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
-        this.handleStyleSwitcher();
-
-        // Initially, get notes sorted by due date
-        let data = {
-          notes: this.noteModel.sortByDateDue(this.noteModel.getNotes())
-        };
-
-        // Render notes list sub-template
-        this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
-          // Handle finish check boxes
-          document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
+      // Edit note view
+      case 'edit':
+        note = this.noteModel.getNote(this.getIdFromUrl());
+        this.renderTemplate(pageWrapper, page, note, () => {
+          this.handlePriorityList(note.priority);
+          this.handleDatePickers();
+          document.getElementById('form-note-edit').addEventListener('submit', (e) => {
+            this.onUpdateNote(e, note);
+          });
+          document.getElementById('item-finished').addEventListener('click', (e) => {
+            this.onToggleFinishedEdit(e, note);
+          })
         });
+        break;
 
-      });
-      break;
+      // Home / note list view
+      default:
+        this.renderTemplate(pageWrapper, page, null, () => {
+          document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
+          document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
+          document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
+          document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
+          //document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+          this.handleStyleSwitcher();
+
+          // Initially, get notes sorted by due date
+          let data = {
+            notes: this.noteModel.sortByDateDue(this.noteModel.getNotes())
+          };
+
+          // Render notes list sub-template
+          this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
+            // Handle finish check boxes
+            document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
+          });
+
+        });
+        break;
     }
   }
 
@@ -116,7 +121,7 @@ export default class NoteController {
     });
   }
 
-  // Helper function to find out the index of some siblings element
+  // Helper function to find out the index of siblings
   getElIndex(element) {
     let i;
     for (i = 0; element = element.previousElementSibling; i++);
@@ -295,17 +300,19 @@ export default class NoteController {
 
   handleStyleSwitcher() {
     let switcher = document.getElementById('style-switch');
+
     // Set switcher to current theme
     switcher.value = this.theme;
     switcher.addEventListener('change', (e) => {
       let themeName = e.currentTarget.value;
       if (themeName.length) {
+
         // Set theme class variable
         this.theme = themeName;
+
         // Update css include tag
         document.getElementById('theme-link').setAttribute('href', 'css/' + themeName + '/styles.min.css');
       }
     });
-
   }
 }
