@@ -58,12 +58,19 @@ export default class NoteController {
         document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
         document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
         //document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+        this.handleStyleSwitcher();
+
         // Initially, get notes sorted by due date
         let data = {
           notes: this.noteModel.sortByDateDue(this.noteModel.getNotes())
         };
-        this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
-        this.handleStyleSwitcher();
+
+        // Render notes list sub-template
+        this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
+          // Handle finish check boxes
+          document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
+        });
+
       });
       break;
     }
@@ -108,6 +115,27 @@ export default class NoteController {
     let i;
     for (i = 0; element = element.previousElementSibling; i++);
     return i;
+  }
+
+  onToggleFinished(e) {
+    let checkbox = e.currentTarget;
+    let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
+    let noteId = checkbox.getAttribute('data-id');
+    let note = this.noteModel.getNote(noteId);
+
+    if (checkbox.checked) {
+      // Finish note
+      note.finished = true;
+      note.finishedOn = moment().format('YYYY-MM-DD');
+      label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering of the notes-list
+    } else {
+      // Un-finish note
+      note.finished = false;
+      note.finishedOn = '';
+      label.innerText = 'Finished'; // Directly update the label to prevent re-rendering of the notes-list
+    }
+
+    this.noteModel.updateNote(noteId, note);
   }
 
   onAddNote(e) {
