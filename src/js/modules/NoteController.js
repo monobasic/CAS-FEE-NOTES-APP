@@ -141,11 +141,12 @@ export default class NoteController {
     note.finishedOn = moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
     note.created = moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
 
-    // Save the note, model!
-    this.noteModel.updateNote(note);
+    // Update the note, model!
+    this.noteModel.updateNote(note.id, note);
 
     // Back to Overview..
-    // this.gotoPage('home');
+    this.gotoPage('home');
+
     e.preventDefault();
   }
 

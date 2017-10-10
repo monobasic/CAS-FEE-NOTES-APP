@@ -22,8 +22,8 @@ export default class NoteModel {
     this._dataService.deleteNote(index);
   }
 
-  updateNote(note) {
-    this._dataService.updateNote(note);
+  updateNote(id, data) {
+    this._dataService.updateNote(id, data);
   }
 
 
