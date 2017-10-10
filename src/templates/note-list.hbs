@@ -7,8 +7,7 @@
         <div class="note-list-item-created">created: {{formatDate created }}</div>
         <div class="note-list-item-due">due: {{formatDate due }}</div>
         <div class="note-list-item-finished">
-          <input type="checkbox" id="item-finished"{{#if finished }} checked{{/if}}><label for="item-finished">Finished:
-          ({{formatDate finishedOn }})</label>
+          <input type="checkbox" {{#if finished }} checked{{/if}}> <label for="item-finished">Finished{{#if finished }}: {{formatDate finishedOn }} {{/if}}</label>
         </div>
       </div>
 
