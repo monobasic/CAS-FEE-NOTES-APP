@@ -25,3 +25,17 @@ $wrapper-max-width-lg: $breakpoint-lg;
   Rounded Corners general
  */
 $border-radius: 5px;
+
+/*
+  Pikaday datepicker variables
+ */
+// Colours
+$pd-text-color: $color-primary;
+$pd-title-color: $color-primary;
+$pd-day-hover-bg: $color-primary;
+$pd-day-today-color: lighten($color-primary, 30%) !default;
+$pd-day-selected-bg: lighten($color-primary, 30%) !default;
+$pd-day-selected-shadow: lighten($color-primary, 30%) !default;
+
+// Font
+$pd-font-family: $webfont;
