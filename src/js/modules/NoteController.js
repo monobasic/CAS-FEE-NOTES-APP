@@ -8,9 +8,7 @@ export default class NoteController {
     this.noteModel = noteModel;
 
     // Handlebars Date Format Helper
-    Handlebars.registerHelper('formatDate', function(iso) {
-      return moment(iso).format('DD.MM.YYYY');
-    });
+    Handlebars.registerHelper('formatDate', (iso) => iso ? moment(iso).format('DD.MM.YYYY') : '');
 
     // Routing
     // Mapping of #hash: page/template name
@@ -36,7 +34,7 @@ export default class NoteController {
     switch(page) {
     case 'add':
       this.renderTemplate(pageWrapper, page, null, () => {
-        document.getElementById('note-add').addEventListener('click', this.onAddNote.bind(this));
+        document.getElementById('form-note-add').addEventListener('submit', this.onAddNote.bind(this));
         this.handlePriorityList();
         this.handleDatePickers();
       });
@@ -47,7 +45,7 @@ export default class NoteController {
       this.renderTemplate(pageWrapper, page, note, () => {
         this.handlePriorityList(note.priority);
         this.handleDatePickers();
-        document.getElementById('note-update').addEventListener('click', (e) => {
+        document.getElementById('form-note-edit').addEventListener('submit', (e) => {
           this.onUpdateNote(e, note);
         });
       });
@@ -129,7 +127,6 @@ export default class NoteController {
     this.gotoPage('home');
 
     e.preventDefault();
-    e.stopPropagation();
   }
 
   onUpdateNote(e, note) {
@@ -137,9 +134,9 @@ export default class NoteController {
     note.title = document.getElementById('title').value;
     note.description = document.getElementById('description').value;
     note.priority = document.getElementById('priority').value;
-    note.due = moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
-    note.finishedOn = moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
-    note.created = moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD');
+    note.due = document.getElementById('due').value ? moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
+    note.finishedOn = document.getElementById('finished-on').value ? moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
+    note.created = document.getElementById('created').value ? moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
 
     // Update the note, model!
     this.noteModel.updateNote(note.id, note);
@@ -187,8 +184,9 @@ export default class NoteController {
   }
 
   onShowFinished(e) {
-    let notes = this.noteModel.getNotes();
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', null);
+    // TODO: implement...
+    // let notes = this.noteModel.getNotes();
+    // this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', null);
     e.preventDefault();
   }
 
