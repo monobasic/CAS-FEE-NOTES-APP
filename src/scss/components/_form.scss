@@ -11,6 +11,11 @@ textarea {
   border: 1px solid $color-primary;
   border-radius: $border-radius;
   padding: 10px;
+
+  &:disabled {
+    background: lighten(grey, 40%);
+    cursor: not-allowed;
+  }
 }
 
 .form-row {

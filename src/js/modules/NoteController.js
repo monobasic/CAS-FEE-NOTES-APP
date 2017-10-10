@@ -48,6 +48,9 @@ export default class NoteController {
         document.getElementById('form-note-edit').addEventListener('submit', (e) => {
           this.onUpdateNote(e, note);
         });
+        document.getElementById('item-finished').addEventListener('click', (e) => {
+          this.onToggleFinishedEdit(e, note);
+        })
       });
       break;
 
@@ -133,6 +136,27 @@ export default class NoteController {
       note.finished = false;
       note.finishedOn = '';
       label.innerText = 'Finished'; // Directly update the label to prevent re-rendering of the notes-list
+    }
+
+    this.noteModel.updateNote(noteId, note);
+  }
+
+  onToggleFinishedEdit(e, note) {
+    let checkbox = e.currentTarget;
+    let noteId = note.id;
+
+    if (checkbox.checked) {
+      // Finish note
+      note.finished = true;
+      note.finishedOn = moment().format('YYYY-MM-DD');
+      document.getElementById('finished-on').value = moment().format('DD.MM.YYYY');
+      document.getElementById('finished-on').removeAttribute('disabled');
+    } else {
+      // Un-finish note
+      note.finished = false;
+      note.finishedOn = '';
+      document.getElementById('finished-on').value = '';
+      document.getElementById('finished-on').setAttribute('disabled', 'disabled');
     }
 
     this.noteModel.updateNote(noteId, note);
