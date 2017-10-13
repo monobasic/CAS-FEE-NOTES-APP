@@ -58,6 +58,9 @@ export default class NoteController {
           document.getElementById('item-finished').addEventListener('click', (e) => {
             this.onToggleFinishedEdit(e, note);
           })
+          document.getElementById('note-delete').addEventListener('click', (e) => {
+            this.onDeleteNote(e, note);
+          })
         });
         break;
 
@@ -205,6 +208,15 @@ export default class NoteController {
     // Back to Overview..
     this.gotoPage('home');
 
+    e.preventDefault();
+  }
+
+  onDeleteNote(e, note) {
+    if (window.confirm("Do you really want to delete this note?")) {
+      this.noteModel.deleteNote(note.id);
+      // Back to Overview..
+      this.gotoPage('home');
+    }
     e.preventDefault();
   }
 

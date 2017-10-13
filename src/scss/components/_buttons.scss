@@ -40,6 +40,12 @@
   border: 1px solid $color-primary;
 }
 
+.btn-danger {
+  background-color: red;
+  color: $color-white;
+  border: 1px solid red;
+}
+
 .btn-group {
   display: flex;
   justify-content: flex-start;
