@@ -14,7 +14,10 @@
       <div class="note-list-item-col">
         <h2 class="note-list-item-title">{{ title }}</h2>
         <div class="note-list-item-description">
-          {{ description }}
+          <details>
+            <summary>{{truncate description 70}}</summary>
+            <p>{{ description }}</p>
+          </details>
         </div>
       </div>
 
