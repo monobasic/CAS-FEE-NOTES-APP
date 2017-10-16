@@ -1,11 +1,12 @@
 // Import normalize.css | https://github.com/necolas/normalize.css - not including the .css extension forces SASS to not do a literal import.
-@import '../../../node_modules/normalize.css/normalize';
+@import '~normalize.css/normalize';
 
 // Import Font-Awesome Icon Library
-@import '../../../node_modules/font-awesome/scss/font-awesome.scss';
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
 
 // Import Pikaday
-@import '../../../node_modules/pikaday/scss/pikaday.scss';
+@import '~pikaday/scss/pikaday.scss';
 
 // Import mixins
 @import 'mixins';
