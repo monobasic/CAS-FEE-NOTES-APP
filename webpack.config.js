@@ -1,17 +1,22 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/js/app.js',
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, 'dist/js')
+    filename: 'js/bundle.js',
+    path: path.join(__dirname, 'dist')
   },
   devServer: {
     contentBase: './dist'
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
+    new CopyWebpackPlugin([
+      { from: 'src/index.html' },
+      { from: 'src/templates', to: 'templates'}
+    ])
   ],
   module: {
     rules: [
@@ -34,12 +39,6 @@ module.exports = {
           }
         }]
       }
-      // {
-      //   test: /\.(png|svg|jpg|gif)$/,
-      //   use: [
-      //     'file-loader'
-      //   ]
-      // }
     ]
   }
 };
