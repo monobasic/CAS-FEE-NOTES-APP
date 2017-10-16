@@ -1,3 +1,5 @@
+'use strict';
+
 import NoteModel from './modules/NoteModel';
 import NoteController from './modules/NoteController';
 

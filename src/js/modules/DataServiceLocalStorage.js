@@ -1,3 +1,5 @@
+'use strict';
+
 import DataServiceAbstract from './DataServiceAbstract';
 
 export default class DataServiceLocalStorage extends DataServiceAbstract {

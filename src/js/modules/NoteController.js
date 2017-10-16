@@ -1,3 +1,5 @@
+'use strict';
+
 import moment from 'moment';
 import Handlebars from '../../../node_modules/handlebars/dist/handlebars';
 import Pikaday from 'pikaday';
