@@ -5,6 +5,11 @@
     "url": "git@github.com:monobasic/CAS-FEE-NOTES-APP.git"
   },
   "version": "1.0.0",
+  "scripts": {
+    "test": "",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
@@ -30,6 +35,7 @@
     "normalize.css": "^7.0.0",
     "pikaday": "^1.6.1",
     "run-sequence": "^2.2.0",
+    "webpack": "^3.7.1",
     "webpack-stream": "^4.0.0"
   }
 }
