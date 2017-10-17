@@ -89,9 +89,8 @@ export default class NoteController {
           document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
           this.handleStyleSwitcher();
 
-          // Initially, get notes sorted by due date
           let data = {
-            notes: this.noteModel.sortByDateDue(this.noteModel.getNotes())
+            notes: this.noteModel.getNotes()
           };
 
           // Render notes list sub-template
@@ -237,7 +236,7 @@ export default class NoteController {
 
   onSortByDateDue(e) {
     let data = {
-      notes: this.noteModel.sortByDateDue(this.noteModel.getNotes())
+      notes: this.noteModel.getNotes('due')
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
@@ -246,7 +245,7 @@ export default class NoteController {
 
   onSortByDateCreated(e) {
     let data = {
-      notes: this.noteModel.sortByDateCreated(this.noteModel.getNotes())
+      notes: this.noteModel.getNotes('created')
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
@@ -255,7 +254,7 @@ export default class NoteController {
 
   onSortByDateFinished(e) {
     let data = {
-      notes: this.noteModel.sortByDateFinished(this.noteModel.getNotes())
+      notes: this.noteModel.getNotes('finishedOn')
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
@@ -264,8 +263,8 @@ export default class NoteController {
 
   onSortByPriority(e) {
     let data = {
-      notes: this.noteModel.sortByPriority(this.noteModel.getNotes())
-    };
+      notes: this.noteModel.getNotes('priority')
+  };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
     e.preventDefault();
@@ -278,15 +277,15 @@ export default class NoteController {
 
     // Handle button state
     if (showFinished) {
-      data = {
-        notes: this.noteModel.filterFinished(this.noteModel.getNotes())
-      };
+      // data = {
+      //   notes: this.noteModel.filterFinished(this.noteModel.getNotes())
+      // };
       buttonState.classList.remove('fa-check-square-o');
       buttonState.classList.add('fa-square-o');
     } else {
-      data = {
-        notes: this.noteModel.getNotes()
-      };
+      // data = {
+      //   notes: this.noteModel.getNotes()
+      // };
       buttonState.classList.add('fa-check-square-o');
       buttonState.classList.remove('fa-square-o');
     }

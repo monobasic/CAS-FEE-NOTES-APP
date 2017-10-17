@@ -9,8 +9,7 @@ export default class NoteModel {
   }
 
   getNotes(orderBy = 'due', filterFinished = false) {
-    const notes = this._dataService.getNotes();
-    return this._sortBy(orderBy, notes);
+    return this._sortBy(orderBy, this._dataService.getNotes());
   }
 
   getNote(id) {
