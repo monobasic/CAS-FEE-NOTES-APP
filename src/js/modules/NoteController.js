@@ -259,12 +259,14 @@ export default class NoteController {
 
     // Handle button state
     if (showFinished) {
+      // TODO: handle filtering
       // data = {
-      //   notes: this.noteModel.filterFinished(this.noteModel.getNotes())
+      //   notes: this.noteModel.getNotes()
       // };
       buttonState.classList.remove('fa-check-square-o');
       buttonState.classList.add('fa-square-o');
     } else {
+      // TODO: handle filtering
       // data = {
       //   notes: this.noteModel.getNotes()
       // };
