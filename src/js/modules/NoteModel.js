@@ -9,7 +9,7 @@ export default class NoteModel {
   }
 
   getNotes(orderBy = 'due', filterFinished = false) {
-    return this._sortBy(orderBy, this._dataService.getNotes());
+    return filterFinished ? this._filterFinished(this._sortBy(orderBy, this._dataService.getNotes())) : this._sortBy(orderBy, this._dataService.getNotes());
   }
 
   getNote(id) {
@@ -32,7 +32,7 @@ export default class NoteModel {
     return notes.sort((a, b) => a[sort] > b[sort]);
   }
 
-  filterFinished(notes) {
+  _filterFinished(notes) {
     return notes.filter(note => !note.finished);
   }
 
