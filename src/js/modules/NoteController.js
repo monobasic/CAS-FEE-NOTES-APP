@@ -85,7 +85,7 @@ export default class NoteController {
           document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
           document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
           document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
-          //document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+          document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
           this.handleStyleSwitcher();
 
           // Initially, get notes sorted by due date
@@ -271,9 +271,10 @@ export default class NoteController {
   }
 
   onShowFinished(e) {
-    // TODO: implement...
-    // let notes = this.noteModel.getNotes();
-    // this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', null);
+    let data = {
+      notes: this.noteModel.filterFinished(this.noteModel.getNotes())
+    };
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     e.preventDefault();
   }
 
