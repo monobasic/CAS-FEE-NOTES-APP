@@ -7,6 +7,7 @@ import Pikaday from 'pikaday';
 export default class NoteController {
 
   constructor(noteModel) {
+    // Model instance
     this.noteModel = noteModel;
 
     // Handlebars Date Format Helper
@@ -271,9 +272,25 @@ export default class NoteController {
   }
 
   onShowFinished(e) {
-    let data = {
-      notes: this.noteModel.filterFinished(this.noteModel.getNotes())
-    };
+    let buttonState = document.getElementById('show-finished-status');
+    let showFinished = buttonState.classList.contains('fa-check-square-o');
+    let data = {};
+
+    // Handle button state
+    if (showFinished) {
+      data = {
+        notes: this.noteModel.filterFinished(this.noteModel.getNotes())
+      };
+      buttonState.classList.remove('fa-check-square-o');
+      buttonState.classList.add('fa-square-o');
+    } else {
+      data = {
+        notes: this.noteModel.getNotes()
+      };
+      buttonState.classList.add('fa-check-square-o');
+      buttonState.classList.remove('fa-square-o');
+    }
+
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     e.preventDefault();
   }
