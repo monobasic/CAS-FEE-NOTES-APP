@@ -8,8 +8,9 @@ export default class NoteModel {
     this._dataService = new DataServiceLocalStorage();
   }
 
-  getNotes() {
-    return this._dataService.getNotes();
+  getNotes(orderBy = 'due', filterFinished = false) {
+    const notes = this._dataService.getNotes();
+    return this._sortBy(orderBy, notes);
   }
 
   getNote(id) {
@@ -28,22 +29,8 @@ export default class NoteModel {
     this._dataService.updateNote(id, data);
   }
 
-
-
-  sortByDateDue(notes) {
-    return notes.sort((a, b) => a.due > b.due);
-  }
-
-  sortByDateCreated(notes) {
-    return notes.sort((a, b) => a.created > b.created);
-  }
-
-  sortByDateFinished(notes) {
-    return notes.sort((a, b) => a.finishedOn > b.finishedOn);
-  }
-
-  sortByPriority(notes) {
-    return notes.sort((a, b) => a.priority < b.priority);
+  _sortBy(sort = 'due', notes) {
+    return notes.sort((a, b) => a[sort] > b[sort]);
   }
 
   filterFinished(notes) {
