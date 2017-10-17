@@ -82,10 +82,18 @@ export default class NoteController {
       // Home / note list view
       default:
         this.renderTemplate(pageWrapper, page, null, () => {
-          document.getElementById('sort-by-date-due').addEventListener('click', this.onSortByDateDue.bind(this));
-          document.getElementById('sort-by-date-created').addEventListener('click', this.onSortByDateCreated.bind(this));
-          document.getElementById('sort-by-date-finished').addEventListener('click', this.onSortByDateCreated.bind(this));
-          document.getElementById('sort-by-priority').addEventListener('click', this.onSortByPriority.bind(this));
+          document.getElementById('sort-by-date-due').addEventListener('click', (e) => {
+            this.onSort('due', e);
+          });
+          document.getElementById('sort-by-date-created').addEventListener('click', (e) => {
+            this.onSort('created', e);
+          });
+          document.getElementById('sort-by-date-finished').addEventListener('click', (e) => {
+            this.onSort('finishedOn', e);
+          });
+          document.getElementById('sort-by-priority').addEventListener('click', (e) => {
+            this.onSort('priority', e);
+          });
           document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
           this.handleStyleSwitcher();
 
@@ -234,41 +242,15 @@ export default class NoteController {
     e.preventDefault();
   }
 
-  onSortByDateDue(e) {
+  onSort(sortBy = 'due', e) {
     let data = {
-      notes: this.noteModel.getNotes('due')
+      notes: this.noteModel.getNotes(sortBy)
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
     e.preventDefault();
   }
 
-  onSortByDateCreated(e) {
-    let data = {
-      notes: this.noteModel.getNotes('created')
-    };
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
-    this.updateSortOptions(e);
-    e.preventDefault();
-  }
-
-  onSortByDateFinished(e) {
-    let data = {
-      notes: this.noteModel.getNotes('finishedOn')
-    };
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
-    this.updateSortOptions(e);
-    e.preventDefault();
-  }
-
-  onSortByPriority(e) {
-    let data = {
-      notes: this.noteModel.getNotes('priority')
-  };
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
-    this.updateSortOptions(e);
-    e.preventDefault();
-  }
 
   onShowFinished(e) {
     let buttonState = document.getElementById('show-finished-status');
