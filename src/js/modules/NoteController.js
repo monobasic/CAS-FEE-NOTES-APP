@@ -242,7 +242,7 @@ export default class NoteController {
     e.preventDefault();
   }
 
-  onSort(sortBy = 'due', e) {
+  onSort(sortBy, e) {
     let data = {
       notes: this.noteModel.getNotes(sortBy)
     };
