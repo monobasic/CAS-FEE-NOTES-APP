@@ -97,8 +97,9 @@ export default class NoteController {
           document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
           this.handleStyleSwitcher();
 
+          // Initially get notes sorted by due date and with filtered finished notes
           let data = {
-            notes: this.noteModel.getNotes()
+            notes: this.noteModel.getNotes('due', true)
           };
 
           // Render notes list sub-template
@@ -250,7 +251,6 @@ export default class NoteController {
     this.updateSortOptions(e);
     e.preventDefault();
   }
-
 
   onShowFinished(e) {
     let buttonState = document.getElementById('show-finished-status');
