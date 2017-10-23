@@ -88,27 +88,16 @@ export default class NoteController {
       // Home / note list view
       default:
         this.renderTemplate(pageWrapper, page, null, () => {
+
           // Sorting handlers
-          document.getElementById('sort-by-date-due').addEventListener('click', (e) => {
-            this.renderNotes('due', this.sorting.filterFinished);
-            this.updateSortOptions(e.currentTarget.id);
-            e.preventDefault();
+          document.querySelectorAll('[data-sort-by]').forEach((element) => {
+            element.addEventListener('click', (e) => {
+              this.renderNotes(e.target.getAttribute('data-sort-by'), this.sorting.filterFinished);
+              //this.updateSortOptions(e.target.id);
+              e.preventDefault();
+            });
           });
-          document.getElementById('sort-by-date-created').addEventListener('click', (e) => {
-            this.renderNotes('created', this.sorting.filterFinished);
-            this.updateSortOptions(e.currentTarget.id);
-            e.preventDefault();
-          });
-          document.getElementById('sort-by-date-finished').addEventListener('click', (e) => {
-            this.renderNotes('finishedOn', this.sorting.filterFinished);
-            this.updateSortOptions(e.currentTarget.id);
-            e.preventDefault();
-          });
-          document.getElementById('sort-by-priority').addEventListener('click', (e) => {
-            this.renderNotes('priority', this.sorting.filterFinished);
-            this.updateSortOptions(e.currentTarget.id);
-            e.preventDefault();
-          });
+
           // "Show finished" handler
           document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
           this.handleStyleSwitcher();
