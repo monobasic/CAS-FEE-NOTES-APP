@@ -92,18 +92,26 @@ export default class NoteController {
           // Sorting handlers
           document.querySelectorAll('[data-sort-by]').forEach((element) => {
             element.addEventListener('click', (e) => {
-              this.renderNotes(e.target.getAttribute('data-sort-by'), this.sorting.filterFinished);
-              //this.updateSortOptions(e.target.id);
+              const sortBy = e.target.getAttribute('data-sort-by');
+              this.renderNotes(sortBy, this.sorting.filterFinished);
+              this.updateSortOptions(sortBy);
               e.preventDefault();
             });
           });
 
           // "Show finished" handler
-          document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
+          document.getElementById('show-finished').addEventListener('click', (e) => {
+            this.sorting.filterFinished = !this.sorting.filterFinished;
+            this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
+            this.updateFilterOptions(this.sorting.filterFinished);
+            e.preventDefault();
+          });
           this.handleStyleSwitcher();
 
           // Initially render notes
           this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
+          this.updateSortOptions(this.sorting.orderBy);
+          this.updateFilterOptions(this.sorting.filterFinished);
         });
         break;
     }
@@ -151,9 +159,9 @@ export default class NoteController {
   }
 
   onToggleFinished(e) {
-    let checkbox = e.currentTarget;
+    const checkbox = e.currentTarget;
     let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
-    let noteId = checkbox.getAttribute('data-id');
+    const noteId = checkbox.getAttribute('data-id');
     let note = this.noteModel.getNote(noteId);
 
     if (checkbox.checked) {
@@ -172,8 +180,8 @@ export default class NoteController {
   }
 
   onToggleFinishedEdit(e, note) {
-    let checkbox = e.currentTarget;
-    let noteId = note.id;
+    const checkbox = e.currentTarget;
+    const noteId = note.id;
 
     if (checkbox.checked) {
       // Finish note
@@ -238,7 +246,7 @@ export default class NoteController {
   }
 
   renderNotes(orderBy, filterFinished) {
-    let data = {
+    const data = {
       notes: this.noteModel.getNotes(orderBy, filterFinished)
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
@@ -248,35 +256,26 @@ export default class NoteController {
     this.sorting.filterFinished = filterFinished;
   }
 
-  onShowFinished(e) {
-    let icon = document.getElementById('show-finished-status');
-    let showFinished = icon.classList.contains('fa-check-square-o');
-    let data = {};
-
-    // Handle button state
-    if (showFinished) {
-      icon.classList.remove('fa-check-square-o');
-      icon.classList.add('fa-square-o');
-      this.sorting.filterFinished = true;
-    } else {
-      icon.classList.add('fa-check-square-o');
-      icon.classList.remove('fa-square-o');
-      this.sorting.filterFinished = false;
-    }
-
-    this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
-    e.preventDefault();
-  }
-
-  updateSortOptions(id) {
-    let sortOptions = document.getElementById('sort-options');
+  updateSortOptions(sortby) {
+    const sortOptions = document.getElementById('sort-options');
     Array.from(sortOptions.children).map((element) => {
-      return element.id === id ? element.classList.add('active') : element.classList.remove('active');
+      return element.getAttribute('data-sort-by') === sortby ? element.classList.add('active') : element.classList.remove('active');
     });
   }
 
+  updateFilterOptions(filterFinished) {
+    const icon = document.getElementById('show-finished-status');
+    if (filterFinished) {
+      icon.classList.remove('fa-check-square-o');
+      icon.classList.add('fa-square-o');
+    } else {
+      icon.classList.add('fa-check-square-o');
+      icon.classList.remove('fa-square-o');
+    }
+  }
+
   handlePriorityList(priority) {
-    let priorityList = document.getElementById('list-priority');
+    const priorityList = document.getElementById('list-priority');
     let priorityLinks = priorityList.querySelectorAll('a');
 
     // Attach click handlers for each priority list element
