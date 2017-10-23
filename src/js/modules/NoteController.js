@@ -1,7 +1,7 @@
 'use strict';
 
 import moment from 'moment';
-import Handlebars from 'handlebars/dist/handlebars';
+import Handlebars from 'handlebars';
 import Pikaday from 'pikaday';
 
 export default class NoteController {
