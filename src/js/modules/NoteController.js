@@ -41,6 +41,12 @@ export default class NoteController {
     // Set default theme
     this.theme = 'default';
 
+    // Object keeps track of UI's current sorting and filtering
+    this.sorting = {
+      orderBy: 'due',
+      filterFinished: true
+    };
+
     // Initial page render
     this.changePage(this.getPageFromUrl());
   }
@@ -83,23 +89,23 @@ export default class NoteController {
       default:
         this.renderTemplate(pageWrapper, page, null, () => {
           document.getElementById('sort-by-date-due').addEventListener('click', (e) => {
-            this.onSort('due', e);
+            this.onSort('due', this.sorting.filterFinished, e);
           });
           document.getElementById('sort-by-date-created').addEventListener('click', (e) => {
-            this.onSort('created', e);
+            this.onSort('created', this.sorting.filterFinished, e);
           });
           document.getElementById('sort-by-date-finished').addEventListener('click', (e) => {
-            this.onSort('finishedOn', e);
+            this.onSort('finishedOn', this.sorting.filterFinished, e);
           });
           document.getElementById('sort-by-priority').addEventListener('click', (e) => {
-            this.onSort('priority', e);
+            this.onSort('priority', this.sorting.filterFinished, e);
           });
           document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
           this.handleStyleSwitcher();
 
           // Initially get notes sorted by due date and with filtered finished notes
           let data = {
-            notes: this.noteModel.getNotes('due', true)
+            notes: this.noteModel.getNotes(this.sorting.orderBy, this.sorting.filterFinished)
           };
 
           // Render notes list sub-template
@@ -241,36 +247,36 @@ export default class NoteController {
     e.preventDefault();
   }
 
-  onSort(sortBy, e) {
+  onSort(orderBy, filterFinished, e) {
     let data = {
-      notes: this.noteModel.getNotes(sortBy)
+      notes: this.noteModel.getNotes(orderBy, filterFinished)
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     this.updateSortOptions(e);
+    this.sorting.orderBy = orderBy;
+    this.sorting.filterFinished = filterFinished;
     e.preventDefault();
   }
 
   onShowFinished(e) {
-    let buttonState = document.getElementById('show-finished-status');
-    let showFinished = buttonState.classList.contains('fa-check-square-o');
+    let icon = document.getElementById('show-finished-status');
+    let showFinished = icon.classList.contains('fa-check-square-o');
     let data = {};
 
     // Handle button state
     if (showFinished) {
-      // TODO: handle filtering
-      // data = {
-      //   notes: this.noteModel.getNotes()
-      // };
-      buttonState.classList.remove('fa-check-square-o');
-      buttonState.classList.add('fa-square-o');
+      icon.classList.remove('fa-check-square-o');
+      icon.classList.add('fa-square-o');
+      this.sorting.filterFinished = true;
     } else {
-      // TODO: handle filtering
-      // data = {
-      //   notes: this.noteModel.getNotes()
-      // };
-      buttonState.classList.add('fa-check-square-o');
-      buttonState.classList.remove('fa-square-o');
+      icon.classList.add('fa-check-square-o');
+      icon.classList.remove('fa-square-o');
+      this.sorting.filterFinished = false;
     }
+
+    data = {
+      notes: this.noteModel.getNotes(this.sorting.orderBy, this.sorting.filterFinished)
+    };
 
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
     e.preventDefault();
