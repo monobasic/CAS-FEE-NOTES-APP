@@ -25,6 +25,7 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "gulp-watch": "*",
+    "handlebars": "^4.0.11",
     "jasmine": "^2.8.0",
     "moment": "^2.18.1",
     "normalize.css": "^7.0.0",

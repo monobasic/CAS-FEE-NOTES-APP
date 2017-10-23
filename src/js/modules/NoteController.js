@@ -1,7 +1,7 @@
 'use strict';
 
 import moment from 'moment';
-import Handlebars from '../../../node_modules/handlebars/dist/handlebars';
+import Handlebars from 'handlebars/dist/handlebars';
 import Pikaday from 'pikaday';
 
 export default class NoteController {
@@ -78,17 +78,16 @@ export default class NoteController {
           });
           document.getElementById('item-finished').addEventListener('click', (e) => {
             this.onToggleFinishedEdit(e, note);
-          })
+          });
           document.getElementById('note-delete').addEventListener('click', (e) => {
             this.onDeleteNote(e, note);
-          })
+          });
         });
         break;
 
       // Home / note list view
       default:
         this.renderTemplate(pageWrapper, page, null, () => {
-
           // Sorting handlers
           document.querySelectorAll('[data-sort-by]').forEach((element) => {
             element.addEventListener('click', (e) => {
@@ -98,7 +97,6 @@ export default class NoteController {
               e.preventDefault();
             });
           });
-
           // "Show finished" handler
           document.getElementById('show-finished').addEventListener('click', (e) => {
             this.sorting.filterFinished = !this.sorting.filterFinished;
@@ -106,12 +104,12 @@ export default class NoteController {
             this.updateFilterOptions(this.sorting.filterFinished);
             e.preventDefault();
           });
-          this.handleStyleSwitcher();
 
           // Initially render notes
           this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
           this.updateSortOptions(this.sorting.orderBy);
           this.updateFilterOptions(this.sorting.filterFinished);
+          this.handleStyleSwitcher();
         });
         break;
     }
@@ -132,7 +130,7 @@ export default class NoteController {
 
   getQueryString(field, url) {
     let href = url ? url : window.location.href;
-    let reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    const reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
     let string = reg.exec(href);
     return string ? string[1] : null;
   }
@@ -147,7 +145,7 @@ export default class NoteController {
         callback();
       }
     }, (error) => {
-      console.error("Failed!", error);
+      console.error("Template loading failed!", error);
     });
   }
 
