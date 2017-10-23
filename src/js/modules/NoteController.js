@@ -88,32 +88,33 @@ export default class NoteController {
       // Home / note list view
       default:
         this.renderTemplate(pageWrapper, page, null, () => {
+          // Sorting handlers
           document.getElementById('sort-by-date-due').addEventListener('click', (e) => {
-            this.onSort('due', this.sorting.filterFinished, e);
+            this.renderNotes('due', this.sorting.filterFinished);
+            this.updateSortOptions(e.currentTarget.id);
+            e.preventDefault();
           });
           document.getElementById('sort-by-date-created').addEventListener('click', (e) => {
-            this.onSort('created', this.sorting.filterFinished, e);
+            this.renderNotes('created', this.sorting.filterFinished);
+            this.updateSortOptions(e.currentTarget.id);
+            e.preventDefault();
           });
           document.getElementById('sort-by-date-finished').addEventListener('click', (e) => {
-            this.onSort('finishedOn', this.sorting.filterFinished, e);
+            this.renderNotes('finishedOn', this.sorting.filterFinished);
+            this.updateSortOptions(e.currentTarget.id);
+            e.preventDefault();
           });
           document.getElementById('sort-by-priority').addEventListener('click', (e) => {
-            this.onSort('priority', this.sorting.filterFinished, e);
+            this.renderNotes('priority', this.sorting.filterFinished);
+            this.updateSortOptions(e.currentTarget.id);
+            e.preventDefault();
           });
+          // "Show finished" handler
           document.getElementById('show-finished').addEventListener('click', this.onShowFinished.bind(this));
           this.handleStyleSwitcher();
 
-          // Initially get notes sorted by due date and with filtered finished notes
-          let data = {
-            notes: this.noteModel.getNotes(this.sorting.orderBy, this.sorting.filterFinished)
-          };
-
-          // Render notes list sub-template
-          this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
-            // Handle finish check boxes
-            document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
-          });
-
+          // Initially render notes
+          this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
         });
         break;
     }
@@ -247,15 +248,15 @@ export default class NoteController {
     e.preventDefault();
   }
 
-  onSort(orderBy, filterFinished, e) {
+  renderNotes(orderBy, filterFinished) {
     let data = {
       notes: this.noteModel.getNotes(orderBy, filterFinished)
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
-    this.updateSortOptions(e);
+
+    // Persist current sorting/filtering
     this.sorting.orderBy = orderBy;
     this.sorting.filterFinished = filterFinished;
-    e.preventDefault();
   }
 
   onShowFinished(e) {
@@ -274,18 +275,14 @@ export default class NoteController {
       this.sorting.filterFinished = false;
     }
 
-    data = {
-      notes: this.noteModel.getNotes(this.sorting.orderBy, this.sorting.filterFinished)
-    };
-
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
+    this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
     e.preventDefault();
   }
 
-  updateSortOptions(e) {
+  updateSortOptions(id) {
     let sortOptions = document.getElementById('sort-options');
     Array.from(sortOptions.children).map((element) => {
-      return element.id === e.currentTarget.id ? element.classList.add('active') : element.classList.remove('active');
+      return element.id === id ? element.classList.add('active') : element.classList.remove('active');
     });
   }
 
