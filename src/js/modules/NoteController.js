@@ -25,17 +25,17 @@ export default class NoteController {
       return str;
     });
 
-    // Attach #hash change listener to rendering the current page
-    window.addEventListener("hashchange", () => {
-      this.changePage(this.getHash());
-    });
-
     // Object keeps track of UI's current theme, sorting and filtering
     this.ui = {
       theme: 'default',
       orderBy: 'due',
       filterFinished: true
     };
+
+    // Attach #hash change listener to rendering the current page
+    window.addEventListener("hashchange", () => {
+      this.changePage(this.getHash());
+    });
 
     // Initial page render
     this.changePage(this.getHash());
