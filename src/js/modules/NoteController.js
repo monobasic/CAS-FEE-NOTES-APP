@@ -25,17 +25,9 @@ export default class NoteController {
       return str;
     });
 
-    // Routing
-    // Mapping of #hash: page/template name
-    this.pages = {
-      home: 'home',
-      add: 'add',
-      edit: 'edit'
-    };
-
     // Attach #hash change listener to rendering the current page
     window.addEventListener("hashchange", () => {
-      this.changePage(this.getPageFromUrl());
+      this.changePage(this.getHash());
     });
 
     // Set default theme
@@ -48,7 +40,7 @@ export default class NoteController {
     };
 
     // Initial page render
-    this.changePage(this.getPageFromUrl());
+    this.changePage(this.getHash());
   }
 
   changePage(page) {
@@ -119,9 +111,9 @@ export default class NoteController {
     location.hash = page;
   }
 
-  getPageFromUrl() {
+  getHash() {
     const hash = location.hash.split('?')[0] || "#home";
-    return this.pages[hash.substr(1)];
+    return hash.substr(1);
   }
 
   getIdFromUrl() {
