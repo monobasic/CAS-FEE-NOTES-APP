@@ -41,11 +41,11 @@ export default class NoteController {
     this.changePage(this.getHash());
   }
 
+  // Page specific handlers and methods
   changePage(page) {
     let pageWrapper = document.getElementById('wrapper');
     let note;
 
-    // Attach page specific handlers and methods
     switch(page) {
 
       // Add note view
@@ -105,6 +105,8 @@ export default class NoteController {
     }
   }
 
+
+  // URL Helpers
   gotoPage(page) {
     location.hash = page;
   }
@@ -114,10 +116,6 @@ export default class NoteController {
     return hash.substr(1);
   }
 
-  getIdFromUrl() {
-    return this.getQueryString('id');
-  }
-
   getQueryString(field, url) {
     let href = url ? url : window.location.href;
     const reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
@@ -125,6 +123,21 @@ export default class NoteController {
     return string ? string[1] : null;
   }
 
+  getIdFromUrl() {
+    return this.getQueryString('id');
+  }
+
+
+  // Other Helpers
+  getElIndex(element) {
+    // Helper function to find out the index of some siblings
+    let i;
+    for (i = 0; element = element.previousElementSibling; i++);
+    return i;
+  }
+
+
+  // Render methods
   renderTemplate(target, template, data, callback) {
     data = data || {};
 
@@ -139,13 +152,19 @@ export default class NoteController {
     });
   }
 
-  // Helper function to find out the index of siblings
-  getElIndex(element) {
-    let i;
-    for (i = 0; element = element.previousElementSibling; i++);
-    return i;
+  renderNotes(orderBy, filterFinished) {
+    const data = {
+      notes: this.noteModel.getNotes(orderBy, filterFinished)
+    };
+    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
+
+    // Persist current sorting/filtering
+    this.ui.orderBy = orderBy;
+    this.ui.filterFinished = filterFinished;
   }
 
+
+  // Event handlers
   onToggleFinished(e) {
     const checkbox = e.currentTarget;
     let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
@@ -233,17 +252,9 @@ export default class NoteController {
     e.preventDefault();
   }
 
-  renderNotes(orderBy, filterFinished) {
-    const data = {
-      notes: this.noteModel.getNotes(orderBy, filterFinished)
-    };
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
 
-    // Persist current sorting/filtering
-    this.ui.orderBy = orderBy;
-    this.ui.filterFinished = filterFinished;
-  }
 
+  // UI update methods
   updateSortOptions(sortby) {
     const sortOptions = document.getElementById('sort-options');
     Array.from(sortOptions.children).map((element) => {
@@ -260,6 +271,18 @@ export default class NoteController {
       icon.classList.add('fa-check-square-o');
       icon.classList.remove('fa-square-o');
     }
+  }
+
+  setPriority(priority, priorityList) {
+    let priorityLinks = priorityList.querySelectorAll('a');
+
+    // Rebuild priority status
+    priorityLinks.forEach((element, index) => {
+      index <= priority-1 ? element.classList.add('active') : element.classList.remove('active');
+    });
+
+    // Set hidden input field priority value
+    document.getElementById('priority').value = priority;
   }
 
   handlePriorityList(priority) {
@@ -279,18 +302,6 @@ export default class NoteController {
     if (priority) {
       this.setPriority(priority, priorityList);
     }
-  }
-
-  setPriority(priority, priorityList) {
-    let priorityLinks = priorityList.querySelectorAll('a');
-
-    // Rebuild priority status
-    priorityLinks.forEach((element, index) => {
-      index <= priority-1 ? element.classList.add('active') : element.classList.remove('active');
-    });
-
-    // Set hidden input field priority value
-    document.getElementById('priority').value = priority;
   }
 
   handleDatePickers() {
