@@ -30,11 +30,9 @@ export default class NoteController {
       this.changePage(this.getHash());
     });
 
-    // Set default theme
-    this.theme = 'default';
-
-    // Object keeps track of UI's current sorting and filtering
-    this.sorting = {
+    // Object keeps track of UI's current theme, sorting and filtering
+    this.ui = {
+      theme: 'default',
       orderBy: 'due',
       filterFinished: true
     };
@@ -84,23 +82,23 @@ export default class NoteController {
           document.querySelectorAll('[data-sort-by]').forEach((element) => {
             element.addEventListener('click', (e) => {
               const sortBy = e.target.getAttribute('data-sort-by');
-              this.renderNotes(sortBy, this.sorting.filterFinished);
+              this.renderNotes(sortBy, this.ui.filterFinished);
               this.updateSortOptions(sortBy);
               e.preventDefault();
             });
           });
           // "Show finished" handler
           document.getElementById('show-finished').addEventListener('click', (e) => {
-            this.sorting.filterFinished = !this.sorting.filterFinished;
-            this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
-            this.updateFilterOptions(this.sorting.filterFinished);
+            this.ui.filterFinished = !this.ui.filterFinished;
+            this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
+            this.updateFilterOptions(this.ui.filterFinished);
             e.preventDefault();
           });
 
           // Initially render notes
-          this.renderNotes(this.sorting.orderBy, this.sorting.filterFinished);
-          this.updateSortOptions(this.sorting.orderBy);
-          this.updateFilterOptions(this.sorting.filterFinished);
+          this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
+          this.updateSortOptions(this.ui.orderBy);
+          this.updateFilterOptions(this.ui.filterFinished);
           this.handleStyleSwitcher();
         });
         break;
@@ -242,8 +240,8 @@ export default class NoteController {
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data);
 
     // Persist current sorting/filtering
-    this.sorting.orderBy = orderBy;
-    this.sorting.filterFinished = filterFinished;
+    this.ui.orderBy = orderBy;
+    this.ui.filterFinished = filterFinished;
   }
 
   updateSortOptions(sortby) {
@@ -308,13 +306,13 @@ export default class NoteController {
     let switcher = document.getElementById('style-switch');
 
     // Set switcher to current theme
-    switcher.value = this.theme;
+    switcher.value = this.ui.theme;
     switcher.addEventListener('change', (e) => {
       let themeName = e.currentTarget.value;
       if (themeName.length) {
 
         // Set theme class variable
-        this.theme = themeName;
+        this.ui.theme = themeName;
 
         // Update css include tag
         document.getElementById('theme-link').setAttribute('href', 'css/' + themeName + '/styles.min.css');
