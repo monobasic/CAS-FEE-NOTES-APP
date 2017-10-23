@@ -176,7 +176,12 @@ gulp.task("js", () => {
   return gulp.src(config.jsFiles)
     .pipe(plumber({errorHandler: logError}))
     .pipe(webpack({
-      // Any configuration options...
+      resolve:
+        {
+          alias: {
+            'handlebars' : 'handlebars/dist/handlebars.js'
+          }
+        }
     }))
     .pipe(babel({
       presets: ['env']
