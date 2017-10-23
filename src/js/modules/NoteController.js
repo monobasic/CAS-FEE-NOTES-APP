@@ -184,13 +184,11 @@ export default class NoteController {
       note.finished = true;
       note.finishedOn = moment().format('YYYY-MM-DD');
       document.getElementById('finished-on').value = moment().format('DD.MM.YYYY');
-      document.getElementById('finished-on').removeAttribute('disabled');
     } else {
       // Un-finish note
       note.finished = false;
       note.finishedOn = '';
       document.getElementById('finished-on').value = '';
-      document.getElementById('finished-on').setAttribute('disabled', 'disabled');
     }
 
     this.noteModel.updateNote(noteId, note);

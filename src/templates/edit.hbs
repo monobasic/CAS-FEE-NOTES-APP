@@ -29,7 +29,7 @@
     <label for="item-finished">Finished?</label> <input type="checkbox" id="item-finished"{{#if finished }} checked{{/if}}>
   </div>
   <div class="form-row">
-    <label for="finished-on">Finished on</label><input type="text" id="finished-on" class="datepicker" name="finished-on" value="{{formatDate finishedOn }}"{{#unless finished }} disabled{{/unless}}>
+    <label for="finished-on">Finished on</label><input type="text" id="finished-on" name="finished-on" value="{{formatDate finishedOn }}" disabled>
   </div>
   <div class="btn-group">
     <a href="" id="note-delete" class="btn btn-danger">Delete Note</a>
