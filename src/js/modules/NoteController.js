@@ -1,31 +1,21 @@
 'use strict';
 
+// Import Dependencies
 import moment from 'moment';
-import Handlebars from 'handlebars';
 import Pikaday from 'pikaday';
+import Handlebars from 'handlebars';
+import handlebarsHelperInit from './HandlebarsHelpers.js';
+handlebarsHelperInit();
+
+// Import Helper Modules
 import Url from './Url.js';
 import Dom from './Dom.js';
-
 
 export default class NoteController {
 
   constructor(noteModel) {
     // Model instance
     this.noteModel = noteModel;
-
-    // Handlebars Date Format Helper
-    Handlebars.registerHelper('formatDate', (iso) => iso ? moment(iso).format('DD.MM.YYYY') : '');
-    // Handlebars String Truncate (Whole words only) Helper
-    Handlebars.registerHelper ('truncate', (str, len) => {
-      if (str.length > len && str.length > 0) {
-        let newStr = str + ' ';
-        newStr = str.substr (0, len);
-        newStr = str.substr (0, newStr.lastIndexOf(' '));
-        newStr = (newStr.length > 0) ? newStr : str.substr (0, len);
-        return new Handlebars.SafeString(newStr + ' ...');
-      }
-      return str;
-    });
 
     // Object keeps track of UI's current theme, sorting and filtering
     this.ui = {
@@ -245,6 +235,7 @@ export default class NoteController {
     }
   }
 
+  // Handle special UI elements
   setPriority(priority, priorityList) {
     let priorityLinks = priorityList.querySelectorAll('a');
 
@@ -293,10 +284,8 @@ export default class NoteController {
     switcher.addEventListener('change', (e) => {
       let themeName = e.currentTarget.value;
       if (themeName.length) {
-
         // Set theme class variable
         this.ui.theme = themeName;
-
         // Update css include tag
         document.getElementById('theme-link').setAttribute('href', 'css/' + themeName + '/styles.min.css');
       }
