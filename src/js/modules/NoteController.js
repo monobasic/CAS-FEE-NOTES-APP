@@ -3,6 +3,9 @@
 import moment from 'moment';
 import Handlebars from 'handlebars';
 import Pikaday from 'pikaday';
+import Url from './Url.js';
+import Dom from './Dom.js';
+
 
 export default class NoteController {
 
@@ -12,7 +15,6 @@ export default class NoteController {
 
     // Handlebars Date Format Helper
     Handlebars.registerHelper('formatDate', (iso) => iso ? moment(iso).format('DD.MM.YYYY') : '');
-
     // Handlebars String Truncate (Whole words only) Helper
     Handlebars.registerHelper ('truncate', (str, len) => {
       if (str.length > len && str.length > 0) {
@@ -32,13 +34,14 @@ export default class NoteController {
       filterFinished: true
     };
 
+    // Routing
     // Attach #hash change listener to rendering the current page
     window.addEventListener("hashchange", () => {
-      this.changePage(this.getHash());
+      this.changePage(Url.getHash());
     });
 
     // Initial page render
-    this.changePage(this.getHash());
+    this.changePage(Url.getHash());
   }
 
   // Page specific handlers and methods
@@ -59,7 +62,7 @@ export default class NoteController {
 
       // Edit note view
       case 'edit':
-        note = this.noteModel.getNote(this.getIdFromUrl());
+        note = this.noteModel.getNote(Url.getIdFromUrl());
         this.renderTemplate(pageWrapper, page, note, () => {
           this.handlePriorityList(note.priority);
           this.handleDatePickers();
@@ -104,38 +107,6 @@ export default class NoteController {
         break;
     }
   }
-
-
-  // URL Helpers
-  gotoPage(page) {
-    location.hash = page;
-  }
-
-  getHash() {
-    const hash = location.hash.split('?')[0] || "#home";
-    return hash.substr(1);
-  }
-
-  getQueryString(field, url) {
-    let href = url ? url : window.location.href;
-    const reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
-    let string = reg.exec(href);
-    return string ? string[1] : null;
-  }
-
-  getIdFromUrl() {
-    return this.getQueryString('id');
-  }
-
-
-  // Other Helpers
-  getElIndex(element) {
-    // Helper function to find out the index of some siblings
-    let i;
-    for (i = 0; element = element.previousElementSibling; i++);
-    return i;
-  }
-
 
   // Render methods
   renderTemplate(target, template, data, callback) {
@@ -220,7 +191,7 @@ export default class NoteController {
     this.noteModel.addNote(note);
 
     // Back to Overview..
-    this.gotoPage('home');
+    Url.setHash('home');
 
     e.preventDefault();
   }
@@ -238,7 +209,7 @@ export default class NoteController {
     this.noteModel.updateNote(note.id, note);
 
     // Back to Overview..
-    this.gotoPage('home');
+    Url.setHash('home');
 
     e.preventDefault();
   }
@@ -246,8 +217,9 @@ export default class NoteController {
   onDeleteNote(e, note) {
     if (window.confirm("Do you really want to delete this note?")) {
       this.noteModel.deleteNote(note.id);
+
       // Back to Overview..
-      this.gotoPage('home');
+      Url.setHash('home');
     }
     e.preventDefault();
   }
@@ -293,7 +265,7 @@ export default class NoteController {
     priorityLinks.forEach((element) => {
       element.addEventListener('click', (e) => {
         let target = e.currentTarget;
-        this.setPriority(this.getElIndex(target.parentNode) + 1, priorityList);
+        this.setPriority(Dom.getElIndex(target.parentNode) + 1, priorityList);
         e.preventDefault();
       });
     });
