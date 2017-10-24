@@ -4,8 +4,7 @@
 import moment from 'moment';
 import Pikaday from 'pikaday';
 import Handlebars from 'handlebars';
-import handlebarsHelperInit from './HandlebarsHelpers';
-handlebarsHelperInit();
+import handlebarsHelpers from './HandlebarsHelpers';
 
 // Import Helper Modules
 import Url from './Url';
@@ -16,6 +15,9 @@ export default class NoteController {
   constructor(noteModel) {
     // Model instance
     this.noteModel = noteModel;
+
+    // Init Handlebars Helpers
+    handlebarsHelpers();
 
     // Object keeps track of UI's current theme, sorting and filtering
     this.ui = {
@@ -158,12 +160,12 @@ export default class NoteController {
       // Finish note
       note.finished = true;
       note.finishedOn = moment().format('YYYY-MM-DD');
-      document.getElementById('finished-on').value = moment().format('DD.MM.YYYY');
+      document.getElementById('finished-on').value = moment().format('DD.MM.YYYY'); // Directly update the input to prevent re-rendering of the notes-list
     } else {
       // Un-finish note
       note.finished = false;
       note.finishedOn = '';
-      document.getElementById('finished-on').value = '';
+      document.getElementById('finished-on').value = ''; // Directly update the input to prevent re-rendering of the notes-list
     }
 
     this.noteModel.updateNote(noteId, note);
