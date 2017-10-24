@@ -118,6 +118,7 @@ export default class NoteController {
       notes: this.noteModel.getNotes(orderBy, filterFinished)
     };
     this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
+      // Attach checkbox handlers
       document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
     });
 
