@@ -1,5 +1,3 @@
-'use strict';
-
 import DataServiceLocalStorage from './DataServiceLocalStorage';
 
 export default class NoteModel {

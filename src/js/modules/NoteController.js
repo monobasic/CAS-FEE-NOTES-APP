@@ -1,5 +1,3 @@
-'use strict';
-
 // Import Dependencies
 import moment from 'moment';
 import Pikaday from 'pikaday';

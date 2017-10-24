@@ -1,5 +1,3 @@
-'use strict';
-
 export default class Dom {
 
   // Helper function to find out the index of some siblings
