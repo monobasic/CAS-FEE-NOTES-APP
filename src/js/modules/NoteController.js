@@ -4,12 +4,12 @@
 import moment from 'moment';
 import Pikaday from 'pikaday';
 import Handlebars from 'handlebars';
-import handlebarsHelperInit from './HandlebarsHelpers.js';
+import handlebarsHelperInit from './HandlebarsHelpers';
 handlebarsHelperInit();
 
 // Import Helper Modules
-import Url from './Url.js';
-import Dom from './Dom.js';
+import Url from './Url';
+import Dom from './Dom';
 
 export default class NoteController {
 
