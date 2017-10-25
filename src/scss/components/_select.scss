@@ -1,17 +1,11 @@
 select {
   display: inline-block;
   /* Removes the default <select> styling */
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   box-shadow: none;
   text-shadow: none;
   outline: none;
   cursor: pointer;
-
-  -webkit-user-select: none;
-  -moz-user-select: -moz-none;
-  -ms-user-select: none;
   user-select: none;
 
   border-radius: $border-radius;
