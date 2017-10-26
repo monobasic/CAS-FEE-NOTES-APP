@@ -5,7 +5,7 @@ function Order(pizzaName, orderedBy)
 {
     this.orderedBy = orderedBy;
     this.pizzaName = pizzaName;
-    this.orderDate = new Date();
+    this.orderDate = JSON.stringify(new Date());
     this.state = "OK";
 }
 
@@ -20,22 +20,21 @@ function publicAddOrder(pizzaName, orderedBy, callback)
     });
 }
 
-function publicRemove(id, currentUser, callback) {
-    db.update({_id: id, orderedBy : currentUser}, {$set: {"state": "DELETED"}}, {returnUpdatedDocs:true}, function (err, count, doc) {
+function publicRemove(id, callback) {
+    db.update({_id: id}, {$set: {"state": "DELETED"}}, {returnUpdatedDocs:true}, function (err, numDocs, doc) {
         callback(err, doc);
     });
 }
 
-function publicGet(id, currentUser, callback)
-{
-    db.findOne({ _id: id, orderedBy : currentUser }, function (err, doc) {
+function publicGet(id, callback)
+{   db.findOne({ _id: id }, function (err, doc) {
         callback( err, doc);
     });
 }
 
-function publicAll(currentUser, callback)
+function publicAll()
 {
-    db.find({orderedBy : currentUser}).sort({ orderDate: -1 }).exec(function (err, docs) {
+    db.find({}, function (err, docs) {
         callback( err, docs);
     });
 }

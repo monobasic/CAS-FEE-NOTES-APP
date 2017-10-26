@@ -1,5 +1,3 @@
-{"orderedBy":"admin@admin.ch","pizzaName":"hawaii","orderDate":{"$$date":1497860490116},"state":"OK","_id":"UWFRnZfevrQ9jGan"}
-{"orderedBy":"admin@admin.ch","pizzaName":"Hawaii","orderDate":{"$$date":1497859040051},"state":"OK","_id":"ZfeUsuxUMnqxk1IA"}
-{"orderedBy":"admin@admin.ch","pizzaName":"Fungi","orderDate":{"$$date":1497859050746},"state":"DELETED","_id":"ez3a99pXb8w1WRXN"}
-{"orderedBy":"admin@admin.ch","pizzaName":"Foonghi","orderDate":{"$$date":1509004489213},"state":"OK","_id":"MlqS2O6VIhr3pP1m"}
-{"orderedBy":"admin@admin.ch","pizzaName":"Foonghi","orderDate":{"$$date":1509004489213},"state":"DELETED","_id":"MlqS2O6VIhr3pP1m"}
+{"orderedBy":"unkown","pizzaName":"asdfasd","orderDate":"\"2015-06-12T14:22:30.161Z\"","state":"OK","_id":"ulTGuUkDFR8GqBUU"}
+{"orderedBy":"unkown","pizzaName":"asdfasdf","orderDate":"\"2015-06-12T14:21:45.406Z\"","state":"OK","_id":"yCDdZxOTs8s4CTF7"}
+{"orderedBy":"unkown","pizzaName":"Foongi","orderDate":"\"2017-10-26T08:08:49.458Z\"","state":"OK","_id":"YFyP0HpGx61bVoKe"}
