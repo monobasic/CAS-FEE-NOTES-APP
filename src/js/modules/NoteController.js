@@ -114,17 +114,21 @@ export default class NoteController {
   }
 
   renderNotes(orderBy, filterFinished) {
-    const data = {
-      notes: this.noteModel.getNotes(orderBy, filterFinished)
-    };
-    this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
-      // Attach checkbox handlers
-      document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
-    });
+    this.noteModel.getNotes(orderBy, filterFinished).then((notes) => {
+      const data = {
+        notes: notes
+      };
+      console.log('notes:');
+      console.log(data.notes);
+      this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
+        // Attach checkbox handlers
+        document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
+      });
 
-    // Persist current sorting/filtering
-    this.ui.orderBy = orderBy;
-    this.ui.filterFinished = filterFinished;
+      // Persist current sorting/filtering
+      this.ui.orderBy = orderBy;
+      this.ui.filterFinished = filterFinished;
+    });
   }
 
 
@@ -181,10 +185,11 @@ export default class NoteController {
     note.finished = false;
 
     // Save the note, model!
-    this.noteModel.addNote(note);
-
-    // Back to Overview..
-    Url.setHash('home');
+    this.noteModel.addNote(note).then(() => {
+      console.log('add note then...');
+      // Back to Overview..
+      Url.setHash('home');
+    });
 
     e.preventDefault();
   }
@@ -199,7 +204,7 @@ export default class NoteController {
     note.created = document.getElementById('created').value ? moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
 
     // Update the note, model!
-    this.noteModel.updateNote(note.id, note);
+    this.noteModel.updateNote(note._id, note);
 
     // Back to Overview..
     Url.setHash('home');
@@ -209,7 +214,7 @@ export default class NoteController {
 
   onDeleteNote(e, note) {
     if (window.confirm("Do you really want to delete this note?")) {
-      this.noteModel.deleteNote(note.id);
+      this.noteModel.deleteNote(note._id);
 
       // Back to Overview..
       Url.setHash('home');

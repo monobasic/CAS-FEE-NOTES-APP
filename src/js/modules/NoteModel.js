@@ -1,13 +1,15 @@
-import DataServiceLocalStorage from './DataServiceLocalStorage';
+import DataServiceRest from './DataServiceRest';
 
 export default class NoteModel {
 
   constructor() {
-    this._dataService = new DataServiceLocalStorage();
+    this._dataService = new DataServiceRest();
   }
 
   getNotes(orderBy = 'due', filterFinished = false) {
-    return filterFinished ? this._filterFinished(this._sortBy(orderBy, this._dataService.getNotes())) : this._sortBy(orderBy, this._dataService.getNotes());
+    return this._dataService.getNotes().then((notes) => {
+      return filterFinished ? this._filterFinished(this._sortBy(orderBy, notes)) : this._sortBy(orderBy, notes);
+    });
   }
 
   getNote(id) {
@@ -15,7 +17,7 @@ export default class NoteModel {
   }
 
   addNote(note) {
-    this._dataService.addNote(note);
+    return this._dataService.addNote(note).then((note) => note);
   }
 
   deleteNote(id) {
