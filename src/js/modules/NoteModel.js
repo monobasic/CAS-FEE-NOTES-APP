@@ -1,9 +1,11 @@
 import DataServiceRest from './DataServiceRest';
+import DataServiceLocalStorage from './DataServiceLocalStorage';
 
 export default class NoteModel {
 
   constructor() {
     this._dataService = new DataServiceRest();
+    //this._dataService = new DataServiceLocalStorage();
   }
 
   getNotes(orderBy = 'due', filterFinished = false) {
