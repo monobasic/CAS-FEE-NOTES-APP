@@ -52,20 +52,22 @@ export default class NoteController {
 
       // Edit note view
       case 'edit':
-        note = this.noteModel.getNote(Url.getIdFromUrl());
-        this.renderTemplate(pageWrapper, page, note, () => {
-          this.handlePriorityList(note.priority);
-          this.handleDatePickers();
-          document.getElementById('form-note-edit').addEventListener('submit', (e) => {
-            this.onUpdateNote(e, note);
-          });
-          document.getElementById('item-finished').addEventListener('click', (e) => {
-            this.onToggleFinishedEdit(e, note);
-          });
-          document.getElementById('note-delete').addEventListener('click', (e) => {
-            this.onDeleteNote(e, note);
+        this.noteModel.getNote(Url.getIdFromUrl()).then((note) => {
+          this.renderTemplate(pageWrapper, page, note, () => {
+            this.handlePriorityList(note.priority);
+            this.handleDatePickers();
+            document.getElementById('form-note-edit').addEventListener('submit', (e) => {
+              this.onUpdateNote(e, note);
+            });
+            document.getElementById('item-finished').addEventListener('click', (e) => {
+              this.onToggleFinishedEdit(e, note);
+            });
+            document.getElementById('note-delete').addEventListener('click', (e) => {
+              this.onDeleteNote(e, note);
+            });
           });
         });
+
         break;
 
       // Home / note list view

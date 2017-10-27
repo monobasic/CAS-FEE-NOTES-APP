@@ -13,7 +13,7 @@ export default class NoteModel {
   }
 
   getNote(id) {
-    return this._dataService.getNote(id);
+    return this._dataService.getNote(id).then((note) => note);
   }
 
   addNote(note) {

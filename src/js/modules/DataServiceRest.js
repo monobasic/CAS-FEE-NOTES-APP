@@ -24,7 +24,7 @@ export default class DataServiceRest extends DataServiceAbstract {
   }
 
   getNote(id) {
-    const request = new Request(`${this.api}/notes?id=${id}`, {
+    const request = new Request(`${this.api}/notes/${id}`, {
       method: 'get',
       mode: 'cors',
       redirect: 'follow',
