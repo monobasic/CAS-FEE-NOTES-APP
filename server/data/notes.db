@@ -1,5 +1,2 @@
-{"title":"Mom anrufen 2","due":"2017-12-23","created":"2017-10-26","description":"Wegen Weihnachten","priority":"3","finished":false,"finishedOn":"","_id":"Hj0VVJU2eJEIDgkk"}
-{"title":"Foo 2","due":"2017-10-28","created":"2017-10-27","description":"Bar 2","priority":"5","finished":false,"finishedOn":"","_id":"PSFs2gspQcFxuC1m"}
+{"title":"Mom anrufen","due":"2017-12-23","created":"2017-10-26","description":"Wegen Weihnachten","priority":"3","finished":false,"finishedOn":"","_id":"Hj0VVJU2eJEIDgkk"}
 {"title":"Hallo ich bin eine nicht dringende Note","due":"2018-03-31","created":"2017-10-27","description":"Lorem ipsum.","priority":"1","finished":false,"finishedOn":"","_id":"uosHyjA2zIW4uKdi"}
-{"title":"Foo","due":"2017-10-28","created":"2017-10-27","description":"Bar","priority":"5","finished":false,"finishedOn":"","_id":"PSFs2gspQcFxuC1m"}
-{"title":"Foo 3","due":"2017-10-28","created":"2017-10-27","description":"Bar 3","priority":"5","finished":false,"finishedOn":"","_id":"PSFs2gspQcFxuC1m"}
