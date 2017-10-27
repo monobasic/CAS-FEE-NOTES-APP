@@ -139,21 +139,21 @@ export default class NoteController {
     const checkbox = e.currentTarget;
     let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
     const noteId = checkbox.getAttribute('data-id');
-    let note = this.noteModel.getNote(noteId);
+    this.noteModel.getNote(noteId).then((note) => {
+      if (checkbox.checked) {
+        // Finish note
+        note.finished = true;
+        note.finishedOn = moment().format('YYYY-MM-DD');
+        label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering of the notes-list
+      } else {
+        // Un-finish note
+        note.finished = false;
+        note.finishedOn = '';
+        label.innerText = 'Finished'; // Directly update the label to prevent re-rendering of the notes-list
+      }
 
-    if (checkbox.checked) {
-      // Finish note
-      note.finished = true;
-      note.finishedOn = moment().format('YYYY-MM-DD');
-      label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering of the notes-list
-    } else {
-      // Un-finish note
-      note.finished = false;
-      note.finishedOn = '';
-      label.innerText = 'Finished'; // Directly update the label to prevent re-rendering of the notes-list
-    }
-
-    this.noteModel.updateNote(noteId, note);
+      this.noteModel.updateNote(noteId, note).then(() => {});
+    });
   }
 
   onToggleFinishedEdit(e, note) {
@@ -172,7 +172,7 @@ export default class NoteController {
       document.getElementById('finished-on').value = ''; // Directly update the input to prevent re-rendering of the notes-list
     }
 
-    this.noteModel.updateNote(noteId, note);
+    this.noteModel.updateNote(noteId, note).then(() => {});
   }
 
   onAddNote(e) {
