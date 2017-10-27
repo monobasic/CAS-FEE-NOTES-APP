@@ -28,9 +28,7 @@ function get(id, callback) {
 }
 
 function add(title, due, created, description, priority, finished, finishedOn, callback) {
-  console.log('store add');
     let note = new Note(title, due, created, description, priority, finished, finishedOn);
-
     db.insert(note, function(err, newNote){
         if (callback) {
           callback(err, newNote);
@@ -39,7 +37,6 @@ function add(title, due, created, description, priority, finished, finishedOn, c
 }
 
 function remove(id, callback) {
-  console.log('store remove id: ' + id);
   db.remove({ _id: id }, {}, function (err, numRemoved) {
     if (callback) {
       callback(err, numRemoved);
@@ -48,16 +45,12 @@ function remove(id, callback) {
 }
 
 function update(id, title, due, created, description, priority, finished, finishedOn, callback) {
-  console.log('store update id: ' + id);
   db.update({ _id: id }, new Note(title, due, created, description, priority, finished, finishedOn), {}, function (err, numUpdated) {
     if (callback) {
       callback(err, numUpdated);
     }
   });
 }
-
-
-
 
 
 module.exports = {getAll: getAll, get: get, add: add, remove: remove, update: update};
