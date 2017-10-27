@@ -9,7 +9,7 @@ $ git clone --recursive git@github.com:monobasic/CAS-FEE-NOTES-APP.git
 This will clone all sources
 
 
-### Install npm package dependencies
+### Install npm package dependencies for Frontend App
 
 ```
 $ npm install
