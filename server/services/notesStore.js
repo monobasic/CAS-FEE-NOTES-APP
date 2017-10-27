@@ -27,7 +27,6 @@ function get(id, callback) {
   });
 }
 
-
 function add(title, due, created, description, priority, finished, finishedOn, callback) {
   console.log('store add');
     let note = new Note(title, due, created, description, priority, finished, finishedOn);
@@ -38,15 +37,18 @@ function add(title, due, created, description, priority, finished, finishedOn, c
         }
     });
 }
-//
-// function remove(id, callback) {
-//     db.update({_id: id}, {$set: {"state": "DELETED"}}, {returnUpdatedDocs:true}, function (err, numDocs, doc) {
-//         callback(err, doc);
-//     });
-// }
-//
+
+function remove(id, callback) {
+  console.log('store remove id: ' + id);
+  db.remove({ _id: id }, {}, function (err, numRemoved) {
+    if (callback) {
+      callback(err, numRemoved);
+    }
+  });
+}
 
 
 
 
-module.exports = {getAll: getAll, get: get, add: add};
+
+module.exports = {getAll: getAll, get: get, add: add, remove: remove};

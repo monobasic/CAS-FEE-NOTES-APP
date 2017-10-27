@@ -55,7 +55,18 @@ export default class DataServiceRest extends DataServiceAbstract {
   }
 
   deleteNote(id) {
+    const request = new Request(`${this.api}/notes/${id}`, {
+      method: 'delete',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    });
 
+    return fetch(request).then((response) => response.json()).catch(function() {
+      console.log('api error occured');
+    });
   }
 
   updateNote(id, data) {

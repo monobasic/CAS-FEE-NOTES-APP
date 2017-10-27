@@ -17,11 +17,11 @@ export default class NoteModel {
   }
 
   addNote(note) {
-    return this._dataService.addNote(note).then((note) => note);
+    return this._dataService.addNote(note).then((newNote) => newNote);
   }
 
   deleteNote(id) {
-    this._dataService.deleteNote(id);
+    this._dataService.deleteNote(id).then((numRemoved) => numRemoved);
   }
 
   updateNote(id, data) {

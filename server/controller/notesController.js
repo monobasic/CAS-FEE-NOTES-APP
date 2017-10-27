@@ -33,10 +33,12 @@ module.exports.createNote = function(req, res) {
   });
 };
 
-
-//
-// module.exports.deleteNote =  function (req, res) {
-//   store.delete(  req.params.id , function(err, order) {
-//
-//   });
-// };
+module.exports.deleteNote =  function (req, res) {
+  store.remove(req.params.id , function(err, numRemoved) {
+    res.format({
+      'application/json': function(){
+        res.json(numRemoved);
+      }
+    });
+  });
+};

@@ -216,10 +216,10 @@ export default class NoteController {
 
   onDeleteNote(e, note) {
     if (window.confirm("Do you really want to delete this note?")) {
-      this.noteModel.deleteNote(note._id);
-
-      // Back to Overview..
-      Url.setHash('home');
+      this.noteModel.deleteNote(note._id).then(() => {
+        // Back to Overview..
+        Url.setHash('home');
+      });
     }
     e.preventDefault();
   }
