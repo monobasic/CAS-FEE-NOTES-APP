@@ -84,26 +84,40 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
   }
 
   getNotes() {
-    return this._notes;
+    return new Promise((resolve, reject) => {
+      resolve(this._notes);
+    });
   }
 
   getNote(id) {
-    return this._notes.find(note => note._id === id);
+    return new Promise((resolve, reject) => {
+      resolve(this._notes.find(note => note._id === id));
+    });
   }
 
   addNote(note) {
-    note._id = this._guid();
-    this._notes.push(note);
-    this._updateLocalStorage();
+    return new Promise((resolve, reject) => {
+      console.log('add promise..');
+      note._id = this._guid();
+      this._notes.push(note);
+      this._updateLocalStorage();
+      resolve();
+    });
   }
 
   deleteNote(id) {
-    this._notes.splice(this._notes.findIndex(note => note._id === id), 1);
-    this._updateLocalStorage();
+    return new Promise((resolve, reject) => {
+      this._notes.splice(this._notes.findIndex(note => note._id === id), 1);
+      this._updateLocalStorage();
+      resolve();
+    });
   }
 
   updateNote(id, data) {
-    this._notes[this._notes.findIndex(note => note._id === id)] = data;
-    this._updateLocalStorage();
+    return new Promise((resolve, reject) => {
+      this._notes[this._notes.findIndex(note => note._id === id)] = data;
+      this._updateLocalStorage();
+      resolve();
+    });
   }
 }
