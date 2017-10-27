@@ -69,7 +69,19 @@ export default class DataServiceRest extends DataServiceAbstract {
     });
   }
 
-  updateNote(id, data) {
+  updateNote(id, note) {
+    const request = new Request(`${this.api}/notes/${id}`, {
+      method: 'put',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(note)
+    });
 
+    return fetch(request).then((response) => response.json()).catch(function() {
+      console.log('api error occured');
+    });
   }
 }

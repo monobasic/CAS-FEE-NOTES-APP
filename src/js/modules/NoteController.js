@@ -206,10 +206,10 @@ export default class NoteController {
     note.created = document.getElementById('created').value ? moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
 
     // Update the note, model!
-    this.noteModel.updateNote(note._id, note);
-
-    // Back to Overview..
-    Url.setHash('home');
+    this.noteModel.updateNote(note._id, note).then(() => {
+      // Back to Overview..
+      Url.setHash('home');
+    });
 
     e.preventDefault();
   }

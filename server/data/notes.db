@@ -1,12 +1,6 @@
-{"title":"adfaf","due":"2017-10-21","created":"2017-10-27","description":"asfasdf","priority":"3","finished":false,"finishedOn":"","_id":"Fi8Wn8LQFKtIBPnL"}
-{"title":"Mom anrufen","due":"2017-12-23","created":"2017-10-26","description":"Wegen Weihnachten","priority":"3","finished":false,"finishedOn":"","_id":"Hj0VVJU2eJEIDgkk"}
-{"title":"asasf","due":"2017-10-28","created":"2017-10-27","description":"asfasdf","priority":"3","finished":false,"finishedOn":"","_id":"SRSAotUyA1igQ5ik"}
-{"title":"agsgafsd","due":"2017-10-28","created":"2017-10-27","description":"asdfasdfas","priority":"1","finished":false,"finishedOn":"","_id":"fxx58zZILBMDHqlh"}
-{"title":"adsfaf","due":"2017-10-28","created":"2017-10-27","description":"asfadsf","priority":"3","finished":false,"finishedOn":"","_id":"mDIeRgzUknUIdJmq"}
+{"title":"Mom anrufen 2","due":"2017-12-23","created":"2017-10-26","description":"Wegen Weihnachten","priority":"3","finished":false,"finishedOn":"","_id":"Hj0VVJU2eJEIDgkk"}
 {"title":"Hallo ich bin eine nicht dringende Note","due":"2018-03-31","created":"2017-10-27","description":"Lorem ipsum.","priority":"1","finished":false,"finishedOn":"","_id":"uosHyjA2zIW4uKdi"}
-{"title":"Foo","due":"2017-10-28","created":"2017-10-26","description":"Bar","priority":"5","finished":false,"finishedOn":"","_id":"yVPRfo6eFfrKcaHK"}
-{"$$deleted":true,"_id":"Fi8Wn8LQFKtIBPnL"}
-{"$$deleted":true,"_id":"SRSAotUyA1igQ5ik"}
-{"$$deleted":true,"_id":"fxx58zZILBMDHqlh"}
-{"$$deleted":true,"_id":"mDIeRgzUknUIdJmq"}
-{"$$deleted":true,"_id":"yVPRfo6eFfrKcaHK"}
+{"title":"Mom anrufen 2","due":"2017-12-23","created":"2017-10-26","description":"Wegen Weihnachten","priority":"3","finished":false,"finishedOn":"","_id":"Hj0VVJU2eJEIDgkk"}
+{"title":"asdfadfa","due":"2017-10-28","created":"2017-10-27","description":"asdfasdfadfas","priority":"3","finished":false,"finishedOn":"","_id":"3yQlLA6wlEZZMHZ8"}
+{"title":"asdfadfaadfadsfad","due":"2017-10-28","created":"2017-10-27","description":"asdfasdfadfasasfadsfasdfasdf","priority":"3","finished":false,"finishedOn":"","_id":"3yQlLA6wlEZZMHZ8"}
+{"title":"as","due":"2017-10-28","created":"2017-10-27","description":"as","priority":"3","finished":false,"finishedOn":"","_id":"3yQlLA6wlEZZMHZ8"}

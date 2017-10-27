@@ -42,3 +42,13 @@ module.exports.deleteNote =  function (req, res) {
     });
   });
 };
+
+module.exports.updateNote =  function (req, res) {
+  store.update(req.params.id, req.body.title, req.body.due, req.body.created, req.body.description, req.body.priority, req.body.finished, req.body.finishedOn, function(err, numUpdated) {
+    res.format({
+      'application/json': function(){
+        res.json(numUpdated);
+      }
+    });
+  });
+};

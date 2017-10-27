@@ -21,11 +21,11 @@ export default class NoteModel {
   }
 
   deleteNote(id) {
-    this._dataService.deleteNote(id).then((numRemoved) => numRemoved);
+    return this._dataService.deleteNote(id).then((numRemoved) => numRemoved);
   }
 
   updateNote(id, data) {
-    this._dataService.updateNote(id, data);
+    return this._dataService.updateNote(id, data).then((numReplaced) => numReplaced);
   }
 
   _sortBy(sort = 'due', notes) {
