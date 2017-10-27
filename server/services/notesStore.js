@@ -7,15 +7,23 @@ function Note(title, due, created, description, priority, finished, finishedOn) 
   this.created = created;
   this.description = description;
   this.priority = priority;
-  this.priority = finished;
+  this.finished = finished;
   this.finishedOn =  finishedOn;
 }
 
 function getAll(callback) {
-  console.log('store getAll');
   db.find({}, function (err, notes) {
-    console.log('result:', notes);
-    callback(err, notes);
+    if (callback) {
+      callback(err, notes);
+    }
+  });
+}
+
+function get(id, callback) {
+  db.findOne({ _id: id }, function (err, note) {
+    if (callback) {
+      callback(err, note);
+    }
   });
 }
 
@@ -24,9 +32,9 @@ function add(title, due, created, description, priority, finished, finishedOn, c
   console.log('store add');
     let note = new Note(title, due, created, description, priority, finished, finishedOn);
 
-    db.insert(note, function(err, newDoc){
+    db.insert(note, function(err, newNote){
         if (callback) {
-          callback(err, newDoc);
+          callback(err, newNote);
         }
     });
 }
@@ -37,12 +45,8 @@ function add(title, due, created, description, priority, finished, finishedOn, c
 //     });
 // }
 //
-// function get(id, callback)
-// {   db.findOne({ _id: id }, function (err, doc) {
-//         callback( err, doc);
-//     });
-// }
 
 
 
-module.exports = {getAll : getAll, add: add};
+
+module.exports = {getAll: getAll, get: get, add: add};
