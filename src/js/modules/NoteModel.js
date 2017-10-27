@@ -1,5 +1,5 @@
 import DataServiceRest from './DataServiceRest';
-import DataServiceLocalStorage from './DataServiceLocalStorage';
+//import DataServiceLocalStorage from './DataServiceLocalStorage';
 
 export default class NoteModel {
 

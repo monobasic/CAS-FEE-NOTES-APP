@@ -49,7 +49,7 @@ function remove(id, callback) {
 
 function update(id, title, due, created, description, priority, finished, finishedOn, callback) {
   console.log('store update id: ' + id);
-  db.update({ _id: id }, new Note(title, due, created, description, priority, finished, finishedOn), function (err, numUpdated) {
+  db.update({ _id: id }, new Note(title, due, created, description, priority, finished, finishedOn), {}, function (err, numUpdated) {
     if (callback) {
       callback(err, numUpdated);
     }
