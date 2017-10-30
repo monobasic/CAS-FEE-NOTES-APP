@@ -66,7 +66,6 @@ export default class NoteController {
             });
           });
         });
-
         break;
 
       // Home / note list view

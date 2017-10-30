@@ -4,7 +4,6 @@ export default class DataServiceRest extends DataServiceAbstract {
 
   constructor() {
     super();
-
     this.api = 'http://127.0.0.1:3001';
   }
 
@@ -69,7 +68,7 @@ export default class DataServiceRest extends DataServiceAbstract {
     });
   }
 
-  updateNote(id, note) {
+  updateNote(id, data) {
     const request = new Request(`${this.api}/notes/${id}`, {
       method: 'put',
       mode: 'cors',
@@ -77,7 +76,7 @@ export default class DataServiceRest extends DataServiceAbstract {
       headers: new Headers({
         'Content-Type': 'application/json'
       }),
-      body: JSON.stringify(note)
+      body: JSON.stringify(data)
     });
 
     return fetch(request).then((response) => response.json()).catch(function() {
