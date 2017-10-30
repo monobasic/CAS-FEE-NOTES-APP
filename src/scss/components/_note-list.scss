@@ -44,6 +44,12 @@
 .note-list-item-title {}
 .note-list-item-due {}
 .note-list-item-description {}
+.note-list-item-finished {
+
+  input {
+    width: auto;
+  }
+}
 .note-list-item-edit {
 
   .btn {
