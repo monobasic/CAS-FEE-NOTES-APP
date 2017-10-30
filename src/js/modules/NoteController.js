@@ -34,6 +34,7 @@ export default class NoteController {
     this.changePage(Url.getHash());
   }
 
+
   // Page specific handlers and methods
   changePage(page) {
     let pageWrapper = document.getElementById('wrapper');
@@ -100,6 +101,7 @@ export default class NoteController {
     }
   }
 
+
   // Render methods
   renderTemplate(target, template, data, callback) {
     data = data || {};
@@ -136,38 +138,31 @@ export default class NoteController {
   onToggleFinished(e, note) {
     const checkbox = e.currentTarget;
     const noteId = (note) ? note._id : checkbox.getAttribute('data-id');
+    let finish = checkbox.checked;
+
     if (note === undefined) {
       this.noteModel.getNote(noteId).then((note) => {
-        this.toggleNoteFinished(checkbox, note);
+        if (finish) {
+          note.finished = true;
+          note.finishedOn = moment().format('YYYY-MM-DD');
+        } else {
+          note.finished = false;
+          note.finishedOn = '';
+        }
+        this.noteModel.updateNote(note._id, note).then(() => {});
+        this.updateFinished(checkbox, note);
       });
     } else {
-      this.toggleNoteFinished(checkbox, note);
-    }
-  }
-
-  toggleNoteFinished(checkbox, note) {
-    const noteModel = this.noteModel;
-    const input = document.getElementById('finished-on');
-    let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
-
-    if (checkbox.checked) {
-      // Finish note
-      note.finished = true;
-      note.finishedOn = moment().format('YYYY-MM-DD');
-      label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering
-      if (input) {
-        input.value = moment().format('DD.MM.YYYY'); // Directly update the input, if there, to prevent re-rendering
+      if (finish) {
+        note.finished = true;
+        note.finishedOn = moment().format('YYYY-MM-DD');
+      } else {
+        note.finished = false;
+        note.finishedOn = '';
       }
-    } else {
-      // Un-finish note
-      note.finished = false;
-      note.finishedOn = '';
-      label.innerText = 'Finished'; // Directly update the label to prevent re-rendering
-      if (input) {
-        input.value = ''; // Directly update the input, if there, to prevent re-rendering
-      }
+      this.noteModel.updateNote(note._id, note).then(() => {});
+      this.updateFinished(checkbox, note);
     }
-    noteModel.updateNote(note._id, note).then(() => {});
   }
 
   onAddNote(e) {
@@ -219,7 +214,6 @@ export default class NoteController {
   }
 
 
-
   // UI update methods
   updateSortOptions(sortby) {
     const sortOptions = document.getElementById('sort-options');
@@ -238,6 +232,26 @@ export default class NoteController {
       icon.classList.remove('fa-square-o');
     }
   }
+
+  updateFinished(checkbox) {
+    const input = document.getElementById('finished-on');
+    let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
+
+    if (checkbox.checked) {
+      // Finish note
+      label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering
+      if (input) {
+        input.value = moment().format('DD.MM.YYYY'); // Directly update the input, if there, to prevent re-rendering
+      }
+    } else {
+      // Un-finish note
+      label.innerText = 'Finished'; // Directly update the label to prevent re-rendering
+      if (input) {
+        input.value = ''; // Directly update the input, if there, to prevent re-rendering
+      }
+    }
+  }
+
 
   // Handle special UI elements
   setPriority(priority, priorityList) {
