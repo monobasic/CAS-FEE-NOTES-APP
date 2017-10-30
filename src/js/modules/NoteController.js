@@ -60,7 +60,7 @@ export default class NoteController {
               this.onUpdateNote(e, note);
             });
             document.getElementById('item-finished').addEventListener('click', (e) => {
-              this.onToggleFinishedEdit(e, note);
+              this.onToggleFinished(e, note);
             });
             document.getElementById('note-delete').addEventListener('click', (e) => {
               this.onDeleteNote(e, note);
@@ -133,11 +133,22 @@ export default class NoteController {
 
 
   // Event handlers
-  onToggleFinished(e) {
+  onToggleFinished(e, note) {
     const checkbox = e.currentTarget;
     let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
-    const noteId = checkbox.getAttribute('data-id');
-    this.noteModel.getNote(noteId).then((note) => {
+    const noteId = (note) ? note._id : checkbox.getAttribute('data-id');
+    const noteModel = this.noteModel;
+
+    if (note === undefined) {
+      this.noteModel.getNote(noteId).then((note) => {
+        toggleNoteFinished(checkbox, note, noteModel);
+      });
+    } else {
+      toggleNoteFinished(checkbox, note, noteModel);
+    }
+
+    function toggleNoteFinished(checkbox, note, noteModel) {
+      const input = document.getElementById('finished-on');
       if (checkbox.checked) {
         // Finish note
         note.finished = true;
@@ -148,29 +159,12 @@ export default class NoteController {
         note.finished = false;
         note.finishedOn = '';
         label.innerText = 'Finished'; // Directly update the label to prevent re-rendering of the notes-list
+        if (input) {
+          input.value = ''; // Directly update the input to prevent re-rendering of the notes-list
+        }
       }
-
-      this.noteModel.updateNote(noteId, note).then(() => {});
-    });
-  }
-
-  onToggleFinishedEdit(e, note) {
-    const checkbox = e.currentTarget;
-    const noteId = note.id;
-
-    if (checkbox.checked) {
-      // Finish note
-      note.finished = true;
-      note.finishedOn = moment().format('YYYY-MM-DD');
-      document.getElementById('finished-on').value = moment().format('DD.MM.YYYY'); // Directly update the input to prevent re-rendering of the notes-list
-    } else {
-      // Un-finish note
-      note.finished = false;
-      note.finishedOn = '';
-      document.getElementById('finished-on').value = ''; // Directly update the input to prevent re-rendering of the notes-list
+      noteModel.updateNote(noteId, note).then(() => {});
     }
-
-    this.noteModel.updateNote(noteId, note).then(() => {});
   }
 
   onAddNote(e) {
