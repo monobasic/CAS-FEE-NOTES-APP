@@ -135,36 +135,36 @@ export default class NoteController {
   // Event handlers
   onToggleFinished(e, note) {
     const checkbox = e.currentTarget;
-    let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
     const noteId = (note) ? note._id : checkbox.getAttribute('data-id');
-    const noteModel = this.noteModel;
-
     if (note === undefined) {
       this.noteModel.getNote(noteId).then((note) => {
-        toggleNoteFinished(checkbox, note, noteModel);
+        this.toggleNoteFinished(checkbox, note);
       });
     } else {
-      toggleNoteFinished(checkbox, note, noteModel);
+      this.toggleNoteFinished(checkbox, note);
     }
+  }
 
-    function toggleNoteFinished(checkbox, note, noteModel) {
-      const input = document.getElementById('finished-on');
-      if (checkbox.checked) {
-        // Finish note
-        note.finished = true;
-        note.finishedOn = moment().format('YYYY-MM-DD');
-        label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering of the notes-list
-      } else {
-        // Un-finish note
-        note.finished = false;
-        note.finishedOn = '';
-        label.innerText = 'Finished'; // Directly update the label to prevent re-rendering of the notes-list
-        if (input) {
-          input.value = ''; // Directly update the input to prevent re-rendering of the notes-list
-        }
+  toggleNoteFinished(checkbox, note) {
+    const input = document.getElementById('finished-on');
+    let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
+    const noteModel = this.noteModel;
+
+    if (checkbox.checked) {
+      // Finish note
+      note.finished = true;
+      note.finishedOn = moment().format('YYYY-MM-DD');
+      label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering
+    } else {
+      // Un-finish note
+      note.finished = false;
+      note.finishedOn = '';
+      label.innerText = 'Finished'; // Directly update the label to prevent re-rendering
+      if (input) {
+        input.value = ''; // Directly update the input, if there, to prevent re-rendering
       }
-      noteModel.updateNote(noteId, note).then(() => {});
     }
+    noteModel.updateNote(note._id, note).then(() => {});
   }
 
   onAddNote(e) {
