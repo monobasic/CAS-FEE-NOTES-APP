@@ -62,7 +62,7 @@ export default class NoteController {
             });
             document.getElementById('item-finished').addEventListener('click', this.onToggleFinished.bind(this));
             document.getElementById('note-delete').addEventListener('click', (e) => {
-              this.onDeleteNote(e, note);
+              this.onDeleteNote(e, note._id);
             });
           });
         });
@@ -136,9 +136,8 @@ export default class NoteController {
   onToggleFinished(e) {
     const checkbox = e.currentTarget;
     const noteId = checkbox.getAttribute('data-id');
-    let finish = checkbox.checked;
     this.noteModel.getNote(noteId).then((note) => {
-      if (finish) {
+      if (checkbox.checked) {
         note.finished = true;
         note.finishedOn = moment().format('YYYY-MM-DD');
       } else {
@@ -189,9 +188,9 @@ export default class NoteController {
     e.preventDefault();
   }
 
-  onDeleteNote(e, note) {
+  onDeleteNote(e, noteId) {
     if (window.confirm("Do you really want to delete this note?")) {
-      this.noteModel.deleteNote(note._id).then(() => {
+      this.noteModel.deleteNote(noteId).then(() => {
         // Back to Overview..
         Url.setHash('home');
       });
