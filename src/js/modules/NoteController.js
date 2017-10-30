@@ -58,7 +58,7 @@ export default class NoteController {
             this.handlePriorityList(note.priority);
             this.handleDatePickers();
             document.getElementById('form-note-edit').addEventListener('submit', (e) => {
-              this.onUpdateNote(e, note);
+              this.onUpdateNote(e, note._id);
             });
             document.getElementById('item-finished').addEventListener('click', this.onToggleFinished.bind(this));
             document.getElementById('note-delete').addEventListener('click', (e) => {
@@ -169,18 +169,19 @@ export default class NoteController {
     e.preventDefault();
   }
 
-  onUpdateNote(e, note) {
+  onUpdateNote(e, noteId) {
     // Assign new data
-    note.title = document.getElementById('title').value;
-    note.description = document.getElementById('description').value;
-    note.priority = document.getElementById('priority').value;
-    note.due = document.getElementById('due').value ? moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
-    note.finished = document.getElementById('item-finished').checked;
-    note.finishedOn = document.getElementById('finished-on').value ? moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
-    note.created = document.getElementById('created').value ? moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
+    let data = {};
+    data.title = document.getElementById('title').value;
+    data.description = document.getElementById('description').value;
+    data.priority = document.getElementById('priority').value;
+    data.due = document.getElementById('due').value ? moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
+    data.finished = document.getElementById('item-finished').checked;
+    data.finishedOn = document.getElementById('finished-on').value ? moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
+    data.created = document.getElementById('created').value ? moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
 
     // Update the note, model!
-    this.noteModel.updateNote(note._id, note).then(() => {
+    this.noteModel.updateNote(noteId, data).then(() => {
       // Back to Overview..
       Url.setHash('home');
     });
