@@ -146,15 +146,18 @@ export default class NoteController {
   }
 
   toggleNoteFinished(checkbox, note) {
+    const noteModel = this.noteModel;
     const input = document.getElementById('finished-on');
     let label = document.querySelectorAll(`label[for=${checkbox.id}]`)[0];
-    const noteModel = this.noteModel;
 
     if (checkbox.checked) {
       // Finish note
       note.finished = true;
       note.finishedOn = moment().format('YYYY-MM-DD');
       label.innerText = 'Finished: ' +  moment().format('DD.MM.YYYY'); // Directly update the label to prevent re-rendering
+      if (input) {
+        input.value = moment().format('DD.MM.YYYY'); // Directly update the input, if there, to prevent re-rendering
+      }
     } else {
       // Un-finish note
       note.finished = false;
