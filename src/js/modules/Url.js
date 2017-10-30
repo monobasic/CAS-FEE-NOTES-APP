@@ -19,5 +19,4 @@ export default class Url {
   static getIdFromUrl() {
     return this.getQueryString('id');
   }
-
 };

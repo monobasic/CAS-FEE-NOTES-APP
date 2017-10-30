@@ -6,5 +6,4 @@ export default class Dom {
     for (i = 0; element = element.previousElementSibling; i++);
     return i;
   }
-
 };
