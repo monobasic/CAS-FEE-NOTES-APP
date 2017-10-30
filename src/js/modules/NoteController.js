@@ -60,9 +60,7 @@ export default class NoteController {
             document.getElementById('form-note-edit').addEventListener('submit', (e) => {
               this.onUpdateNote(e, note);
             });
-            document.getElementById('item-finished').addEventListener('click', (e) => {
-              this.onToggleFinished(e, note);
-            });
+            document.getElementById('item-finished').addEventListener('click', this.onToggleFinished.bind(this));
             document.getElementById('note-delete').addEventListener('click', (e) => {
               this.onDeleteNote(e, note);
             });
@@ -135,24 +133,11 @@ export default class NoteController {
 
 
   // Event handlers
-  onToggleFinished(e, note) {
+  onToggleFinished(e) {
     const checkbox = e.currentTarget;
-    const noteId = (note) ? note._id : checkbox.getAttribute('data-id');
+    const noteId = checkbox.getAttribute('data-id');
     let finish = checkbox.checked;
-
-    if (note === undefined) {
-      this.noteModel.getNote(noteId).then((note) => {
-        if (finish) {
-          note.finished = true;
-          note.finishedOn = moment().format('YYYY-MM-DD');
-        } else {
-          note.finished = false;
-          note.finishedOn = '';
-        }
-        this.noteModel.updateNote(note._id, note).then(() => {});
-        this.updateFinished(checkbox, note);
-      });
-    } else {
+    this.noteModel.getNote(noteId).then((note) => {
       if (finish) {
         note.finished = true;
         note.finishedOn = moment().format('YYYY-MM-DD');
@@ -160,9 +145,9 @@ export default class NoteController {
         note.finished = false;
         note.finishedOn = '';
       }
-      this.noteModel.updateNote(note._id, note).then(() => {});
-      this.updateFinished(checkbox, note);
-    }
+      this.noteModel.updateNote(noteId, note).then(() => {});
+      this.updateFinished(checkbox);
+    });
   }
 
   onAddNote(e) {
@@ -191,6 +176,7 @@ export default class NoteController {
     note.description = document.getElementById('description').value;
     note.priority = document.getElementById('priority').value;
     note.due = document.getElementById('due').value ? moment(document.getElementById('due').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
+    note.finished = document.getElementById('item-finished').checked;
     note.finishedOn = document.getElementById('finished-on').value ? moment(document.getElementById('finished-on').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
     note.created = document.getElementById('created').value ? moment(document.getElementById('created').value, 'DD.MM.YYYY').format('YYYY-MM-DD') : '';
 

@@ -26,7 +26,7 @@
     <label for="due">Due by</label><input type="text" id="due" class="datepicker" name="due" value="{{formatDate due }}" required>
   </div>
   <div class="form-row">
-    <label for="item-finished">Finished?</label> <input type="checkbox" id="item-finished"{{#if finished }} checked{{/if}}>
+    <label for="item-finished">Finished?</label> <input type="checkbox" id="item-finished" data-id="{{ _id }}" {{#if finished }} checked{{/if}}>
   </div>
   <div class="form-row">
     <label for="finished-on">Finished on</label><input type="text" id="finished-on" name="finished-on" value="{{formatDate finishedOn }}" disabled>
