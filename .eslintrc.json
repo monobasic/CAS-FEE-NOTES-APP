@@ -3,7 +3,10 @@
     "browser": true,
     "es6": true
   },
-  "globals": {},
+  "globals": {
+    "require": true,
+    "module": true
+  },
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true

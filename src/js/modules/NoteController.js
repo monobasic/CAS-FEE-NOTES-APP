@@ -42,59 +42,59 @@ export default class NoteController {
 
     switch(page) {
 
-      // Add note view
-      case 'add':
-        this.renderTemplate(pageWrapper, page, null, () => {
-          document.getElementById('form-note-add').addEventListener('submit', this.onAddNote.bind(this));
-          this.handlePriorityList();
-          this.handleDatePickers();
-        });
-        break;
+    // Add note view
+    case 'add':
+      this.renderTemplate(pageWrapper, page, null, () => {
+        document.getElementById('form-note-add').addEventListener('submit', this.onAddNote.bind(this));
+        this.handlePriorityList();
+        this.handleDatePickers();
+      });
+      break;
 
       // Edit note view
-      case 'edit':
-        this.noteModel.getNote(Url.getIdFromUrl()).then((note) => {
-          this.renderTemplate(pageWrapper, page, note, () => {
-            this.handlePriorityList(note.priority);
-            this.handleDatePickers();
-            document.getElementById('form-note-edit').addEventListener('submit', (e) => {
-              this.onUpdateNote(e, note._id);
-            });
-            document.getElementById('item-finished').addEventListener('click', this.onToggleFinished.bind(this));
-            document.getElementById('note-delete').addEventListener('click', (e) => {
-              this.onDeleteNote(e, note._id);
-            });
+    case 'edit':
+      this.noteModel.getNote(Url.getIdFromUrl()).then((note) => {
+        this.renderTemplate(pageWrapper, page, note, () => {
+          this.handlePriorityList(note.priority);
+          this.handleDatePickers();
+          document.getElementById('form-note-edit').addEventListener('submit', (e) => {
+            this.onUpdateNote(e, note._id);
+          });
+          document.getElementById('item-finished').addEventListener('click', this.onToggleFinished.bind(this));
+          document.getElementById('note-delete').addEventListener('click', (e) => {
+            this.onDeleteNote(e, note._id);
           });
         });
-        break;
+      });
+      break;
 
-      // Home / note list view
-      default:
-        this.renderTemplate(pageWrapper, page, null, () => {
-          // Sorting handlers
-          document.querySelectorAll('[data-sort-by]').forEach((element) => {
-            element.addEventListener('click', (e) => {
-              const sortBy = e.target.getAttribute('data-sort-by');
-              this.renderNotes(sortBy, this.ui.filterFinished);
-              this.updateSortOptions(sortBy);
-              e.preventDefault();
-            });
-          });
-          // "Show finished" handler
-          document.getElementById('show-finished').addEventListener('click', (e) => {
-            this.ui.filterFinished = !this.ui.filterFinished;
-            this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
-            this.updateFilterOptions(this.ui.filterFinished);
+    // Home / note list view
+    default:
+      this.renderTemplate(pageWrapper, page, null, () => {
+        // Sorting handlers
+        document.querySelectorAll('[data-sort-by]').forEach((element) => {
+          element.addEventListener('click', (e) => {
+            const sortBy = e.target.getAttribute('data-sort-by');
+            this.renderNotes(sortBy, this.ui.filterFinished);
+            this.updateSortOptions(sortBy);
             e.preventDefault();
           });
-
-          // Initially render notes
-          this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
-          this.updateSortOptions(this.ui.orderBy);
-          this.updateFilterOptions(this.ui.filterFinished);
-          this.handleStyleSwitcher();
         });
-        break;
+        // "Show finished" handler
+        document.getElementById('show-finished').addEventListener('click', (e) => {
+          this.ui.filterFinished = !this.ui.filterFinished;
+          this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
+          this.updateFilterOptions(this.ui.filterFinished);
+          e.preventDefault();
+        });
+
+        // Initially render notes
+        this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
+        this.updateSortOptions(this.ui.orderBy);
+        this.updateFilterOptions(this.ui.filterFinished);
+        this.handleStyleSwitcher();
+      });
+      break;
     }
   }
 

@@ -28,12 +28,12 @@ function get(id, callback) {
 }
 
 function add(title, due, created, description, priority, finished, finishedOn, callback) {
-    let note = new Note(title, due, created, description, priority, finished, finishedOn);
-    db.insert(note, function(err, newNote){
-        if (callback) {
-          callback(err, newNote);
-        }
-    });
+  let note = new Note(title, due, created, description, priority, finished, finishedOn);
+  db.insert(note, function(err, newNote){
+    if (callback) {
+      callback(err, newNote);
+    }
+  });
 }
 
 function remove(id, callback) {
