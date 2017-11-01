@@ -37,20 +37,16 @@ export default class NoteModel {
   }
 
   loadTemplate(template) {
-    return new Promise(function (resolve, reject) {
-      let request = new XMLHttpRequest();
-      request.open('GET', `./templates/${template}.hbs?${new Date().getTime()}`, true); // Time appended as parameter prevents caching
-      request.onload = function() {
-        if (request.status == 200) {
-          resolve(request.response);
-        } else {
-          reject(Error(request.statusText));
-        }
-      };
-      request.onerror = function() {
-        reject(Error("Network Error"));
-      };
-      request.send();
+    const request = new Request(`./templates/${template}.hbs?${new Date().getTime()}`, {
+      method: 'get',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: new Headers({
+        'Content-Type': 'text/x-handlebars-template'
+      })
+    });
+    return fetch(request).then((response) => response.text()).catch(function() {
+      console.log('Template loading error occured');
     });
   }
 
