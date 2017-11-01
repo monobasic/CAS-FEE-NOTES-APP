@@ -44,5 +44,8 @@ Included is a custom error notification system as well, which notifies about bui
 ### Theming
 To add a new theme, just copy one of the included themes in /src/scss/themes/ and tweak the variables and webfonts.
 
-## Instructions for the App
-...
+## Tests
+Run the Jasmine tests suite with:
+```
+$ npm run test
+```
