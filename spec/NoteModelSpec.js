@@ -6,12 +6,11 @@ describe("Note Model API Tests", function() {
 
   beforeEach(function() {
     dataServiceFake = {
-      getNotes: function() {
-      },
-      getNote: function() {},
-      addNote: function() {},
-      deleteNote: function() {},
-      updateNote: function() {}
+      getNotes: () => {},
+      getNote: () => {},
+      addNote: () => {},
+      deleteNote: () => {},
+      updateNote: () => {}
     };
     spyOn(dataServiceFake, 'getNotes').and.callFake(() => {
       return new Promise((resolve, reject) => {
@@ -42,14 +41,11 @@ describe("Note Model API Tests", function() {
     noteModel = new NoteModel(dataServiceFake);
   });
 
-  // getNotes()
-
   it("On getNotes(), getNotes() of the dataService should have been called", function() {
     noteModel.getNotes().then(() => {
       expect(dataServiceFake.getNotes).toHaveBeenCalled();
     });
   });
-
   it("On getNotes('due', false), _sortyBy should have been called but not __filterFinished", function() {
     spyOn(noteModel, '_sortBy');
     spyOn(noteModel, '_filterFinished');
@@ -58,7 +54,6 @@ describe("Note Model API Tests", function() {
       expect(noteModel._filterFinished).not.toHaveBeenCalled();
     });
   });
-
   it("On getNotes('due', true), _sortyBy should have been called and not __filterFinished", function() {
     spyOn(noteModel, '_sortBy');
     spyOn(noteModel, '_filterFinished');
@@ -68,73 +63,40 @@ describe("Note Model API Tests", function() {
     });
   });
 
-  // getNote(id)
+
   it("On getNote(), getNote() of the dataService should have been called", function() {
     noteModel.getNote(12345).then(() => {
       expect(dataServiceFake.getNote).toHaveBeenCalled();
     });
   });
 
-  // addNote(note)
   it("On addNote(), addNote() of the dataService should have been called", function() {
     noteModel.addNote({}).then(() => {
       expect(dataServiceFake.addNote).toHaveBeenCalled();
     });
   });
 
-  // deleteNote(id)
   it("On deleteNote(), deleteNote() of the dataService should have been called", function() {
     noteModel.deleteNote(12345).then(() => {
       expect(dataServiceFake.deleteNote).toHaveBeenCalled();
     });
   });
 
-  // updateNote(id, data)
   it("On updateNote(), updateNote() of the dataService should have been called", function() {
     noteModel.updateNote(12345, {}).then(() => {
       expect(dataServiceFake.updateNote).toHaveBeenCalled();
     });
   });
 
-  // _sortBy('due', notes)
   it("On _sortBy('due', notes), returned notes should be sorted by due date", function() {
-    let notes = [
-      {
-        due: '2017-01-13'
-      },
-      {
-        due: '2015-02-29'
-      }
-    ];
-    let notesSorted = [
-      {
-        due: '2015-02-29'
-      },
-      {
-        due: '2017-01-13'
-      }
-    ];
+    let notes = [{due: '2017-01-13'}, {due: '2015-02-29'}];
+    let notesSorted = [{due: '2015-02-29'}, {due: '2017-01-13'}];
     expect(noteModel._sortBy('due', notes)).toEqual(notesSorted);
   });
 
-  // _filterFinished(notes)
   it("On _filterFinished(notes), returned notes should be filtered", function() {
-    let notes = [
-      {
-        finished: true
-      },
-      {
-        finished: true
-      },
-      {
-        finished: false
-      }
-    ];
-    let notesFiltered = [
-      {
-        finished: false
-      }
-    ];
+    let notes = [{finished: true}, {finished: true}, {finished: false}];
+    let notesFiltered = [{finished: false}];
     expect(noteModel._filterFinished(notes)).toEqual(notesFiltered);
   });
 });
