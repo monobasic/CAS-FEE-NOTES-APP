@@ -23,6 +23,21 @@ describe("Note Model API Tests", function() {
         resolve({});
       });
     });
+    spyOn(dataServiceFake, 'addNote').and.callFake(() => {
+      return new Promise((resolve, reject) => {
+        resolve({});
+      });
+    });
+    spyOn(dataServiceFake, 'deleteNote').and.callFake(() => {
+      return new Promise((resolve, reject) => {
+        resolve({});
+      });
+    });
+    spyOn(dataServiceFake, 'updateNote').and.callFake(() => {
+      return new Promise((resolve, reject) => {
+        resolve({});
+      });
+    });
 
     noteModel = new NoteModel(dataServiceFake);
   });
@@ -58,5 +73,68 @@ describe("Note Model API Tests", function() {
     noteModel.getNote(12345).then(() => {
       expect(dataServiceFake.getNote).toHaveBeenCalled();
     });
+  });
+
+  // addNote(note)
+  it("On addNote(), addNote() of the dataService should have been called", function() {
+    noteModel.addNote({}).then(() => {
+      expect(dataServiceFake.addNote).toHaveBeenCalled();
+    });
+  });
+
+  // deleteNote(id)
+  it("On deleteNote(), deleteNote() of the dataService should have been called", function() {
+    noteModel.deleteNote(12345).then(() => {
+      expect(dataServiceFake.deleteNote).toHaveBeenCalled();
+    });
+  });
+
+  // updateNote(id, data)
+  it("On updateNote(), updateNote() of the dataService should have been called", function() {
+    noteModel.updateNote(12345, {}).then(() => {
+      expect(dataServiceFake.updateNote).toHaveBeenCalled();
+    });
+  });
+
+  // _sortBy('due', notes)
+  it("On _sortBy('due', notes), returned notes should be sorted by due date", function() {
+    let notes = [
+      {
+        due: '2017-01-13'
+      },
+      {
+        due: '2015-02-29'
+      }
+    ];
+    let notesSorted = [
+      {
+        due: '2015-02-29'
+      },
+      {
+        due: '2017-01-13'
+      }
+    ];
+    expect(noteModel._sortBy('due', notes)).toEqual(notesSorted);
+  });
+
+  // _filterFinished(notes)
+  it("On _filterFinished(notes), returned notes should be filtered", function() {
+    let notes = [
+      {
+        finished: true
+      },
+      {
+        finished: true
+      },
+      {
+        finished: false
+      }
+    ];
+    let notesFiltered = [
+      {
+        finished: false
+      }
+    ];
+    expect(noteModel._filterFinished(notes)).toEqual(notesFiltered);
   });
 });
