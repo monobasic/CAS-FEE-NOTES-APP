@@ -1,10 +1,7 @@
-
-
 export default class NoteModel {
 
   constructor(dataService) {
     this._dataService = dataService;
-    //this._dataService = new DataServiceLocalStorage();
   }
 
   getNotes(orderBy = 'due', filterFinished = false) {
