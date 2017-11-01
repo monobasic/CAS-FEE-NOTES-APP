@@ -1,6 +1,6 @@
 import NoteModel from '../src/js/modules/NoteModel';
 
-describe("Note Model getNotes() Tests", function() {
+describe("Note Model API Tests", function() {
   let dataServiceFake;
   let noteModel;
 
@@ -18,13 +18,21 @@ describe("Note Model getNotes() Tests", function() {
         resolve([]);
       });
     });
+    spyOn(dataServiceFake, 'getNote').and.callFake(() => {
+      return new Promise((resolve, reject) => {
+        resolve({});
+      });
+    });
 
     noteModel = new NoteModel(dataServiceFake);
   });
 
+  // getNotes()
+
   it("On getNotes(), getNotes() of the dataService should have been called", function() {
-    noteModel.getNotes();
-    expect(dataServiceFake.getNotes).toHaveBeenCalled();
+    noteModel.getNotes().then(() => {
+      expect(dataServiceFake.getNotes).toHaveBeenCalled();
+    });
   });
 
   it("On getNotes('due', false), _sortyBy should have been called but not __filterFinished", function() {
@@ -32,7 +40,7 @@ describe("Note Model getNotes() Tests", function() {
     spyOn(noteModel, '_filterFinished');
     noteModel.getNotes('due', false).then(() => {
       expect(noteModel._sortBy).toHaveBeenCalled();
-      expect(noteModel._filterFinished).toHaveNotBeenCalled();
+      expect(noteModel._filterFinished).not.toHaveBeenCalled();
     });
   });
 
@@ -44,5 +52,11 @@ describe("Note Model getNotes() Tests", function() {
       expect(noteModel._filterFinished).toHaveBeenCalled();
     });
   });
-  
+
+  // getNote(id)
+  it("On getNote(), getNote() of the dataService should have been called", function() {
+    noteModel.getNote(12345).then(() => {
+      expect(dataServiceFake.getNote).toHaveBeenCalled();
+    });
+  });
 });
