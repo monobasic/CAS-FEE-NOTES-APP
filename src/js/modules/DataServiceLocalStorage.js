@@ -78,9 +78,6 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
 
   _updateLocalStorage() {
     localStorage.setItem('notes', JSON.stringify(this._notes));
-    // Debug
-    console.log('Updated localStorage!');
-    console.log(JSON.parse(localStorage.getItem('notes')));
   }
 
   getNotes() {
@@ -97,7 +94,6 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
 
   addNote(note) {
     return new Promise((resolve, reject) => {
-      console.log('add promise..');
       note._id = this._guid();
       this._notes.push(note);
       this._updateLocalStorage();

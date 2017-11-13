@@ -1,9 +1,10 @@
 'use strict';
+
+// Instead of using the REST API Service, you can swap to Local-Storage with:
+// import DataServiceLocalStorage from './DataServiceLocalStorage';
 import DataServiceRest from './modules/DataServiceRest';
-//import DataServiceLocalStorage from './DataServiceLocalStorage';
 import NoteModel from './modules/NoteModel';
 import NoteController from './modules/NoteController';
-
 
 // Bootstrap Application
 document.addEventListener("DOMContentLoaded", () => {
