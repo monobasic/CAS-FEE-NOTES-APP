@@ -122,6 +122,10 @@ export default class NoteController {
       this.renderTemplate(document.getElementById('note-list-wrapper'), 'note-list', data, () => {
         // Attach checkbox handlers
         document.querySelectorAll('[data-action=note-finish]').forEach(element => element.addEventListener('change', this.onToggleFinished.bind(this)));
+        // Set priority indicators
+        document.querySelectorAll('.priority').forEach(element => {
+          this.setPriority(element.getAttribute('data-priority'), element);
+        });
       });
 
       // Persist current sorting/filtering
@@ -240,15 +244,18 @@ export default class NoteController {
 
   // Handle special UI elements
   setPriority(priority, priorityList) {
-    let priorityLinks = priorityList.querySelectorAll('a');
+    let priorityItems = priorityList.querySelectorAll('.priority-item');
+    let input = document.getElementById('priority');
 
     // Rebuild priority status
-    priorityLinks.forEach((element, index) => {
+    priorityItems.forEach((element, index) => {
       index <= priority-1 ? element.classList.add('active') : element.classList.remove('active');
     });
 
     // Set hidden input field priority value
-    document.getElementById('priority').value = priority;
+    if (input) {
+      input.value = priority;
+    }
   }
 
   handlePriorityList(priority) {

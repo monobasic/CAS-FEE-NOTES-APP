@@ -40,7 +40,23 @@
     }
   }
 
+  .priority {
+    li {
+      .priority-item {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
 }
+
+.note-list-item-col-priority {
+
+  @include breakpoint(sm) {
+    flex: 3;
+  }
+}
+
 .note-list-item-title {}
 .note-list-item-due {}
 .note-list-item-description {}
