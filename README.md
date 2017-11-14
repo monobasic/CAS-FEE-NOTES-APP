@@ -17,7 +17,7 @@ The front end is based on a Gulp build process. Files from the "src" folder will
 
 ### Setup Back End/API Server
 #### Install Back End NPM dependencies
-The Server "lives" inside the "server" folder and has its own packages.json file for the dependencies.
+The Server lives inside the "server" folder and has its own packages.json file for the dependencies.
 
 ```
 $ cd server
