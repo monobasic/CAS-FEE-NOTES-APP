@@ -1,6 +1,6 @@
 # CAS-FEE-NOTES-APP
 
-##Installation for development
+## Installation for development
 
 ### Clone repository
 ```
