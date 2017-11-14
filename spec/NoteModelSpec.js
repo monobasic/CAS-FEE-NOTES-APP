@@ -88,10 +88,16 @@ describe("Note Model API Tests", function() {
     });
   });
 
-  it("On _sortBy('due', notes), returned notes should be sorted by due date", function() {
+  it("On _sortBy('due', notes), returned notes should be sorted by due date asc", function() {
     let notes = [{due: '2017-01-13'}, {due: '2015-02-29'}];
     let notesSorted = [{due: '2015-02-29'}, {due: '2017-01-13'}];
     expect(noteModel._sortBy('due', notes)).toEqual(notesSorted);
+  });
+
+  it("On _sortBy('due', notes, 'desc'), returned notes should be sorted by due date asc", function() {
+    let notes = [{due: '2017-01-13'}, {due: '2015-02-29'}];
+    let notesSorted = [{due: '2017-01-13'}, {due: '2015-02-29'}];
+    expect(noteModel._sortBy('due', notes, 'desc')).toEqual(notesSorted);
   });
 
   it("On _filterFinished(notes), returned notes should be filtered", function() {
