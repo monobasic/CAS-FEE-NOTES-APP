@@ -52,5 +52,4 @@ function update(id, title, due, created, description, priority, finished, finish
   });
 }
 
-
 module.exports = {getAll: getAll, get: get, add: add, remove: remove, update: update};
