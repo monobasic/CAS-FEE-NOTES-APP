@@ -60,10 +60,10 @@ Included is a custom error notification system as well, which notifies about bui
 ### Theming
 The front end app has a theme option.
 To add a new theme, just copy one of the included themes in /src/scss/themes/ and tweak the variables and webfonts.
-Basically a theme consists webfonts and a style depending on the provided variables. Themes will appear automatically in the app as soon as the SASS files are there.
+Basically, a theme consists of webfonts and a styles depending on the provided variables. Themes will appear automatically in the app as soon as the SASS files are there and built.
 
 ## Tests
-There is a small Jasmine test suite included for testing the NoteModel.js of the front end app.
+There is a small Jasmine test suite included. For now, only the Model Class is tested. 
 Run the Jasmine tests suite with:
 ```
 $ npm run test
