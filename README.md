@@ -1,48 +1,67 @@
 # CAS-FEE-NOTES-APP
 
-## Installation for development
+##Installation for development
 
 ### Clone repository
 ```
-$ git clone --recursive git@github.com:monobasic/CAS-FEE-NOTES-APP.git
+$ git clone git@github.com:monobasic/CAS-FEE-NOTES-APP.git
 ```
+The project contains both the back end and the front end part of the Application.
 
-### Install npm package dependencies for Front End App
+The back end part is inside the "server" folder. It's a simple Node.js/Express app with NEDB persisting data into a JSON file.
+It has his own NPM dependencies with a separated packeges.json file.
 
-```
-$ npm install
-```
+The front end application part lives inside the repos root folder and has its own dependencies too. The front end part has his own Gulp based build process. Files from the "src" folder will be built to a "dist" folder. The "src" folder is the place for you to edit files and do implementations. This "dist" folder is the one you will see in the browser and the one you would use for deployment to a live site.
 
-### Install npm package dependencies for Backend/API
+### Setup Back End/API Server
+#### Install npm package dependencies
+The Server "lives" inside the "server" folder and has its own packages.json file for the dependencies.
 
 ```
 $ cd server
+server/$ npm install
+```
+
+#### Startup Back End
+```
+server/$ node index.js
+```
+
+Let the Server run, open a new Terminal and:
+
+
+### Setup Front End App
+#### Install npm package dependencies for Front End App
+
+```
+$ (cd back to the repos root folder if needed..)
 $ npm install
 ```
 
-### Startup Backend/API Server
+#### Startup Frontend App
 ```
-$ cd server
-$ node index.js
-```
-
-### Startup Frontend App
-```
-$ (In project root)
 $ gulp
 ```
+The default build and watch tasks will be run, The front end will connect to the already running server on: http://127.0.0.1:3001
 
-## Setup Gulp Configuration
-Checkout gulpfile.babel.js and tweak the config parameters there.
+**You are now ready for testing/development!**
+
+## More informations
+
+### Build Configuration
+Checkout gulpfile.babel.js and tweak the config parameters there. The full front end app is ES6. All javascript will be concatenated, transpiled to browser friendly ES5 including import/export statements and served as one file.
 
 ### Gulp Default Task
 The default gulp task starts a local web server with live-reload across different browser||devices via BrowserSync. The SASS/JS/Template files will be watched for changes and re-generated on save. The /dist folder is served by default.
 Included is a custom error notification system as well, which notifies about build errors on the console and via system notify and doesn't interrupt running gulp streams.
 
 ### Theming
+The front end app has a theme option.
 To add a new theme, just copy one of the included themes in /src/scss/themes/ and tweak the variables and webfonts.
+Basically a theme consists webfonts and a style depending on the provided variables. Themes will appear automatically in the app as soon as the SASS files are there.
 
 ## Tests
+There is a small Jasmine test suite included for testing the NoteModel.js of the front end app.
 Run the Jasmine tests suite with:
 ```
 $ npm run test
