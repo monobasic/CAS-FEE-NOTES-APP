@@ -4,9 +4,9 @@ export default class NoteModel {
     this._dataService = dataService;
   }
 
-  getNotes(orderBy = 'due', filterFinished = false) {
+  getNotes(orderBy = 'due', filterFinished = false, direction = 'asc') {
     return this._dataService.getNotes().then((notes) => {
-      return filterFinished ? this._filterFinished(this._sortBy(orderBy, notes)) : this._sortBy(orderBy, notes);
+      return filterFinished ? this._filterFinished(this._sortBy(orderBy, notes, direction)) : this._sortBy(orderBy, notes, direction);
     }).catch(() => {
       console.log('Follow up error occured in model due API error');
     });
@@ -28,8 +28,8 @@ export default class NoteModel {
     return this._dataService.updateNote(id, data).then((numReplaced) => numReplaced);
   }
 
-  _sortBy(sort = 'due', notes) {
-    return notes.sort((a, b) => a[sort] > b[sort]);
+  _sortBy(sort = 'due', notes, direction = 'asc') {
+    return notes.sort((a, b) => direction === 'asc' ? a[sort] > b[sort] : a[sort] < b[sort]);
   }
 
   _filterFinished(notes) {

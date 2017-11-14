@@ -21,6 +21,7 @@ export default class NoteController {
     this.ui = {
       theme: 'default',
       orderBy: 'due',
+      direction: 'asc',
       filterFinished: true
     };
 
@@ -75,7 +76,8 @@ export default class NoteController {
         document.querySelectorAll('[data-sort-by]').forEach((element) => {
           element.addEventListener('click', (e) => {
             const sortBy = e.target.getAttribute('data-sort-by');
-            this.renderNotes(sortBy, this.ui.filterFinished);
+            const direction = e.target.getAttribute('data-sort-direction') || 'asc';
+            this.renderNotes(sortBy, this.ui.filterFinished, direction);
             this.updateSortOptions(sortBy);
             e.preventDefault();
           });
@@ -83,13 +85,13 @@ export default class NoteController {
         // "Show finished" handler
         document.getElementById('show-finished').addEventListener('click', (e) => {
           this.ui.filterFinished = !this.ui.filterFinished;
-          this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
+          this.renderNotes(this.ui.orderBy, this.ui.filterFinished, this.ui.direction);
           this.updateFilterOptions(this.ui.filterFinished);
           e.preventDefault();
         });
 
         // Initially render notes
-        this.renderNotes(this.ui.orderBy, this.ui.filterFinished);
+        this.renderNotes(this.ui.orderBy, this.ui.filterFinished, this.ui.direction);
         this.updateSortOptions(this.ui.orderBy);
         this.updateFilterOptions(this.ui.filterFinished);
         this.handleStyleSwitcher();
@@ -114,8 +116,8 @@ export default class NoteController {
     });
   }
 
-  renderNotes(orderBy, filterFinished) {
-    this.noteModel.getNotes(orderBy, filterFinished).then((notes) => {
+  renderNotes(orderBy, filterFinished, direction) {
+    this.noteModel.getNotes(orderBy, filterFinished, direction).then((notes) => {
       const data = {
         notes: notes
       };
@@ -131,6 +133,7 @@ export default class NoteController {
       // Persist current sorting/filtering
       this.ui.orderBy = orderBy;
       this.ui.filterFinished = filterFinished;
+      this.ui.direction = direction;
     });
   }
 
