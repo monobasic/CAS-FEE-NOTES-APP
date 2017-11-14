@@ -8,13 +8,15 @@ $ git clone git@github.com:monobasic/CAS-FEE-NOTES-APP.git
 ```
 The project contains both the back end and the front end part of the Application.
 
-The back end part is inside the "server" folder. It's a simple Node.js/Express app with NEDB persisting data into a JSON file.
-It has his own NPM dependencies with a separated packeges.json file.
+The back end part is located inside the "server" folder. It's a simple Node.js/Express app with NEDB persisting data into a JSON file.
+It has his own NPM dependencies. For production it would make sense, to move the server part to a separated repository. So it would be very easy to deploy the back end to a Node hosting like heroku.com as example.
 
-The front end application part lives inside the repos root folder and has its own dependencies too. The front end part has his own Gulp based build process. Files from the "src" folder will be built to a "dist" folder. The "src" folder is the place for you to edit files and do implementations. This "dist" folder is the one you will see in the browser and the one you would use for deployment to a live site.
+The front end application part, with his NPM dependencies, lives inside the repos root folder. 
+
+The front end is based on a Gulp build process. Files from the "src" folder will be built to a "dist" folder. The "src" folder is the place for you to edit files and do implementations. This "dist" folder is the one you will see in the browser and the one you would use for deployment to a live site.
 
 ### Setup Back End/API Server
-#### Install npm package dependencies
+#### Install Back End NPM dependencies
 The Server "lives" inside the "server" folder and has its own packages.json file for the dependencies.
 
 ```
@@ -31,10 +33,10 @@ Let the Server run, open a new Terminal and:
 
 
 ### Setup Front End App
-#### Install npm package dependencies for Front End App
+#### Install Front End NPM dependencies
 
 ```
-$ (cd back to the repos root folder if needed..)
+$ (Inside the repo's root folder)
 $ npm install
 ```
 
@@ -42,9 +44,9 @@ $ npm install
 ```
 $ gulp
 ```
-The default build and watch tasks will be run, The front end will connect to the already running server on: http://127.0.0.1:3001
+The default build and watch tasks will be run, the browser will open http://localhost:3000 automatically and the front end will connect to the already running server on: http://127.0.0.1:3001
 
-**You are now ready for testing/development!**
+**Congrats, you are now ready for testing/development! :)**
 
 ## More informations
 
