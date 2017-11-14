@@ -46,18 +46,18 @@ describe("Note Model API Tests", function() {
       expect(dataServiceFake.getNotes).toHaveBeenCalled();
     });
   });
-  it("On getNotes('due', false), _sortyBy should have been called but not __filterFinished", function() {
+  it("On getNotes('due', false, 'asc'), _sortyBy should have been called but not _filterFinished", function() {
     spyOn(noteModel, '_sortBy');
     spyOn(noteModel, '_filterFinished');
-    noteModel.getNotes('due', false).then(() => {
+    noteModel.getNotes('due', false, 'asc').then(() => {
       expect(noteModel._sortBy).toHaveBeenCalled();
       expect(noteModel._filterFinished).not.toHaveBeenCalled();
     });
   });
-  it("On getNotes('due', true), _sortyBy should have been called and not __filterFinished", function() {
+  it("On getNotes('due', true, 'desc'), _sortyBy should have been called and _filterFinished", function() {
     spyOn(noteModel, '_sortBy');
     spyOn(noteModel, '_filterFinished');
-    noteModel.getNotes('due', true).then(() => {
+    noteModel.getNotes('due', true, 'desc').then(() => {
       expect(noteModel._sortBy).toHaveBeenCalled();
       expect(noteModel._filterFinished).toHaveBeenCalled();
     });
