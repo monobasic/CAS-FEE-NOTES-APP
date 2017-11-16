@@ -60,7 +60,8 @@ Included is a custom error notification system as well, which notifies about bui
 ### Theming
 The front end app has a theme option.
 To add a new theme, just copy one of the included themes in /src/scss/themes/ and tweak the variables and webfonts.
-Basically, a theme consists of webfonts and a styles depending on the provided variables. Themes will appear automatically in the app as soon as the SASS files are there and built.
+Basically, a theme consists of webfonts and a styles depending on the provided variables. Themes will be included in the build automatically soon as the SASS files are there.
+You need to add a new option for your theme in the style-switch select (src/templates/home.hbs).
 
 ## Tests
 There is a small Jasmine test suite included. For now, only the Model Class is tested. 
