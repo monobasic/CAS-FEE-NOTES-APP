@@ -7,80 +7,39 @@ export default class DataServiceRest extends DataServiceAbstract {
     this.api = 'http://127.0.0.1:3001';
   }
 
-  getNotes() {
-    const request = new Request(`${this.api}/notes`, {
-      method: 'get',
+  _requestAsync(method='get', path, body=false) {
+    const request = new Request(`${this.api}${path}`, {
+      method: method,
       mode: 'cors',
       redirect: 'follow',
       headers: new Headers({
         'Content-Type': 'application/json'
-      })
+      }),
+      body: body
     });
 
     return fetch(request).then((response) => response.json()).catch(function() {
       console.log('api error occured');
     });
+  }
+
+  getNotes() {
+    return this._requestAsync('get', '/notes');
   }
 
   getNote(id) {
-    const request = new Request(`${this.api}/notes/${id}`, {
-      method: 'get',
-      mode: 'cors',
-      redirect: 'follow',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-    });
-
-    return fetch(request).then((response) => response.json()).catch(function() {
-      console.log('api error occured');
-    });
+    return this._requestAsync('get', `/notes/${id}`);
   }
 
   addNote(note) {
-    const request = new Request(`${this.api}/notes`, {
-      method: 'post',
-      mode: 'cors',
-      redirect: 'follow',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
-      body: JSON.stringify(note)
-    });
-
-    return fetch(request).then((response) => response.json()).catch(function() {
-      console.log('api error occured');
-    });
+    return this._requestAsync('post', '/notes', JSON.stringify(note));
   }
 
   deleteNote(id) {
-    const request = new Request(`${this.api}/notes/${id}`, {
-      method: 'delete',
-      mode: 'cors',
-      redirect: 'follow',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-    });
-
-    return fetch(request).then((response) => response.json()).catch(function() {
-      console.log('api error occured');
-    });
+    return this._requestAsync('delete', `/notes/${id}`);
   }
 
   updateNote(id, data) {
-    const request = new Request(`${this.api}/notes/${id}`, {
-      method: 'put',
-      mode: 'cors',
-      redirect: 'follow',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
-      body: JSON.stringify(data)
-    });
-
-    return fetch(request).then((response) => response.json()).catch(function() {
-      console.log('api error occured');
-    });
+    return this._requestAsync('put', `/notes/${id}`, JSON.stringify(data));
   }
 }
