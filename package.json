@@ -1,8 +1,11 @@
 {
-  "name": "CAS-FEE-NOTES-APP",
+  "name": "cas-fee-notes-app",
   "repository": {
     "type": "git",
     "url": "git@github.com:monobasic/CAS-FEE-NOTES-APP.git"
+  },
+  "scripts": {
+    "test": "babel-node spec/run.js"
   },
   "version": "1.0.0",
   "scripts": {

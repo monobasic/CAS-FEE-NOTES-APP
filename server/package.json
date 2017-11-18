@@ -1,0 +1,16 @@
+{
+  "name": "cas-fee-notes-app-backend",
+  "version": "1.0.0",
+  "description": "CAS-FEE NOTES APP BACKEND/API based on node.js and Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "André Abt",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "express": "^4.12.4",
+    "nedb": "^1.8.0"
+  }
+}

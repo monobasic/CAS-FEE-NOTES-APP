@@ -1,5 +1,3 @@
-'use strict';
-
 import DataServiceAbstract from './DataServiceAbstract';
 
 export default class DataServiceLocalStorage extends DataServiceAbstract {
@@ -11,7 +9,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
       // Load fixture data
       this._notes = [
         {
-          "id": this._guid(),
+          "_id": this._guid(),
           "title": "CAS FEE Selbststudium / Projekt Aufgabe erledigen",
           "due": "2018-01-22",
           "created": "2018-01-01",
@@ -21,7 +19,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": ""
         },
         {
-          "id": this._guid(),
+          "_id": this._guid(),
           "title": "Einkaufen",
           "due": "2017-12-01",
           "created": "2017-10-01",
@@ -31,7 +29,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": "2018-02-22"
         },
         {
-          "id": this._guid(),
+          "_id": this._guid(),
           "title": "Noch eine Note",
           "due": "2019-12-01",
           "created": "2017-10-09",
@@ -41,7 +39,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": ""
         },
         {
-          "id": this._guid(),
+          "_id": this._guid(),
           "title": "Eine Note",
           "due": "2019-10-01",
           "created": "2017-10-02",
@@ -51,7 +49,7 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
           "finishedOn": ""
         },
         {
-          "id": this._guid(),
+          "_id": this._guid(),
           "title": "Mom anrufen",
           "due": "2019-02-22",
           "created": "2018-10-05",
@@ -80,32 +78,42 @@ export default class DataServiceLocalStorage extends DataServiceAbstract {
 
   _updateLocalStorage() {
     localStorage.setItem('notes', JSON.stringify(this._notes));
-    // Debug
-    console.log('Updated localStorage!');
-    console.log(JSON.parse(localStorage.getItem('notes')));
   }
 
   getNotes() {
-    return this._notes;
+    return new Promise((resolve, reject) => {
+      resolve(this._notes);
+    });
   }
 
   getNote(id) {
-    return this._notes.find(element => element.id === id);
+    return new Promise((resolve, reject) => {
+      resolve(this._notes.find(note => note._id === id));
+    });
   }
 
   addNote(note) {
-    note.id = this._guid();
-    this._notes.push(note);
-    this._updateLocalStorage();
+    return new Promise((resolve, reject) => {
+      note._id = this._guid();
+      this._notes.push(note);
+      this._updateLocalStorage();
+      resolve();
+    });
   }
 
   deleteNote(id) {
-    this._notes.splice(this._notes.findIndex(element => element.id === id), 1);
-    this._updateLocalStorage();
+    return new Promise((resolve, reject) => {
+      this._notes.splice(this._notes.findIndex(note => note._id === id), 1);
+      this._updateLocalStorage();
+      resolve();
+    });
   }
 
   updateNote(id, data) {
-    this._notes[this._notes.findIndex(element => element.id === id)] = data;
-    this._updateLocalStorage();
+    return new Promise((resolve, reject) => {
+      this._notes[this._notes.findIndex(note => note._id === id)] = data;
+      this._updateLocalStorage();
+      resolve();
+    });
   }
 }

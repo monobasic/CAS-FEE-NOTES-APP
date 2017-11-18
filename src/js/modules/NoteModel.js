@@ -1,70 +1,52 @@
-'use strict';
-
-import DataServiceLocalStorage from './DataServiceLocalStorage';
-
 export default class NoteModel {
 
-  constructor() {
-    this._dataService = new DataServiceLocalStorage();
+  constructor(dataService) {
+    this._dataService = dataService;
   }
 
-  getNotes() {
-    return this._dataService.getNotes();
+  getNotes(orderBy = 'due', filterFinished = false, direction = 'asc') {
+    return this._dataService.getNotes().then((notes) => {
+      return filterFinished ? this._filterFinished(this._sortBy(orderBy, notes, direction)) : this._sortBy(orderBy, notes, direction);
+    }).catch(() => {
+      console.log('Follow up error occured in model due API error');
+    });
   }
 
   getNote(id) {
-    return this._dataService.getNote(id);
+    return this._dataService.getNote(id).then((note) => note);
   }
 
   addNote(note) {
-    this._dataService.addNote(note);
+    return this._dataService.addNote(note).then((newNote) => newNote);
   }
 
   deleteNote(id) {
-    this._dataService.deleteNote(id);
+    return this._dataService.deleteNote(id).then((numRemoved) => numRemoved);
   }
 
   updateNote(id, data) {
-    this._dataService.updateNote(id, data);
+    return this._dataService.updateNote(id, data).then((numReplaced) => numReplaced);
   }
 
-
-
-  sortByDateDue(notes) {
-    return notes.sort((a, b) => a.due > b.due);
+  _sortBy(sort = 'due', notes, direction = 'asc') {
+    return notes.sort((a, b) => direction === 'asc' ? a[sort] > b[sort] : a[sort] < b[sort]);
   }
 
-  sortByDateCreated(notes) {
-    return notes.sort((a, b) => a.created > b.created);
-  }
-
-  sortByDateFinished(notes) {
-    return notes.sort((a, b) => a.finishedOn > b.finishedOn);
-  }
-
-  sortByPriority(notes) {
-    return notes.sort((a, b) => a.priority < b.priority);
-  }
-
-  filterFinished(notes) {
+  _filterFinished(notes) {
     return notes.filter(note => !note.finished);
   }
 
   loadTemplate(template) {
-    return new Promise(function (resolve, reject) {
-      let request = new XMLHttpRequest();
-      request.open('GET', `./templates/${template}.hbs?${new Date().getTime()}`, true); // Time appended as parameter prevents caching
-      request.onload = function() {
-        if (request.status == 200) {
-          resolve(request.response);
-        } else {
-          reject(Error(request.statusText));
-        }
-      };
-      request.onerror = function() {
-        reject(Error("Network Error"));
-      };
-      request.send();
+    const request = new Request(`./templates/${template}.hbs?${new Date().getTime()}`, {
+      method: 'get',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: new Headers({
+        'Content-Type': 'text/x-handlebars-template'
+      })
+    });
+    return fetch(request).then((response) => response.text()).catch(function() {
+      console.log('Template loading error occured');
     });
   }
 
