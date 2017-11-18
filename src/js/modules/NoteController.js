@@ -1,8 +1,8 @@
 // Import Dependencies
 import moment from 'moment';
 import Pikaday from 'pikaday';
-import Handlebars from 'handlebars';
-import handlebarsHelpers from './HandlebarsHelpers';
+//import Handlebars from 'handlebars/dist/handlebars.amd';
+//import handlebarsHelpers from './HandlebarsHelpers';
 
 // Import Helper Modules
 import Url from './Url';
